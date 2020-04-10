@@ -13,9 +13,20 @@ export default {
     },
     methods: {
 
+        forbidBack(){
+            var _this = this;
+            _this.$router.replace({path: '/'});
+        }
+    },
+    destroyed(){
+        window.removeEventListener('popstate', this.forbidBack, false);
     },
     mounted(){
-
+        var _this = this;   
+        if (window.history && window.history.pushState) {
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', _this.forbidBack,false);
+        };
     }   
 }
 </script>

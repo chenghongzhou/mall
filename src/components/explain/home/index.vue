@@ -1,6 +1,8 @@
 <template>
     <div class="main">
-        首页
+        点击了按钮{{times}}次
+        <div class="btn" @click="openApp()">打开app</div>
+        <div class="btn" @click="goNext()">下一页</div>
     </div>
 </template>
 
@@ -10,11 +12,17 @@ import { allget } from '../../../api/api.js';
 export default {
     data(){
         return {
-
+            times: 0,
         }
     },
     methods:{
-        
+        openApp(){
+            this.times++;
+            window.location.href = 'test://test/test?id=10086';
+        },
+        goNext(){
+            this.$router.replace({path:'/signIn'})
+        }
     },
     mounted(){
         
@@ -34,6 +42,17 @@ export default {
         padding-bottom: 1.09rem;
         box-sizing: border-box;
         overflow-y: scroll;
+        font-size: 0.3rem;
+    }
+    .btn{
+        width:2rem;
+        height: 0.4rem;
+        font-size: 0.3rem;
+        line-height: 0.4rem;
+        border-radius: 0.2rem;
+        margin:1rem auto;
+        border: 0.01rem solid #333;
+        text-align: center;
     }
 
 </style>
