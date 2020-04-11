@@ -1,0 +1,318 @@
+.main{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #f0f0f0;
+    padding-bottom: 1.09rem;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    font-size: 0.3rem;
+    background-color:#ffffff;
+    background-image:-webkit-linear-gradient(top,#ffffff,#f4f4f4);
+    background-image:linear-gradient(top,#ffffff,#f4f4f4);
+}
+.top{
+    width: 100%;
+    height: auto;
+    padding: 0.3rem;
+    font-size: 0.36rem;
+    text-align: center;
+    box-sizing: border-box;
+    position: relative;
+    background: #ffffff;
+}
+.top_close{
+    width: 0.26rem;
+    height: 0.28rem;
+    background: url("../../../../static/images/home/top_close.png") center no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 0.4rem;
+    left: 0.3rem;
+    display: block;
+}
+.top_more{
+    width: 0.49rem;
+    height: 0.09rem;
+    background: url("../../../../static/images/home/top_more.png") center no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.3rem;
+    display: block;
+}
+.header{
+    width: 100%;
+    height: auto;
+    padding: 0 0.3rem;
+    border-top: 0.01rem solid #f0f0f0;
+    background: #ffffff;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+.my_img{
+    width: 0.66rem;
+    height: 0.66rem;
+    border-radius: 50%;
+    float: left;
+    margin-top: 0.18rem;
+    margin-bottom: 0.18rem;
+}
+.my_info{
+    margin-left: 0.2rem;
+    float: left;
+    position: relative;
+}
+.my_name{
+    margin-top: 0.14rem;
+    font-size: 0.26rem;
+    color: #2b2b2b;
+    font-weight: bold;
+    height: 0.26rem;
+}
+.my_money{
+    font-size: 0.4rem;
+    color: #ffac1c;
+    font-weight: bold;
+    height: 0.4rem;
+}
+.money_icon{
+    width: 0.30rem;
+    height: 0.32rem;
+    background: url("../../../../static/images/home/integral.png") center no-repeat;
+    background-size: contain;
+    margin-left: 0.1rem;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 0.08rem;
+}
+.my_info_right{
+    position: absolute;
+    top: 0.26rem;
+    right: 0.3rem;
+}
+.get_integral{
+    width: 1.64rem;
+    height: 0.5rem;
+    background: url("../../../../static/images/home/get_integral.png") center no-repeat;
+    background-size: contain;
+    float: left;
+    margin-right: 0.1rem;
+    position: relative;
+}
+.get_integral i{
+    width: 0.16rem;
+    height: 0.16rem;
+    background: url("../../../../static/images/home/red_ts.png") center no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: -0.05rem;
+    right: 0.05rem;
+    z-index: 2;
+}
+.change_in_record{
+    width: 1.64rem;
+    height: 0.5rem;
+    background: url("../../../../static/images/home/integral_record.png") center no-repeat;
+    background-size: contain;
+    float: left;
+}
+.banner_box{
+    width: 100%;
+    height: auto;
+    padding: 0.2rem 0.3rem 0rem 0.3rem;
+    box-sizing: border-box;
+    border-top: 0.01rem solid #f0f0f0;
+    overflow: hidden;
+}
+.banner{
+    width: 100%;
+    height: 2.4rem;
+}
+.banner img{
+    width: 100%;
+    height: 100%;
+}
+.activity_box{
+    width: 100%;
+    height: auto;
+    padding: 0.3rem 0.3rem 0.2rem 0.3rem;
+    box-sizing: border-box;
+    overflow-x: scroll;
+}
+.activity_box_main{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.activity_list{
+    float: left;
+    width: 1.18rem;
+    text-align: center;
+    margin-right: 0.6rem;
+    position: relative;
+}
+.activity_list:last-of-type{
+    margin-right: 0;
+}
+.activity_list img{
+    width: 1.18rem;
+    height: 1.18rem;
+}
+.activity_name{
+    font-size: 0.22rem;
+    color: #2b2b2b;
+    text-align: center;
+    width: 100%;
+    margin-top: -0.1rem;
+}
+.activity_entra_box{
+    width: 100%;
+    height: auto;
+    
+}
+.activity_entra{
+    width: 100%;
+    height: auto;
+    padding: 0rem 0.3rem 0.1rem;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.activity_entra img{
+    width: 100%;
+    height: 1.61rem;
+}
+.contain{
+    width: 100%;
+    height: auto;
+}
+.contain_top{
+    margin-left: 0.3rem;
+}
+.contain_top{
+    font-size: 0.36rem;
+    font-weight: bold;
+    color: #2b2b2b;
+    position: relative;
+    text-indent: 0.2rem;
+}
+.contain_top i{
+    position: absolute;
+    top: 0.1rem;
+    left: 0;
+    width: 0.05rem;
+    height: 0.3rem;
+    background: #ff4532;
+    display: inline-block;
+}
+.contain_tab_box{
+    width: 100%;
+    height: auto;
+    padding: 0.3rem 0 0.3rem 0.3rem;
+    overflow-x: scroll;
+    box-sizing: border-box;
+}
+.contain_tab{
+    width: auto;
+    height: 100%;
+    overflow: hidden;
+}
+.contain_tab_list{
+    width: 1.2rem;
+    height: 0.26rem;
+    font-size: 0.26rem;
+    text-align: center;
+    padding: 0.12rem 0;
+    color: #c1c1c1;
+    font-weight: bold;
+    line-height: 0.26rem;
+    display: inline-block;
+    margin-right: 0.2rem;
+    background: url("../../../../static/images/home/contain_tab.png") center no-repeat;
+    background-size: contain;
+}
+.contain_tab_list_active{
+    background: url("../../../../static/images/home/contain_tab_active.png") center no-repeat;
+    background-size: contain;
+    color: #ffffff;
+}
+.contain_tab_list:last-of-type{
+    margin-right: 0;
+}
+.goods_box{
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    padding: 0.1rem 0.3rem;
+    box-sizing: border-box;
+}
+.goods_list{
+    float: left;
+    margin-right: 0.2rem;
+    width: 3.35rem;
+    height: 4.21rem;
+    background: url("../../../../static/images/home/goods_bg.png") center no-repeat;
+    background-size: contain;
+    position: relative;
+    margin-bottom: 0.2rem;
+}
+.goods_list:nth-of-type(2n){
+    margin-right: 0;
+}
+.goods_free_shipping{
+    background: url("../../../../static/images/home/free_shipping.png") center no-repeat;
+    background-size: contain;
+    width: 0.85rem;
+    height: 0.42rem;
+}
+.change_people{
+    font-size: 0.2rem;
+    font-weight: bold;
+    color: #c1c1c1;
+    position: absolute;
+    top: 0.03rem;
+    right: 0.1rem;
+}
+.goods{
+    width: 2.5rem;
+    height: 2.5rem;
+    display: block;
+    margin: 0 auto;
+}
+.goods_name{
+    font-size: 0.3rem;
+    text-indent: 0.2rem;
+    color: #2b2b2b;
+    font-weight: bold;
+}
+.goods_old_price{
+    font-size: 0.2rem;
+    text-indent: 0.2rem;
+    color: #c1c1c1;
+    font-weight: bold;
+    text-decoration: line-through;
+}
+.goods_now_price{
+    font-size: 0.26rem;
+    text-indent: 0.2rem;
+    font-weight: bold;
+    color: #ee4532;
+}
+.buy_btn{
+    background: url("../../../../static/images/home/buy_btn.png") center no-repeat;
+    background-size: contain;
+    width: 1.28rem;
+    height: 0.44rem;
+    position: absolute;
+    bottom: 0.15rem;
+    right: 0.2rem;
+    font-size: 0.24rem;
+    color: #ffffff;
+    text-align: center;
+    padding: 0.1rem 0;
+    box-sizing: border-box;
+    line-height: 0.24rem;
+}

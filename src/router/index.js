@@ -7,7 +7,7 @@ Vue.use(Router);
 export default new Router({
   routes: [
     //登录
-    {path: '/',component: home,name: home,meta:{title: '首页'},},
+    {path: '/',component: home,name: home,meta:{title: '微吧商城'},},
     {path: '/signIn',component: signIn,name: signIn,meta:{title: '签到'},},
   ]
 })
