@@ -16,6 +16,7 @@ router.afterEach((to, from) => {
     if(to.meta.title){
         document.title = to.meta.title;
     };
+    localStorage.setItem('backName', from.path);
 })
 
 /* eslint-disable no-new */

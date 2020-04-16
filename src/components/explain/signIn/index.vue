@@ -3,7 +3,6 @@
         <div class="top">
             <i class="top_close" @click="forbidBack()"></i>
             每日签到
-            <div class="top_more"></div>
         </div>
         <div class="header">
            <img src="../../../../static/images/home/my_img.png" alt="" class="my_img">
@@ -12,8 +11,8 @@
                <div class="my_money">1212<i class="money_icon"></i></div>
            </div>
            <div class="my_info_right">
-                <div class="get_integral"><i></i></div>
-                <div class="change_in_record"></div>
+                <div class="get_integral" @click="taskWall()"><i></i></div>
+                <div class="change_in_record" @click="exchangeRecord()"></div>
             </div>
        </div>
 
@@ -113,6 +112,12 @@ export default {
             var _this = this;
             _this.tabIndex = index;
         },
+        exchangeRecord(){
+            this.$router.replace({path:'/exchangeRecord'});
+        },
+        taskWall(){
+            this.$router.replace({path:'/taskWall'});
+        },
         getData(){
             var _this = this;
             var data={
@@ -132,19 +137,11 @@ export default {
             });
         },
         forbidBack(){
-            var _this = this;
-            _this.$router.replace({path: '/'});
+            this.$router.replace({path:'/'});
         }
     },
-    destroyed(){
-        window.removeEventListener('popstate', this.forbidBack, false);
-    },
     mounted(){
-        var _this = this;   
-        if (window.history && window.history.pushState) {
-            history.pushState(null, null, document.URL);
-            window.addEventListener('popstate', _this.forbidBack,false);
-        };
+        var _this = this;
     }   
 }
 </script>

@@ -1,9 +1,7 @@
 <template>
     <div class="main">
         <div class="top">
-            <i class="top_close" @click="forbidBack()"></i>
             微吧商城
-            <div class="top_more"></div>
         </div>
        <div class="header">
            <img src="../../../../static/images/home/my_img.png" alt="" class="my_img">
@@ -12,8 +10,8 @@
                <div class="my_money">1212<i class="money_icon"></i></div>
            </div>
            <div class="my_info_right">
-                <div class="get_integral"><i></i></div>
-                <div class="change_in_record"></div>
+                <div class="get_integral" @click="taskWall()"><i></i></div>
+                <div class="change_in_record" @click="exchangeRecord()"></div>
             </div>
        </div>
        <div class="banner_box swiper-container swiper-container1">
@@ -134,10 +132,56 @@ export default {
             var _this = this;
             _this.goodsTypeTab = index;
         },
+        //login
+        login(){
+            var _this = this;
+            var formData = {
+                'open_id': '19231654',
+                'store_id': '1001'
+            };
+            // let formData = new FormData();
+            // formData.append('open_id', '19231654');
+            // formData.append('store_id', '1001');
+            var config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            axios.post(allget+"/c_account/sign_login/",formData,config).then((res) => {
+                if(res.data.data.code == 1){
+                    
+                }else{
+                    config.layerMsg(res.data.data.message, 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+        },
+        //上传用户信息
+        updateInfo(){
+            var _this = this;
+            var formData = {
+                'avatar_url': 'http://img.dianliaoapp.com/DEBUG/12381/head/1545212384514.png',
+                'nick_name': '青葱少女'
+            };
+            var config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            axios.post(allget+"/c_account/update_user_data/",formData,config).then((res) => {
+                if(res.data.data.code == 1){
+
+                }else{
+                    config.layerMsg(res.data.data.message, 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+        },
         //左右滑动宽度设置
         setWidth(){
             var {activityBoxMain, activityChild} = this.$refs;
-            console.log(activityChild.clientWidth)
             activityBoxMain.style.width = activityChild.clientWidth*5+'px';
         },
         //轮播
@@ -149,7 +193,7 @@ export default {
                 pagination: ".swiper-p1",
                 autoplayDisableOnInteraction : false,
                 onSlideChangeEnd(swiper){
-                    console.log(swiper.activeIndex)
+                    //console.log(swiper.activeIndex)
                 }
             });
        },
@@ -162,12 +206,18 @@ export default {
                 pagination: ".swiper-p2",
                 autoplayDisableOnInteraction : false,
                 onSlideChangeEnd(swiper){
-                    console.log(swiper.activeIndex)
+
                 }
             });
        },
         goSign(){
-            this.$router.replace({path:'/signIn'})
+            this.$router.replace({path:'/signIn'});
+        },
+        exchangeRecord(){
+            this.$router.replace({path:'/exchangeRecord'});
+        },
+        taskWall(){
+            this.$router.replace({path:'/taskWall'});
         },
         forbidBack(){
             // if(config.getHashVReq('recordPage') && config.thirdParty().isWechat == true){
@@ -184,6 +234,8 @@ export default {
     mounted(){
         var _this = this;
         _this.$nextTick(() => {
+            _this.login();
+            _this.updateInfo();
             _this.banner1();
             _this.banner2();
         });
@@ -198,8 +250,4 @@ export default {
 
 <style scoped>
 @import './index.css';
-</style>
-<style>
-
-
 </style>

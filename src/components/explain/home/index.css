@@ -33,21 +33,11 @@
     left: 0.3rem;
     display: block;
 }
-.top_more{
-    width: 0.49rem;
-    height: 0.09rem;
-    background: url("../../../../static/images/home/top_more.png") center no-repeat;
-    background-size: contain;
-    position: absolute;
-    top: 0.5rem;
-    right: 0.3rem;
-    display: block;
-}
 .header{
     width: 100%;
     height: auto;
     padding: 0 0.3rem;
-    border-top: 0.01rem solid #f0f0f0;
+    border-top: 0.01rem solid #f1f1f1;
     background: #ffffff;
     position: relative;
     overflow: hidden;

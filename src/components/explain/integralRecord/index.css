@@ -1,0 +1,148 @@
+.main{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.top{
+    width: 100%;
+    height: auto;
+    padding: 0.3rem;
+    font-size: 0.36rem;
+    text-align: center;
+    box-sizing: border-box;
+    position: relative;
+    background: #ffffff;
+}
+.top_close{
+    width: 0.26rem;
+    height: 0.28rem;
+    background: url("../../../../static/images/home/top_close.png") center no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 0.4rem;
+    left: 0.3rem;
+    display: block;
+}
+.header{
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    padding: 0.25rem 0;
+    box-sizing: border-box;
+    background: #ffffff;
+    border-top: 0.01rem solid #f1f1f1;
+}
+.my_intergal_box{
+    float: left;
+    width: 49.5%;
+    height: 0.74rem;
+    border-right: 0.03rem solid #f1f1f1;
+}
+.intergral_icon{
+    width: 0.65rem;
+    height: 0.68rem;
+    display: block;
+    float: left;
+    vertical-align: middle;
+    margin-left: 0.75rem;
+}
+.gift_icon{
+    width: 0.66rem;
+    height: 0.68rem;
+    display: block;
+    float: left;
+    vertical-align: middle;
+    margin-left: 0.88rem;
+}
+.intergal_my_box{
+    float: left;
+    margin-left: 0.2rem;
+    
+}
+.intergal_nums{
+    font-size: 0.4rem;
+    color: #ffac1c;
+    font-weight: bold;
+    margin-top: -0.1rem;
+}
+.gift_exchange{
+    font-size: 0.3rem;
+    color: #2b2b2b;
+    font-weight: bold;
+    margin-top: -0.05rem;
+}
+.intergal_msg{
+    font-size: 0.26rem;
+    color: #6b6e71;
+    font-weight: bold;
+}
+.gift_box{
+    float: left;
+    width: 49.5%;
+    height: 0.74rem;
+    position: relative;
+}
+.go_in{
+    width: 0.11rem;
+    height: 0.18rem;
+    background: url("../../../../static/images/intergral/go_in.png") center no-repeat;
+    background-size: contain;
+    position: absolute;
+    right: 0.3rem;
+    top: 0.33rem;
+}
+.list_box{
+    width:  rem;
+    height: auto;
+    margin:0.2rem auto;
+    background:#ffffff;
+    border-radius: 0.2rem;
+    padding: 0.1rem 0.3rem;
+    box-sizing: border-box;
+}
+.list{
+    width: 100%;
+    border-bottom: 0.01rem solid #f1f1f1;
+    position: relative;
+    padding: 0.2rem 0;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.list:last-of-type{
+    border: 0;
+}
+.list_left{
+    float: left;
+}
+.list_msg{
+    font-size: 0.28rem;
+    color: #2b2b2b;
+    font-weight: bold;
+}
+.time{
+    font-size: 0.26rem;
+    color: #9c9898;
+    margin-top: 0.06rem;
+}
+.nums{
+    font-size: 0.28rem;
+    color: #2b2b2b;
+    font-weight: bold;
+    position: absolute;
+    top: 0.4rem;
+    right: 0.4rem;
+}
+.list_intergral_icon{
+    width: 0.30rem;
+    height: 0.32rem;
+    background: url("../../../../static/images/home/integral.png") center no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 0.4rem;
+    right: 0rem;
+}
+.subtract{
+    color: #ff4532;
+}

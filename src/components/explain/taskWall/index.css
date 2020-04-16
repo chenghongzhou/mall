@@ -1,0 +1,361 @@
+.main{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.top{
+    width: 100%;
+    height: auto;
+    padding: 0.3rem;
+    font-size: 0.36rem;
+    text-align: center;
+    box-sizing: border-box;
+    position: relative;
+    background: #ffffff;
+}
+.top_close{
+    width: 0.26rem;
+    height: 0.28rem;
+    background: url("../../../../static/images/home/top_close.png") center no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 0.4rem;
+    left: 0.3rem;
+    display: block;
+}
+.header_bg{
+    width: 100%;
+    height: 5.71rem;
+    background: url("../../../../static/images/taskWall/header.png") center no-repeat;
+    background-size: contain;
+}
+.content{
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 1.08rem;
+    left: 0;
+    padding: 0 0.3rem;
+    box-sizing: border-box;
+}
+.header{
+    width: 100%;
+    height: auto;
+    position: relative;
+    overflow: hidden;
+    padding-top: 0.2rem;
+}
+.my_integral{
+    font-size: 0.26rem;
+    height: 0.3rem;
+    color: #ffffff;
+    line-height: 0.3rem;
+    opacity: 0.9;
+}
+.my_integral_number{
+    font-size: 0.5rem;
+    color: #ffffff;
+    font-weight: bold;
+    margin-top:-0.1rem;
+}
+.money_icon{
+    width: 0.30rem;
+    height: 0.32rem;
+    background: url("../../../../static/images/home/integral.png") center no-repeat;
+    background-size: contain;
+    margin-left: 0.1rem;
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: -0.1rem;
+   
+}
+.integral_record{
+    width: 1.41rem;
+    height: 0.31rem;
+    position: absolute;
+    top: 0.2rem;
+    right: 0rem;
+    background: url("../../../../static/images/taskWall/integral_record_icon.png") center no-repeat;
+    background-size: contain;
+}
+.exchage_integral{
+    width: 1.8rem;
+    height: 0.56rem;
+    display: inline-block;
+    background: url("../../../../static/images/taskWall/exchage_integral.png") center no-repeat;
+    background-size: contain;
+    margin-left: 0.2rem;
+}
+.banner_box{
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+.banner{
+    width: 100%;
+    height: 2.4rem;
+    margin-top: 0.2rem;
+    box-sizing: border-box;
+}
+.banner img{
+    width: 100%;
+    height: 100%;
+}
+.swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
+    bottom: -5px !important;
+}
+.swiper-container1>>>.swiper-pagination-bullet-active {
+    opacity: 1;
+    background: #ffffff;
+}
+.swiper-container2{
+    overflow: visible;
+}
+.swiper-container2>>>.swiper-pagination-bullets {
+    opacity: 1;
+    bottom: -4px !important;
+}
+.swiper-container2>>>.swiper-pagination-bullet {
+    width: 0.24rem;
+    height: 0.08rem;
+    background: #000;
+    border-radius: 0.1rem;
+}
+.swiper-container2>>>.swiper-pagination-bullet-active {
+    width: 0.24rem;
+    height: 0.08rem;
+    border-radius: 0.1rem;
+    background: #ff4532;
+}
+.task_list_box{
+    width: 100%;
+    height: auto;
+    margin-top: 0.2rem;
+}
+.task_list{
+    width: 100%;
+    background: #ffffff;
+    padding: 0.3rem 0.3rem 0 0.3rem;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+    margin-bottom: 0.2rem;
+}
+.task_list_top{
+    font-size: 0.36rem;
+    font-weight: bold;
+    color: #2b2b2b;
+    position: relative;
+}
+.task_list_top span{
+    font-size: 0.2rem;
+    color: #8e8e8e;
+    margin-left: 0.1rem;
+}
+.refresh{
+    width: 0.85rem;
+    height: 0.28rem;
+    position: absolute;
+    top: 0rem;
+    right: 0rem;
+    background: url("../../../../static/images/taskWall/refresh.png") center no-repeat;
+    background-size: contain;
+}
+.list{
+    width: 100%;
+    border-bottom: 0.01rem solid #f1f1f1;
+    margin-top: 0.2rem;
+    overflow: hidden;
+    position: relative;
+}
+.list:last-of-type{
+    border: 0;
+}
+.task_img_bg{
+    width: 1.2rem;
+    height: 1.2rem;
+    background: url("../../../../static/images/taskWall/task_img_bg.png") center no-repeat;
+    background-size: contain;
+    margin: 0.2rem 0.2rem 0.2rem 0;
+    padding-top: 0.15rem;
+    box-sizing: border-box;
+    float: left;
+}
+.task_img_bg img{
+    width:0.9rem;
+    height: 0.9rem;
+    display: block;
+    margin: 0 auto;
+}
+.task_info{
+    float: left;
+}
+.task_type_title{
+    font-size: 0.28rem;
+    color: #2b2b2b;
+    margin-top:0.15rem;
+}
+.task_type_intr{
+    font-size: 0.24rem;
+    color: #8e8e8e;
+    margin-top: 0.11rem;
+}
+.task_money{
+    font-size: 0.28rem;
+    color: #ffac1c;
+    font-weight: bold;
+    margin-top: 0.1rem;
+}
+.task_money i{
+    width: 0.30rem;
+    height: 0.32rem;
+    background: url("../../../../static/images/home/integral.png") center no-repeat;
+    background-size: contain;
+    margin-right: 0.1rem;
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: -0.1rem;     
+}
+.task_btn{
+    width: 1.5rem;
+    position: absolute;
+    top: 0.48rem;
+    right: 0rem;
+    font-size: 0.24rem;
+    padding: 0.16rem 0;
+    color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+}
+.task_btn_finish{
+    background: url("../../../../static/images/taskWall/finish.png") center no-repeat;
+    background-size: contain;
+}
+.task_btn_resive{
+    background: url("../../../../static/images/taskWall/resive.png") center no-repeat;
+    background-size: contain;
+}
+.task_btn_goon{
+    background: url("../../../../static/images/taskWall/go_on.png") center no-repeat;
+    background-size: contain;
+}
+.task_finish_status{
+    font-size: 0.2rem;
+    text-align: center;
+    width: 1.5rem;
+    text-align: center;
+    position: absolute;
+    right: 0;
+    bottom: 0.18rem;
+    color: #8e8e8e;
+}
+.task_finish_status span{
+    color: #ff4532;
+}
+.task_tab_box{
+    width: 5.14rem;
+    height: 0.56rem;
+    margin: 0.2rem auto;
+    background: url("../../../../static/images/taskWall/task_tab_bg.png") center no-repeat;
+    background-size: contain;
+    overflow: hidden;
+}
+.task_tab_box div{
+    width: 25%;
+    float: left;
+    font-size: 0.28rem;
+    color: #8e8e8e;
+    text-align: center;
+    padding: 0.07rem 0;
+}
+.task_tab_box div.active{
+    font-weight: bold;
+    color: #ff4532;
+}
+.footer{
+    width: 100%;
+    padding: 0.4rem 0;
+}
+.footer img{
+    width: 1.64rem;
+    height: 0.29rem;
+    margin: 0 auto;
+    display: block;
+}
+.mask .mask_main{
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.8);
+	position: fixed;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 1010;
+}
+.mask .mask_main .box{
+	width: 5.2rem;
+	height: 6.83rem;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -2.6rem;
+	margin-top: -3.415rem;
+    background: #ffffff;
+    border-radius: 0.2rem;
+    padding-top: 3.1rem;
+    box-sizing: border-box;
+    background: url("../../../../static/images/taskWall/mask_bg.png") center no-repeat;
+    background-size: contain;
+}
+.mask_btn{
+    width: 3rem;
+    background: url("../../../../static/images/taskWall/mask_btn_bg.png") center no-repeat;
+    background-size: contain;
+    position: absolute;
+    bottom: -1rem;
+    left: 50%;
+    margin-left: -1.5rem;
+    font-size: 0.28rem;
+    color: #ffffff;
+    padding: 0.26rem 0;
+    text-align: center;
+}
+.mask_you_get{
+    width: 100%;
+    font-size: 0.24rem;
+    text-align: center;
+    color: #8e8e8e;
+    margin-top: 0.3rem;
+}
+.mask_you_get span{
+    color: #ffac1c;
+}
+.mask_you_get i{
+    width: 0.30rem;
+    height: 0.32rem;
+    background: url("../../../../static/images/home/integral.png") center no-repeat;
+    background-size: contain;
+    margin-right: 0.1rem;
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: -0.1rem;  
+    margin-left: 0.1rem;
+}
+.mask_title{
+    width: 100%;
+    font-size: 0.36rem;
+    text-align: center;
+    color: #2b2b2b;
+    font-weight: bold;
+    
+}
+.news{
+    width: 5rem;
+    height: 1.8rem;
+    margin: 0.65rem auto 0;
+}
+.news img{
+    width: 100%;
+    height: 100%;
+}
