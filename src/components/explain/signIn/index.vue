@@ -52,7 +52,7 @@
                             <p class="list_info_name">秦松少女/</p>
                             <div class="list_info_signs">累计签到1天<span>01:23:18</span></div>
                         </div>
-                        <div class="love"></div>
+                        <!-- <div class="love"></div> -->
                     </li>
                     <li>
                         <div class="list_rank"><img src="../../../../static/images/sign/rank2.png" alt=""></div>
@@ -70,7 +70,7 @@
                             <p class="list_info_name">秦松少女/</p>
                             <div class="list_info_signs">累计签到1天<span>01:23:18</span></div>
                         </div>
-                        <div class="love"></div>
+                        <!-- <div class="love"></div> -->
                     </li>
                     <li>
                         <div class="list_rank">4</div>
@@ -132,7 +132,6 @@ export default {
                     //'Content-Type': 'application/json;charset=UTF-8',
                 }
             };
-            console.log(565545)
            // axios.defaults.withCredentials=true;
             axios.post(allget+"/sign/sign_once/",formData,config).then((res) => {
                 if(res.data.data.code == 1){

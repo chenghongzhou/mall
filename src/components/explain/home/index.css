@@ -77,7 +77,8 @@
     background-size: contain;
     margin-left: 0.1rem;
     display: inline-block;
-    vertical-align: top;
+    vertical-align: middle;
+    margin-top: -0.1rem;
    
 }
 .my_info_right{
