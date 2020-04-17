@@ -147,9 +147,13 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             };
+            //axios.defaults.withCredentials=true;
             axios.post(allget+"/c_account/sign_login/",formData,config).then((res) => {
+                console.log(res)
                 if(res.data.data.code == 1){
-                    
+                    _this.$store.state.sessionId = res.data.data.sessionId;
+                 //   document.cookie = "sessionId="+res.data.data.sessionId+";path=/"
+                    config.setCookie('sessionId',res.data.data.sessionId,14);
                 }else{
                     config.layerMsg(res.data.data.message, 2);
                 };
@@ -164,11 +168,15 @@ export default {
                 'avatar_url': 'http://img.dianliaoapp.com/DEBUG/12381/head/1545212384514.png',
                 'nick_name': '青葱少女'
             };
+            // let formData = new FormData();
+            // formData.append('avatar_url', '19231654');
+            // formData.append('nick_name', '1001');
             var config = {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             };
+            axios.defaults.withCredentials=true;
             axios.post(allget+"/c_account/update_user_data/",formData,config).then((res) => {
                 if(res.data.data.code == 1){
 
@@ -234,7 +242,7 @@ export default {
     mounted(){
         var _this = this;
         _this.$nextTick(() => {
-            _this.login();
+           // _this.login();
             _this.updateInfo();
             _this.banner1();
             _this.banner2();

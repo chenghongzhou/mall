@@ -104,7 +104,7 @@ export default {
     data(){
         return {
             tabIndex: 1, //切换
-            signMask: true,
+            signMask: false,
         }
     },
     methods: {
@@ -118,19 +118,27 @@ export default {
         taskWall(){
             this.$router.replace({path:'/taskWall'});
         },
-        getData(){
+        //签到
+        signIn(){
             var _this = this;
-            var data={
-                'cabinetId': _this.photoNum,
+            var formData = {
+                'store_id': '1001'
             };
-            _this.$loading.show();
-            axios.post(allget+"/cabinet/check_cabinet_id/",data).then((res) => {
-                _this.$loading.close();
-                if(res.data.error_code == 0){
-                    _this.$store.state.cabinetId = _this.photoNum;
-                    _this.sCode = false;
+            // let formData = new FormData();
+            // formData.append('store_id', '1001');
+            var config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                    //'Content-Type': 'application/json;charset=UTF-8',
+                }
+            };
+            console.log(565545)
+           // axios.defaults.withCredentials=true;
+            axios.post(allget+"/sign/sign_once/",formData,config).then((res) => {
+                if(res.data.data.code == 1){
+                    _this.signMask = true;
                 }else{
-                    config.layerMsg(res.data.message, 2);
+                    config.layerMsg(res.data.data.message, 2);
                 };
             }).catch(() => {
                 console.log('error');
@@ -142,6 +150,9 @@ export default {
     },
     mounted(){
         var _this = this;
+        _this.$nextTick(() =>{
+            _this.signIn();
+        })
     }   
 }
 </script>

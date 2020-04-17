@@ -35,8 +35,8 @@ module.exports = {
     assetsPublicPath: '/',
     //请求代理，可以配置特定的请求代理到对应的api接口   api/xxx -> www.example.com
     proxyTable: {
-      '/abc': {
-        target: 'http://192.168.0.105/',
+      '/': {
+        target: 'http://192.168.37.102:8002',
         secure: false,
         changeOrigin: true,
     }

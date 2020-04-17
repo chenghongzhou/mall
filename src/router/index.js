@@ -6,6 +6,7 @@ const signIn = () => import('../components/explain/signIn/index.vue');  //签到
 const exchangeRecord = () => import('../components/explain/exchangeRecord/index.vue');  //兑换记录
 const taskWall = () => import('../components/explain/taskWall/index.vue');  //赚积分
 const integralRecord = () => import('../components/explain/integralRecord/index.vue');  //积分记录
+const orderDetail = () => import('../components/explain/orderDetail/index.vue');  //订单详情
 Vue.use(Router);
 export default new Router({
   routes: [
@@ -15,5 +16,6 @@ export default new Router({
     {path: '/exchangeRecord',component: exchangeRecord,name: exchangeRecord,meta:{title: '兑换记录'},},
     {path: '/taskWall',component: taskWall,name: taskWall,meta:{title: '赚积分'},},
     {path: '/integralRecord',component: integralRecord,name: integralRecord,meta:{title: '积分记录'},},
+    {path: '/orderDetail',component: orderDetail,name: orderDetail,meta:{title: '订单详情'},},
   ]
 })

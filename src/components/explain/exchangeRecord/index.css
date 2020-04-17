@@ -145,8 +145,8 @@
     bottom: 0.3rem;
 }
 .money_icon{
-    width: 0.30rem;
-    height: 0.32rem;
+    width: 0.35rem;
+    height: 0.35rem;
     background: url("../../../../static/images/home/integral.png") center no-repeat;
     background-size: contain;
     margin-right: 0.1rem;
@@ -163,6 +163,7 @@
     top: 0.2rem;
     right: 0.3rem; */
     width: 100%;
+    overflow: hidden;
 }
 .order_money_in{
     width: 100%;

@@ -1,0 +1,250 @@
+.main{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.top{
+    width: 100%;
+    height: auto;
+    padding: 0.3rem;
+    font-size: 0.36rem;
+    text-align: center;
+    box-sizing: border-box;
+    position: relative;
+    background: #ffffff;
+    border-bottom: 0.01rem solid #f1f1f1;
+}
+.top_close{
+    width: 0.26rem;
+    height: 0.28rem;
+    background: url("../../../../static/images/home/top_close.png") center no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 0.4rem;
+    left: 0.3rem;
+    display: block;
+}
+.header_bg{
+    width: 100%;
+    height: 3.53rem;
+    background: url("../../../../static/images/orderDeatil/header_bg.png") center no-repeat;
+    background-size: contain;
+}
+.content_box{
+    width: 100%;
+    position: absolute;
+    top: 1.08rem;
+    left: 0;
+    padding-top:0.37rem;
+    box-sizing: border-box;
+}
+.header{
+    width: 100%;
+    overflow: hidden;
+}
+.order_status_img{
+    width: 0.88rem;
+    height: 0.81rem;
+    margin-left: 2.14rem;
+    float: left;
+}
+.no_send_good_img{
+    background: url("../../../../static/images/orderDeatil/no_send_good.png") center no-repeat;
+    background-size: contain;
+}
+.no_resive_good_img{
+    background: url("../../../../static/images/orderDeatil/no_resive_good.png") center no-repeat;
+    background-size: contain;
+}
+.resive_good_img{
+    background: url("../../../../static/images/orderDeatil/resive_good.png") center no-repeat;
+    background-size: contain;
+}
+.order_info_this_box{
+    width: 6.9rem;
+    height: auto;
+    margin: 0.37rem auto 0;
+    border-radius: 0.2rem;
+    padding: 0rem 0rem 0.2rem;
+    box-sizing: border-box;
+    background: #ffffff;
+}
+.order_status_msg_part{
+    float: left;
+    margin-left: 0.2rem;
+}
+.order_status_msg_title{
+    font-size: 0.34rem;
+    color: #ffffff;
+    font-weight: bold;
+}
+.order_status_msg{
+    font-size: 0.24rem;
+    color: #ffffff;
+    opacity: 0.9;
+    margin-top: 0.05rem;
+}
+.order_info_header{
+    width: 100%;
+    overflow: hidden; 
+    position: relative;
+    padding-top: 0.3rem;
+}
+.address_icon{
+    width: 0.27rem;
+    height: 0.34rem;
+    background: url("../../../../static/images/orderDeatil/address_icon.png") center no-repeat;
+    background-size: contain;
+    float: left;
+    margin-left: 0.3rem;
+    margin-top: 0.2rem;
+}
+.address_info{
+    float: left;
+    margin-left: 0.2rem;
+}
+.address_info_name{
+    font-size: 0.24rem;
+    color: #2b2b2b;
+    font-weight: bold;
+}
+.address_info_address{
+    font-size: 0.2rem;
+    color: #2b2b2b;
+}
+.order_status{
+    font-size: 0.24rem;
+    color: #ff4532;
+    position: absolute;
+    top: 0.46rem;
+    right: 0.3rem;
+}
+.line{
+    width: 6.85rem;
+    height: 0.02rem;
+    margin: 0.2rem auto;
+    background: url("../../../../static/images/orderDeatil/line.png") center no-repeat;
+    background-size: contain;
+}
+.order_main_box{
+    width: 100%;
+    padding-left: 0.3rem;
+    box-sizing: border-box;
+}
+.order_info_box{
+    width: 100%;
+    margin-top: 0.2rem;
+    border-bottom: 0.01rem solid #f1f1f1;
+    overflow: hidden;
+    position: relative;
+}
+.order_good_img{
+    width: 1.6rem;
+    height: 1.6rem;
+    float: left;
+    margin-bottom: 0.2rem;
+}
+.order_info{
+    float: left;
+    margin-left: 0.2rem;
+}
+.order_name{
+    font-size: 0.3rem;
+    font-weight: bold;
+    color: #2b2b2b;
+}
+.good_intr{
+    font-size: 0.2rem;
+    color: #8e8e8e;
+    margin-top: 0.1rem;
+}
+.good_price{
+    font-size: 0.28rem;
+    color: #2b2b2b;
+    margin-top: 0.3rem;
+    position: absolute;
+    left: 1.8rem;
+    bottom: 0.3rem;
+}
+.good_nums{
+    font-size: 0.24rem;
+    color: #2b2b2b;
+    position: absolute;
+    right: 0.3rem;
+    bottom: 0.3rem;
+}
+.money_icon{
+    width: 0.35rem;
+    height: 0.35rem;
+    background: url("../../../../static/images/home/integral.png") center no-repeat;
+    background-size: contain;
+    margin-right: 0.1rem;
+    display: inline-block;
+    vertical-align: top;
+   
+}
+.order_money_box{
+    margin-top: 0.2rem;
+    width: 100%;
+}
+.order_money{
+    /* position: absolute;
+    top: 0.2rem;
+    right: 0.3rem; */
+    width: 100%;
+    overflow: hidden;
+}
+.order_money_in{
+    width: 100%;
+    float: right;
+    text-align: right;
+    font-size: 0.24rem;
+    padding-right: 0.3rem;
+    box-sizing: border-box;
+}
+.order_money_in span{
+    width: 1.3rem;
+    display: inline-block;
+    color: #ffac1c;
+    font-size: 0.28rem;
+    font-weight: bold;
+}
+.order_money_in span.money{
+    color: #ff4532;
+}
+.time_box{
+    width: 6.9rem;
+    margin: 0.2rem auto;
+    background: #ffffff;
+    border-radius: 0.2rem;
+    font-size: 0.24rem;
+    color: #6b6e71;
+    padding: 0.3rem 0 0.1rem 0.3rem;
+    box-sizing: border-box;
+}
+.time_box div{
+    margin-bottom: 0.16rem;
+}
+.express{
+    width: 100%;
+    border-bottom: 0.02rem solid #f1f1f1;
+    overflow: hidden;
+    padding-bottom: 0.2rem;
+    box-sizing: border-box;
+    padding-top: 0.3rem;
+}
+.express_icon{
+    width: 0.34rem;
+    height: 0.28rem;
+    background: url("../../../../static/images/orderDeatil/express_icon.png") center no-repeat;
+    background-size: contain;
+    float: left;
+    margin-top: 0.2rem;
+}
+.express_info{
+    font-size: 0.24rem;
+    color: #ffac1c;
+    font-weight: bold;
+}

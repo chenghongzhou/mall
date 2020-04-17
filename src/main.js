@@ -12,6 +12,7 @@ Vue.use(VueClipboard);
 Vue.config.productionTip = false;
 
 
+
 router.afterEach((to, from) => {
     if(to.meta.title){
         document.title = to.meta.title;

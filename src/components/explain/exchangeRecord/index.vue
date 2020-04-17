@@ -12,7 +12,7 @@
         </div>
         <div class="list_box">
             <div class="content">
-                <div class="list">
+                <div class="list" @click="orderDetail()">
                     <div class="order_number">兑换单号：6022545554444455</div>
                     <div class="order_status">待发货</div>
                     <div class="order_info_box">
@@ -47,6 +47,9 @@ export default {
         handleTabChange(index){
             var _this = this;
             _this.tabIndex = index;
+        },
+        orderDetail(){
+            this.$router.replace({path:'/orderDetail'});
         },
         forbidBack(){
             var _this = this;
