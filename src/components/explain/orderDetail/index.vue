@@ -70,6 +70,14 @@ export default {
         return {
 
         }
+    },
+    methods: {
+        forbidBack(){
+            window.history.back()
+        }
+    },
+    mounted(){
+
     }
 }
 </script>

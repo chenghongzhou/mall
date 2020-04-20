@@ -113,10 +113,10 @@ export default {
             _this.tabIndex = index;
         },
         exchangeRecord(){
-            this.$router.replace({path:'/exchangeRecord'});
+            this.$router.replace({path:'/exchangeRecord',query: {recordPage:'2'}});
         },
         taskWall(){
-            this.$router.replace({path:'/taskWall'});
+            this.$router.replace({path:'/taskWall',query: {recordPage:'2'}});
         },
         //签到
         signIn(){
@@ -126,14 +126,13 @@ export default {
             };
             // let formData = new FormData();
             // formData.append('store_id', '1001');
-            var config = {
+            var headerConfig = {
                 headers: {
                     'Content-Type': 'multipart/form-data'
-                    //'Content-Type': 'application/json;charset=UTF-8',
                 }
             };
            // axios.defaults.withCredentials=true;
-            axios.post(allget+"/sign/sign_once/",formData,config).then((res) => {
+            axios.post(allget+"/sign/sign_once/",formData,headerConfig).then((res) => {
                 if(res.data.data.code == 1){
                     _this.signMask = true;
                 }else{

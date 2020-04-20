@@ -34,13 +34,13 @@ module.exports = {
     //webpack编译输出的发布路径
     assetsPublicPath: '/',
     //请求代理，可以配置特定的请求代理到对应的api接口   api/xxx -> www.example.com
-    proxyTable: {
-      '/': {
-        target: 'http://192.168.37.102:8002',
-        secure: false,
-        changeOrigin: true,
-    }
-    },
+    // proxyTable: {
+    //   '/': {
+    //     target: 'http://192.168.37.102:8002',
+    //     secure: false,
+    //     changeOrigin: true,
+    // }
+    //},
     //webpack的编译环境
     //env: require('./dev.env'),
     // Various Dev Server settings

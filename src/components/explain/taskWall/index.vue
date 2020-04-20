@@ -152,7 +152,7 @@ export default {
                 pagination: ".swiper-p1",
                 autoplayDisableOnInteraction : false,
                 onSlideChangeEnd(swiper){
-                    console.log(swiper.activeIndex)
+                    
                 }
             });
        },
@@ -162,7 +162,8 @@ export default {
        forbidBack(){
             var _this = this;
             var prveUrl = localStorage.getItem('backName');
-            if(prveUrl == '/'){
+            var pervePage = this.$route.query.recordPage;
+            if(prveUrl == '/' || pervePage == 1){
                 window.history.back()
             }else{
                 _this.$router.replace({path:'/signIn'});

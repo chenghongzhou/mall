@@ -36,7 +36,7 @@
                 </div>
                 <div class="activity_list">
                     <img src="../../../../static/images/home/activity2.png" alt="">
-                    <div class="activity_name">积分商城</div>
+                    <div class="activity_name">推广链接</div>
                 </div>
                 <div class="activity_list">
                     <img src="../../../../static/images/home/activity3.png" alt="">
@@ -47,8 +47,8 @@
                     <div class="activity_name">幸运转盘</div>
                 </div>
                 <div class="activity_list">
-                    <img src="../../../../static/images/home/activity4.png" alt="">
-                    <div class="activity_name">幸运转盘</div>
+                    <img src="../../../../static/images/home/activity5.png" alt="">
+                    <div class="activity_name">签到有礼</div>
                 </div>
             </div>
         </div>
@@ -139,21 +139,15 @@ export default {
                 'open_id': '19231654',
                 'store_id': '1001'
             };
-            // let formData = new FormData();
-            // formData.append('open_id', '19231654');
-            // formData.append('store_id', '1001');
-            var config = {
+            var headerConfig = {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             };
-            //axios.defaults.withCredentials=true;
-            axios.post(allget+"/c_account/sign_login/",formData,config).then((res) => {
-                console.log(res)
+            axios.post(allget+"/c_account/sign_login/",formData,headerConfig).then((res) => {
                 if(res.data.data.code == 1){
-                    _this.$store.state.sessionId = res.data.data.sessionId;
-                 //   document.cookie = "sessionId="+res.data.data.sessionId+";path=/"
-                    config.setCookie('sessionId',res.data.data.sessionId,14);
+                    _this.$store.state.session_id = res.data.data.session_id;
+                     config.setCookie('sessionid',res.data.data.session_id,14);
                 }else{
                     config.layerMsg(res.data.data.message, 2);
                 };
@@ -168,20 +162,18 @@ export default {
                 'avatar_url': 'http://img.dianliaoapp.com/DEBUG/12381/head/1545212384514.png',
                 'nick_name': '青葱少女'
             };
-            // let formData = new FormData();
-            // formData.append('avatar_url', '19231654');
-            // formData.append('nick_name', '1001');
             var config = {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    
                 }
             };
-            axios.defaults.withCredentials=true;
             axios.post(allget+"/c_account/update_user_data/",formData,config).then((res) => {
+                console.log(1111)
                 if(res.data.data.code == 1){
-
+                    console.log(7457454)
                 }else{
-                    config.layerMsg(res.data.data.message, 2);
+                    beasConfig.layerMsg(res.data.data.message, 2);
                 };
             }).catch(() => {
                 console.log('error');
@@ -222,10 +214,10 @@ export default {
             this.$router.replace({path:'/signIn'});
         },
         exchangeRecord(){
-            this.$router.replace({path:'/exchangeRecord'});
+            this.$router.replace({path:'/exchangeRecord',query: {recordPage:'1'}});
         },
         taskWall(){
-            this.$router.replace({path:'/taskWall'});
+            this.$router.replace({path:'/taskWall',query: {recordPage:'1'}});
         },
         forbidBack(){
             // if(config.getHashVReq('recordPage') && config.thirdParty().isWechat == true){
@@ -242,8 +234,8 @@ export default {
     mounted(){
         var _this = this;
         _this.$nextTick(() => {
-           // _this.login();
-            _this.updateInfo();
+            _this.login();
+            //_this.updateInfo();
             _this.banner1();
             _this.banner2();
         });

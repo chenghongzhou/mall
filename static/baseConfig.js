@@ -39,6 +39,8 @@ if (document.addEventListener) {
     document.addEventListener('DOMContentLoaded', calculatSeize, false);
     calculatSeize();
 }
+
+var khserver= "http://ybklocker.dev.uboxol.com";
 var config = {
 	khserver: "http://ybklocker.dev.uboxol.com",
 	tipMsgTime: null,//旧版本的提示
@@ -302,6 +304,6 @@ var config = {
 			secondTen: five,
 			secondBit: six
 		};
-	},
+	}
 };
 	
