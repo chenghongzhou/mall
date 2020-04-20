@@ -157,14 +157,15 @@ export default {
             });
        },
        integralRecord(){
-           this.$router.replace({path: '/integralRecord'});
+           var pervePage = this.$route.query.recordPage;
+           this.$router.replace({path: '/integralRecord',query: {recordPage:pervePage}});
        },
        forbidBack(){
             var _this = this;
             var prveUrl = localStorage.getItem('backName');
             var pervePage = this.$route.query.recordPage;
             if(prveUrl == '/' || pervePage == 1){
-                window.history.back()
+                _this.$router.replace({path:'/'});
             }else if(pervePage == 2){
                 _this.$router.replace({path:'/signIn'});
             }else if(pervePage == 3){

@@ -60,7 +60,7 @@ export default {
     methods:{
         forbidBack(){
             var pervePage = this.$route.query.recordPage;
-            this.$router.replace({path:'/orderDetail',query: {recordPage:pervePage}});
+            this.$router.replace({path:'/taskWall',query: {recordPage:pervePage}});
         },
     },
     destroyed(){
