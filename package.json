@@ -19,6 +19,7 @@
     "clipboard": "^2.0.6",
     "mint-ui": "^2.2.13",
     "opn": "^6.0.0",
+    "qs": "^6.9.3",
     "vue": "^2.5.2",
     "vue-awesome-mui": "^1.7.3",
     "vue-clipboard": "0.0.1",

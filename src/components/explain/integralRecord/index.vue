@@ -59,8 +59,21 @@ export default {
     },
     methods:{
         forbidBack(){
-            window.history.back()
+            var pervePage = this.$route.query.recordPage;
+            this.$router.replace({path:'/orderDetail',query: {recordPage:pervePage}});
         },
+    },
+    destroyed(){
+        window.removeEventListener('popstate', this.forbidBack, false);
+    },
+    mounted(){
+        var _this = this;
+      
+        _this.$nextTick(() => {
+           
+        });
+        config.isGoBack(_this.forbidBack);
+        
     }
 }
 </script>

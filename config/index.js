@@ -40,7 +40,7 @@ module.exports = {
     //     secure: false,
     //     changeOrigin: true,
     // }
-    //},
+    // },
     //webpack的编译环境
     //env: require('./dev.env'),
     // Various Dev Server settings

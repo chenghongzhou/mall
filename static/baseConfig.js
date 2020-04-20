@@ -304,6 +304,12 @@ var config = {
 			secondTen: five,
 			secondBit: six
 		};
-	}
+	},
+    isGoBack : function(forbidBack){
+        if (window.history && window.history.pushState) {
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', forbidBack,false);
+        };
+    }
 };
 	

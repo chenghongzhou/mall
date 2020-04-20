@@ -165,9 +165,11 @@ export default {
             var pervePage = this.$route.query.recordPage;
             if(prveUrl == '/' || pervePage == 1){
                 window.history.back()
-            }else{
+            }else if(pervePage == 2){
                 _this.$router.replace({path:'/signIn'});
-            };
+            }else if(pervePage == 3){
+                _this.$router.replace({path:'/orderDetail',query: {recordPage:pervePage}});
+            }
         },
     },
     destroyed(){
@@ -178,10 +180,7 @@ export default {
         _this.$nextTick(() => {
             _this.banner();
         });
-        if (window.history && window.history.pushState) {
-            history.pushState(null, null, document.URL);
-            window.addEventListener('popstate', _this.forbidBack,false);
-        };
+        config.isGoBack(_this.forbidBack);
     }
 }
 </script>

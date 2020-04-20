@@ -5,14 +5,13 @@ import App from './App';
 import router from './router';
 import 'babel-polyfill';
 import store from './vuex/store';
+import axios from 'axios';
 import Loading from "./components/loading";
 import VueClipboard from 'vue-clipboard2';
-Vue.use(Loading);
-Vue.use(VueClipboard);
+Vue.use(Loading,VueClipboard)
+Vue.prototype.$axios = axios;
+
 Vue.config.productionTip = false;
-
-
-
 router.afterEach((to, from) => {
     if(to.meta.title){
         document.title = to.meta.title;

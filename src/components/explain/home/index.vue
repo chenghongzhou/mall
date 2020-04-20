@@ -116,7 +116,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import { allget } from '../../../api/api.js';
 import '../../../../static/js/swiper.js';
 import '../../../../static/css/swiper-3.4.2.min.css';
@@ -144,10 +143,10 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             };
-            axios.post(allget+"/c_account/sign_login/",formData,headerConfig).then((res) => {
+            _this.$axios.post(allget+"/c_account/sign_login/",formData,headerConfig).then((res) => {
                 if(res.data.data.code == 1){
                     _this.$store.state.session_id = res.data.data.session_id;
-                     config.setCookie('sessionid',res.data.data.session_id,14);
+                     config.setCookie('open_id',formData.open_id,14);
                 }else{
                     config.layerMsg(res.data.data.message, 2);
                 };
@@ -223,8 +222,10 @@ export default {
             // if(config.getHashVReq('recordPage') && config.thirdParty().isWechat == true){
             //     WeixinJSBridge.call('closeWindow');
             // }
-             if(config.thirdParty().isWechat == true){
+            if(config.thirdParty().isWechat == true){
                 WeixinJSBridge.call('closeWindow');
+            }else{
+                return false;
             }
         }
     },

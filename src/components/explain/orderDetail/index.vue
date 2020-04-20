@@ -57,10 +57,20 @@
                 <div>兑换时间：2020-04-17 15:57:25</div>
             </div>
 
-            <div class="btn"></div>
+            <div class="btn">确认收货</div>
         </div>
 
-
+        <div class="slideParty" @click="slideMask = true"></div>
+        <div class="slidePartyBox" v-if="slideMask">
+            <div class="slidePartyBg">
+                <div class="slideContent">
+                    <div class="slideList" @click="goOtherPage(1)">回首页<img src="../../../../static/images/orderDeatil/go_home.png" alt=""></div>
+                    <div class="slideList" @click="goOtherPage(2)">赚积分<img src="../../../../static/images/orderDeatil/get_intergral.png" alt=""></div>
+                    <div class="slideList">联系客服<img src="../../../../static/images/orderDeatil/ph_Customer.png" alt=""></div>
+                    <div class="slideList" @click="slideMask = false">收起<img src="../../../../static/images/orderDeatil/close_slide.png" alt=""></div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -68,16 +78,33 @@
 export default {
     data(){
         return {
-
+            slideMask: false,
         }
     },
     methods: {
+        goOtherPage(num){
+            if(num == 1){  //去首页
+                this.$router.replace({path:'/'});
+            }else if(num == 2){
+                this.$router.replace({path:'/taskWall',query: {recordPage:'3'}});
+            }
+        },
         forbidBack(){
-            window.history.back()
-        }
+            var _this = this;
+            var pervePage = _this.$route.query.recordPage;
+            _this.$router.replace({path:'/exchangeRecord',query: {recordPage:pervePage}});
+        },
+    },
+    destroyed(){
+        window.removeEventListener('popstate', this.forbidBack, false);
     },
     mounted(){
-
+        var _this = this;
+        config.isGoBack(_this.forbidBack);
+        _this.$nextTick(() => {
+           
+        });
+        
     }
 }
 </script>

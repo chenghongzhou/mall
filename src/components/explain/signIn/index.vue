@@ -98,7 +98,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import { allget } from '../../../api/api.js';
 export default {
     data(){
@@ -124,19 +123,18 @@ export default {
             var formData = {
                 'store_id': '1001'
             };
-            // let formData = new FormData();
-            // formData.append('store_id', '1001');
+            var sessionid = config.getCookie('sessionid') || '';
             var headerConfig = {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    'open_id': sessionid
                 }
             };
-           // axios.defaults.withCredentials=true;
-            axios.post(allget+"/sign/sign_once/",formData,headerConfig).then((res) => {
-                if(res.data.data.code == 1){
-                    _this.signMask = true;
+            _this.$axios.post(allget+"/sign/sign_once/",formData,headerConfig).then((res) => {
+                if(res.data.code == 1){
+                   // _this.signMask = true;
                 }else{
-                    config.layerMsg(res.data.data.message, 2);
+                   // config.layerMsg(res.data.data.message, 2);
                 };
             }).catch(() => {
                 console.log('error');
@@ -146,8 +144,12 @@ export default {
             this.$router.replace({path:'/'});
         }
     },
+    destroyed(){
+        window.removeEventListener('popstate', this.forbidBack, false);
+    },
     mounted(){
         var _this = this;
+        config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
             _this.signIn();
         })

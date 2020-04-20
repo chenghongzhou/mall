@@ -49,17 +49,18 @@ export default {
             _this.tabIndex = index;
         },
         orderDetail(){
-            this.$router.replace({path:'/orderDetail'});
+            var pervePage = this.$route.query.recordPage;
+            this.$router.replace({path:'/orderDetail',query: {recordPage:pervePage}});
         },
         forbidBack(){
             var _this = this;
             var prveUrl = localStorage.getItem('backName');
             var pervePage = this.$route.query.recordPage;
-            if(prveUrl == '/' || pervePage == 1){
-                window.history.back()
-            }else{
+            if(prveUrl == '/' || pervePage == 1 || pervePage == 3){
+                _this.$router.replace({path:'/'});
+            }else if(pervePage == 2){
                 _this.$router.replace({path:'/signIn'});
-            };
+            }
         },
     },
     destroyed(){
@@ -67,10 +68,7 @@ export default {
     },
     mounted(){
         var _this = this;
-        if (window.history && window.history.pushState) {
-            history.pushState(null, null, document.URL);
-            window.addEventListener('popstate', _this.forbidBack,false);
-        };
+        config.isGoBack(_this.forbidBack);
     }
 }
 </script>
