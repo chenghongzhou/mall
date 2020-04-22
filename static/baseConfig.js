@@ -304,9 +304,9 @@ var config = {
 		};
 	},
     isGoBack : function(forbidBack){
-        if(appVersion.ios==true){
+        if(!!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)){
             return false;
-        }
+        };
         if (window.history && window.history.pushState) {
             history.pushState(null, null, document.URL);
             window.addEventListener('popstate', forbidBack,false);
