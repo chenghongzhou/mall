@@ -16,7 +16,7 @@
     background: #ffffff;
 }
 .top_close{
-    width: 0.26rem;
+    width: 0.16rem;
     height: 0.28rem;
     background: url("../../../../static/images/home/top_close.png") center no-repeat;
     background-size: contain;
@@ -32,13 +32,13 @@
     padding: 0.25rem 0;
     box-sizing: border-box;
     background: #ffffff;
-    border-top: 0.01rem solid #f1f1f1;
+    border-top: 1px solid #f1f1f1;
 }
 .my_intergal_box{
     float: left;
     width: 49.5%;
     height: 0.74rem;
-    border-right: 0.03rem solid #f1f1f1;
+    border-right: 1px solid #f1f1f1;
 }
 .intergral_icon{
     width: 0.65rem;
@@ -104,7 +104,7 @@
 }
 .list{
     width: 100%;
-    border-bottom: 0.01rem solid #f1f1f1;
+    border-bottom: 1px solid #f1f1f1;
     position: relative;
     padding: 0.2rem 0;
     box-sizing: border-box;
@@ -135,7 +135,7 @@
     right: 0.4rem;
 }
 .list_intergral_icon{
-    width: 0.30rem;
+    width: 0.35rem;
     height: 0.32rem;
     background: url("../../../../static/images/home/integral.png") center no-repeat;
     background-size: contain;

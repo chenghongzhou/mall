@@ -40,9 +40,7 @@ if (document.addEventListener) {
     calculatSeize();
 }
 
-var khserver= "http://ybklocker.dev.uboxol.com";
 var config = {
-	khserver: "http://ybklocker.dev.uboxol.com",
 	tipMsgTime: null,//旧版本的提示
 	/*
 		layerMsg弹窗的提示的信息不做处理
@@ -231,7 +229,7 @@ var config = {
         var u = navigator.userAgent, app = navigator.appVersion;
         return {
             ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-        	android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+        	android: u.indexOf('Android') > -1 || u.indexOf('Linux') || u.indexOf('Adr') > -1, //android终端或uc浏览器
         };
 	   })(),
 	/*
@@ -306,6 +304,9 @@ var config = {
 		};
 	},
     isGoBack : function(forbidBack){
+        if(appVersion.ios==true){
+            return false;
+        }
         if (window.history && window.history.pushState) {
             history.pushState(null, null, document.URL);
             window.addEventListener('popstate', forbidBack,false);

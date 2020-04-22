@@ -60,7 +60,7 @@
             <div class="btn">确认收货</div>
         </div>
 
-        <div class="slideParty" @click="slideMask = true"></div>
+        <div class="slideParty" @click="slideMask = true" ref="pic" style="width:1.1rem;height:1.1rem"></div>
         <div class="slidePartyBox" v-if="slideMask">
             <div class="slidePartyBg">
                 <div class="slideContent">
@@ -79,6 +79,9 @@ export default {
     data(){
         return {
             slideMask: false,
+            position: { x: 0, y: 0 },
+            cx: '', cy: '',x:'',y:'',l:'',t:'',r:'',b:'',
+            
         }
     },
     methods: {
@@ -93,6 +96,60 @@ export default {
             var _this = this;
             var pervePage = _this.$route.query.recordPage;
             _this.$router.replace({path:'/exchangeRecord',query: {recordPage:pervePage}});
+        }, 
+        //基于vue的移动端Icon图标拖拽
+        down(event){
+            var _this = this;
+            var moveDiv = _this.$refs.pic;
+            this.position.x = moveDiv.offsetLeft;
+            this.position.y = moveDiv.offsetTop;
+            var touch;
+            if(event.touches){
+                touch = event.touches[0];
+            }else {
+                touch = event;
+            }
+            //光标起始位置
+            this.cx = touch.clientX; 
+            this.cy = touch.clientY;
+        },
+        move(event){
+            var _this = this;
+            var moveDiv = _this.$refs.pic;
+            var touch;
+            var tX = '';
+            var tY = '';
+            if(event.touches){
+                touch = event.touches[0];
+            }else {
+                touch = event;
+            }
+            tX = touch.clientX;
+            tY = touch.clientY;
+            event.preventDefault(); //阻止body滚动
+            //光标偏移量	
+            //DOM 运动边界判断
+            // if(this.curx>0){//向右
+            //     this.curx = Math.abs(this.curx)>this.r?this.r:this.curx;
+            // }else{ //向左
+            //     this.curx =  Math.abs(this.curx)>this.l?-this.l:this.curx;
+            // }
+            // if(this.cury>0){//向下
+            //     this.cury =  Math.abs(this.cury)>this.b?this.b:this.cury
+            // }else{ //向上
+            //     this.cury =  Math.abs(this.cury)>this.t?-this.t:this.cury
+            // }
+            tX>=this.w?tX = this.w - this.x/2:tX = tX;
+            tX<=0?tX = this.x:tX = tX;
+            tY>=this.h?tY = this.h - this.y:tY = tY;
+            tY<=0?tY = this.y/2:tY = tY;
+            console.log(touch.clientX,touch.clientY,this.w)
+            moveDiv.style.left = (tX - this.x/2) +'px';
+            moveDiv.style.top = (tY - this.y/2) +'px';
+         
+        },
+        end(){
+
         },
     },
     destroyed(){
@@ -100,10 +157,20 @@ export default {
     },
     mounted(){
         var _this = this;
+        let moveDiv =_this.$refs.pic;
+        this.w = document.documentElement.clientWidth || document.body.clientWidth;
+        this.h = document.documentElement.clientHeight || document.body.clientHeight;
+        this.x = moveDiv.offsetWidth;
+        this.y = moveDiv.offsetHeight;
+        //使用二级事件绑定，解决浏览器警告，可自行查询
+        moveDiv.addEventListener('touchstart', this.down, { passive: false })
+        moveDiv.addEventListener('touchmove', this.move, { passive: false })
+        moveDiv.addEventListener('touchend', this.end, { passive: false })
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() => {
-           
+            
         });
+
         
     }
 }

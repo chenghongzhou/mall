@@ -14,10 +14,10 @@
     box-sizing: border-box;
     position: relative;
     background: #ffffff;
-    border-bottom: 0.01rem solid #f1f1f1;
+    border-bottom: 1px solid #f1f1f1;
 }
 .top_close{
-    width: 0.26rem;
+    width: 0.16rem;
     height: 0.28rem;
     background: url("../../../../static/images/home/top_close.png") center no-repeat;
     background-size: contain;
@@ -61,7 +61,7 @@
 }
 .tab_box div span i{
     width: 0.56rem;
-    height: 0.03rem;
+    height: 0.05rem;
     background: #ff4532;
     position: absolute;
     bottom: -0.38rem;
@@ -105,7 +105,7 @@
 .order_info_box{
     width: 100%;
     margin-top: 0.2rem;
-    border-bottom: 0.01rem solid #f1f1f1;
+    border-bottom: 1px solid #f1f1f1;
     overflow: hidden;
     position: relative;
 }
@@ -145,7 +145,7 @@
     bottom: 0.3rem;
 }
 .money_icon{
-    width: 0.35rem;
+    width: 0.4rem;
     height: 0.35rem;
     background: url("../../../../static/images/home/integral.png") center no-repeat;
     background-size: contain;

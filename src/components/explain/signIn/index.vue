@@ -5,7 +5,7 @@
             每日签到
         </div>
         <div class="header">
-           <img src="../../../../static/images/home/my_img.png" alt="" class="my_img">
+           <div class="my_img"><img src="../../../../static/images/home/my_img.png" alt=""></div>
            <div class="my_info">
                <div class="my_name">青松少女</div>
                <div class="my_money">1212<i class="money_icon"></i></div>
@@ -37,9 +37,9 @@
             </div>
         </div>
         <div class="tab">
-            <div @click="handTab(1)" :class="{'tab_active':tabIndex == 1}"><span>今日排行<i v-if="tabIndex == 1"></i></span></div>
-            <div @click="handTab(2)" :class="{'tab_active':tabIndex == 2}"><span>本月排行<i v-if="tabIndex == 2"></i></span></div>
-            <div @click="handTab(3)" :class="{'tab_active':tabIndex == 3}"><span>总排行<i v-if="tabIndex == 3"></i></span></div>
+            <div :class="{'tab_active':tabIndex == 1}" @click="handTab(1)" ><span>今日排行<i v-if="tabIndex == 1"></i></span></div>
+            <div :class="{'tab_active':tabIndex == 2}" @click="handTab(2)" ><span>本月排行<i v-if="tabIndex == 2"></i></span></div>
+            <div :class="{'tab_active':tabIndex == 3}" @click="handTab(3)" ><span>总排行<i v-if="tabIndex == 3"></i></span></div>
         </div>
         <div style="width:100%;height:0.2rem"></div>
         <div class="list_box">
@@ -107,9 +107,9 @@ export default {
         }
     },
     methods: {
-        handTab(index){
+        handTab(num){
             var _this = this;
-            _this.tabIndex = index;
+            _this.tabIndex = num;
         },
         exchangeRecord(){
             this.$router.replace({path:'/exchangeRecord',query: {recordPage:'2'}});

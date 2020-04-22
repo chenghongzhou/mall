@@ -37,7 +37,7 @@
     width: 100%;
     height: auto;
     padding: 0 0.3rem;
-    border-top: 0.01rem solid #f1f1f1;
+    border-top: 1px solid #f1f1f1;
     background: #ffffff;
     position: relative;
     overflow: hidden;
@@ -50,6 +50,17 @@
     float: left;
     margin-top: 0.18rem;
     margin-bottom: 0.18rem;
+    background: url("../../../../static/images/home/my_img_bg.png") center no-repeat;
+    background-size: contain;
+    position: relative;
+}
+.my_img img{
+    border-radius: 50%;
+    overflow: hidden;
+    width: 0.62rem;
+    height: 0.62rem;
+    margin:0.02rem auto;
+    display: block;
 }
 .my_info{
     margin-left: 0.15rem;
@@ -115,7 +126,7 @@
 .banner_box{
     width: 100%;
     height: auto;
-    border-top: 0.01rem solid #f0f0f0;
+    border-top: 1px solid #f1f1f1;
     overflow: hidden;
     background: #ffffff;
 }
@@ -131,16 +142,26 @@
 }
 .activity_box{
     width: 100%;
-    height: auto;
+    height: 1.8rem;
+    overflow: hidden;
+}
+.activity_scoll{
+    width: 100%;
+    height: 2rem;
     padding: 0.3rem 0.3rem 0.2rem 0.3rem;
     box-sizing: border-box;
     overflow-x: scroll;
     background: #ffffff;
+    -webkit-overflow-scrolling: touch;
+    display: -webkit-box;
+    display: box;
+    
 }
-.activity_box::-webkit-scrollbar {
-    display: none
+.activity_scoll::-webkit-scrollbar {
+    display: none;
+    
 }
-.activity_box::scrollbar {
+.activity_scoll::scrollbar {
     display: none
 }
 .activity_box_main{
@@ -178,6 +199,7 @@
     background: #ffffff;
     background-image:-webkit-linear-gradient(top,#ffffff,#f4f4f4);
     background-image:linear-gradient(top,#ffffff,#f4f4f4);
+    padding-top: 0.1rem;
 }
 .activity_entra{
     width: 100%;
@@ -214,8 +236,13 @@
 }
 .contain_tab_box{
     width: 100%;
-    height: auto;
-    padding: 0.2rem 0 0.2rem 0.3rem;
+    height: 0.9rem;
+    overflow: hidden;
+}
+.contain_tab_scroll{
+    width: 100%;
+    height: 1.2rem;
+    padding: 0.15rem 0 0.2rem 0.3rem;
     overflow-x: scroll;
     box-sizing: border-box;
 }
@@ -257,7 +284,7 @@
     padding: 0.1rem 0.3rem;
     box-sizing: border-box;
 }
-.goods_list{
+/* .goods_list{
     float: left;
     margin-right: 0.2rem;
     width: 3.35rem;
@@ -266,7 +293,19 @@
     background-size: contain;
     position: relative;
     margin-bottom: 0.2rem;
+} */
+.goods_list{
+    float: left;
+    margin-right: 0.2rem;
+    width: 3.35rem;
+    height: 4.7rem;
+    position: relative;
+    margin-bottom: 0.2rem;
+    border-radius: 0.1rem;
+    background: #ffffff;
+    overflow: hidden;
 }
+
 .goods_list:nth-of-type(2n){
     margin-right: 0;
 }
@@ -289,20 +328,25 @@
     height: 2.5rem;
     display: block;
     margin: 0 auto;
-    padding-top: 0.15rem;
+    /* padding-top: 0.15rem; */
     box-sizing: border-box;
 }
 .goods img{
-    width: 1.38rem;
-    height: 2.12rem;
+    width: 2.5rem;
+    height: 2.5rem;
     margin: 0 auto;
     display: block;
 }
 .goods_name{
     font-size: 0.3rem;
-    text-indent: 0.2rem;
+    margin-right: 0.2rem;
+    margin-left: 0.2rem;
     color: #2b2b2b;
     font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
 }
 .goods_old_price{
     font-size: 0.2rem;
@@ -310,26 +354,37 @@
     color: #c1c1c1;
     font-weight: bold;
     text-decoration: line-through;
+    margin-top: 0.1rem;
+    position: absolute;
+    left: 0;
+    bottom: 1.02rem;
 }
 .goods_now_price{
-    font-size: 0.26rem;
+    font-size: 0.2rem;
     margin-left: 0.2rem;
     font-weight: bold;
     color: #ee4532;
     position: relative;
+    position: absolute;
+    left: 0;
+    bottom: 0.68rem;
+}
+.goods_now_price span{
+    font-size: 0.28rem;
+    font-weight: bold;
 }
 .buy_btn{
-    background: url("../../../../static/images/home/buy_btn.png") center no-repeat;
-    background-size: contain;
-    width: 1.28rem;
-    position: absolute;
-    bottom: 0rem;
-    right: 0.2rem;
-    font-size: 0.24rem;
+    width:100%;
+    height: 0.62rem;
+    background: #ee4532;
     color: #ffffff;
     text-align: center;
     padding: 0.1rem 0;
     box-sizing: border-box;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size: 0.26rem;
 }
 .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
     bottom: 0px !important;

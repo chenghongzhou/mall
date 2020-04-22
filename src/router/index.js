@@ -7,6 +7,7 @@ const exchangeRecord = () => import('../components/explain/exchangeRecord/index.
 const taskWall = () => import('../components/explain/taskWall/index.vue');  //赚积分
 const integralRecord = () => import('../components/explain/integralRecord/index.vue');  //积分记录
 const orderDetail = () => import('../components/explain/orderDetail/index.vue');  //订单详情
+const goodDetail = () => import('../components/explain/goodDetail/index.vue');  //商品详情
 Vue.use(Router);
 export default new Router({
   routes: [
@@ -17,5 +18,6 @@ export default new Router({
     {path: '/taskWall',component: taskWall,name: taskWall,meta:{title: '赚积分'},},
     {path: '/integralRecord',component: integralRecord,name: integralRecord,meta:{title: '积分记录'},},
     {path: '/orderDetail',component: orderDetail,name: orderDetail,meta:{title: '订单详情'},},
+    {path: '/goodDetail',component: goodDetail,name: goodDetail,meta:{title: '商品详情'},},
   ]
 })
