@@ -164,7 +164,7 @@ export default {
             var _this = this;
             var prveUrl = localStorage.getItem('backName');
             var pervePage = this.$route.query.recordPage;
-            if(prveUrl == '/' || pervePage == 1){
+            if(prveUrl == '/' || pervePage == 1 || !pervePage){
                 _this.$router.replace({path:'/'});
             }else if(pervePage == 2){
                 _this.$router.replace({path:'/signIn'});

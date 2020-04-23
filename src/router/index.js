@@ -8,6 +8,8 @@ const taskWall = () => import('../components/explain/taskWall/index.vue');  //�
 const integralRecord = () => import('../components/explain/integralRecord/index.vue');  //积分记录
 const orderDetail = () => import('../components/explain/orderDetail/index.vue');  //订单详情
 const goodDetail = () => import('../components/explain/goodDetail/index.vue');  //商品详情
+const buyGood = () => import('../components/explain/buyGood/index.vue');  //确认兑换
+const addressManagement = () => import('../components/explain/addressManagement/index.vue');  //收货地址
 Vue.use(Router);
 export default new Router({
   routes: [
@@ -19,5 +21,7 @@ export default new Router({
     {path: '/integralRecord',component: integralRecord,name: integralRecord,meta:{title: '积分记录'},},
     {path: '/orderDetail',component: orderDetail,name: orderDetail,meta:{title: '订单详情'},},
     {path: '/goodDetail',component: goodDetail,name: goodDetail,meta:{title: '商品详情'},},
+    {path: '/buyGood',component: buyGood,name: buyGood,meta:{title: '确认兑换'},},
+    {path: '/addressManagement',component: addressManagement,name: addressManagement,meta:{title: '收货地址'},},
   ]
 })
