@@ -17,7 +17,7 @@
                 <div class="btns">
                     <div class="set_default"><i></i>默认地址</div>
                     <div class="operation">
-                        <div class="edit"></div><div class="delet"></div>
+                        <div class="edit" @click="handleEdit()"></div><div class="delet"></div>
                     </div>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="btns">
                     <div class="set_default set_default_default"><i class="default"></i>默认地址</div>
                     <div class="operation">
-                        <div class="edit"></div><div class="delet"></div>
+                        <div class="edit" @click="handleEdit()"></div><div class="delet"></div>
                     </div>
                 </div>
             </div>
@@ -46,9 +46,12 @@ export default {
         }
     },
     methods: {
+      handleEdit(){
+          this.$router.replace({path:'/addressManagement/edit'});
+      },
       forbidBack(){
-            this.$router.replace({path:'/buyGood'});
-        }
+          this.$router.replace({path:'/buyGood'});
+      }
     },
     destroyed(){
         window.removeEventListener('popstate', this.forbidBack, false);

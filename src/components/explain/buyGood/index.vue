@@ -83,7 +83,7 @@ export default {
             };
         },
         goAddress(){
-            this.$router.replace({path:'/addressManagement'});
+            this.$router.replace({path:'/addressManagement/index'});
         },
         goTaskWall(){
             this.$router.replace({path:'/taskWall'});

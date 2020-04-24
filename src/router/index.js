@@ -9,7 +9,10 @@ const integralRecord = () => import('../components/explain/integralRecord/index.
 const orderDetail = () => import('../components/explain/orderDetail/index.vue');  //订单详情
 const goodDetail = () => import('../components/explain/goodDetail/index.vue');  //商品详情
 const buyGood = () => import('../components/explain/buyGood/index.vue');  //确认兑换
-const addressManagement = () => import('../components/explain/addressManagement/index.vue');  //收货地址
+
+const addressManagement = () => import('../components/explain/addressManagement/main.vue');  //收货地址
+const addressIndex = () => import('../components/explain/addressManagement/index.vue');  //收货地址
+const addressEdit = () => import('../components/explain/addressManagement/edit.vue');  //编辑收货地址
 Vue.use(Router);
 export default new Router({
   routes: [
@@ -23,5 +26,12 @@ export default new Router({
     {path: '/goodDetail',component: goodDetail,name: goodDetail,meta:{title: '商品详情'},},
     {path: '/buyGood',component: buyGood,name: buyGood,meta:{title: '确认兑换'},},
     {path: '/addressManagement',component: addressManagement,name: addressManagement,meta:{title: '收货地址'},},
+    {
+        path: '/addressManagement',component: addressManagement,name: addressManagement,
+        children: [
+           {path: '/addressManagement/index',component: addressIndex,name: addressIndex,meta:{title: '收货地址'}}, 
+           {path: '/addressManagement/edit',component: addressEdit,name: addressEdit,meta:{title: '编辑收货地址'}}, 
+        ]
+    }
   ]
 })
