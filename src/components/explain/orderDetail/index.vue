@@ -60,7 +60,7 @@
             <div class="btn">确认收货</div>
         </div>
 
-        <div class="slideParty" @click="slideMask = true" ref="pic" style="width:1.1rem;height:1.1rem"></div>
+        <div class="slideParty" @click="slideMask = true" ref="pic" style="right:0.1rem;top:60%"></div>
         <div class="slidePartyBox" v-if="slideMask">
             <div class="slidePartyBg">
                 <div class="slideContent">
@@ -114,42 +114,71 @@ export default {
             this.cy = touch.clientY;
         },
         move(event){
-            var _this = this;
-            var moveDiv = _this.$refs.pic;
-            var touch;
-            var tX = '';
-            var tY = '';
+            let moveDiv = this.$refs.pic;
+            let touch;
             if(event.touches){
                 touch = event.touches[0];
             }else {
                 touch = event;
             }
-            tX = touch.clientX;
-            tY = touch.clientY;
             event.preventDefault(); //阻止body滚动
-            //光标偏移量	
+            //光标偏移量
+            this.curx = touch.clientX - this.cx;
+            this.cury = touch.clientY - this.cy;
             //DOM 运动边界判断
-            // if(this.curx>0){//向右
-            //     this.curx = Math.abs(this.curx)>this.r?this.r:this.curx;
-            // }else{ //向左
-            //     this.curx =  Math.abs(this.curx)>this.l?-this.l:this.curx;
-            // }
-            // if(this.cury>0){//向下
-            //     this.cury =  Math.abs(this.cury)>this.b?this.b:this.cury
-            // }else{ //向上
-            //     this.cury =  Math.abs(this.cury)>this.t?-this.t:this.cury
-            // }
-            tX>=this.w?tX = this.w - this.x/2:tX = tX;
-            tX<=0?tX = this.x:tX = tX;
-            tY>=this.h?tY = this.h - this.y:tY = tY;
-            tY<=0?tY = this.y/2:tY = tY;
-            console.log(touch.clientX,touch.clientY,this.w)
-            moveDiv.style.left = (tX - this.x/2) +'px';
-            moveDiv.style.top = (tY - this.y/2) +'px';
-         
+            if(this.curx>0){//向右
+                this.curx = Math.abs(this.curx)>this.r?this.r:this.curx;
+            }else{ //向左
+                this.curx =  Math.abs(this.curx)>this.l?-this.l:this.curx;
+            }
+            if(this.cury>0){//向下
+                this.cury =  Math.abs(this.cury)>this.b?this.b:this.cury;
+            }else{ //向上
+                this.cury =  Math.abs(this.cury)>this.t?-this.t:this.cury;
+            }
+            //DOM 运动		
+            moveDiv.style.transform = `translate(${this.curx}px,${this.cury}px)`;
+    
         },
-        end(){
-
+        end(event){
+            var moveDiv = this.$refs.pic;
+            //光标松开,记录盒子的位移。
+            var aa = '',bb = '',ax = '',by = '',transformArr = moveDiv.style.transform.match(/(-?\d+\.?\d+)/g);
+            if(transformArr.length<2){
+                aa = 0;  //获取x偏移量
+                bb = parseInt(transformArr[0]);  //获取y偏移量
+            }else{
+                aa = parseInt(transformArr[0]);
+                bb = parseInt(transformArr[1]);
+            };
+            ax = parseInt(this.position.x) + aa;  //DOMX轴偏移量
+            by = parseInt(this.position.y) + bb;  //DOMY轴偏移量
+            // 处理吸边
+            ax = ax>this.w/2?this.w-this.x:0;
+            //end 时，重绘DOM位置，并清空transform的值。
+            moveDiv.style.left = ax +'px';
+            moveDiv.style.top = by +'px';
+            moveDiv.style.transform = '';
+            //可移动边界判断
+            this.l = ax;
+            this.t = by;
+            this.r = this.w - this.l - this.x;
+            this.b = this.h - this.t - this.y;
+        },
+        moveInit(){
+            let moveDiv = this.$refs.pic;
+            this.w = document.documentElement.clientWidth || document.body.clientWidth;
+            this.h = document.documentElement.clientHeight || document.body.clientHeight;
+            this.x = moveDiv.offsetWidth;
+            this.y = moveDiv.offsetHeight;
+            //使用二级事件绑定，解决浏览器警告，可自行查询
+            moveDiv.addEventListener('touchstart', this.down, { passive: false })
+            moveDiv.addEventListener('touchmove', this.move, { passive: false })
+            moveDiv.addEventListener('touchend', this.end, { passive: false })
+            this.l = moveDiv.offsetLeft;
+            this.t = moveDiv.offsetTop;
+            this.r = this.w - this.l - this.x;
+            this.b = this.h - this.t - this.y;
         },
     },
     destroyed(){
@@ -157,18 +186,9 @@ export default {
     },
     mounted(){
         var _this = this;
-        let moveDiv =_this.$refs.pic;
-        this.w = document.documentElement.clientWidth || document.body.clientWidth;
-        this.h = document.documentElement.clientHeight || document.body.clientHeight;
-        this.x = moveDiv.offsetWidth;
-        this.y = moveDiv.offsetHeight;
-        //使用二级事件绑定，解决浏览器警告，可自行查询
-        moveDiv.addEventListener('touchstart', this.down, { passive: false })
-        moveDiv.addEventListener('touchmove', this.move, { passive: false })
-        moveDiv.addEventListener('touchend', this.end, { passive: false })
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() => {
-            
+            _this.moveInit();
         });
 
         

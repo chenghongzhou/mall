@@ -165,7 +165,7 @@ export default {
             _this.$axios.post(allget+"/c_account/sign_login/",formData,headerConfig).then((res) => {
                 if(res.data.data.code == 1){
                     _this.$store.state.session_id = res.data.data.session_id;
-                     config.setCookie('open_id',formData.open_id,14);
+                    config.setCookie('open_id',formData.open_id,14);
                 }else{
                     config.layerMsg(res.data.data.message, 2);
                 };
