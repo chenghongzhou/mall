@@ -38,7 +38,7 @@
                 <div class="intergral">合计(积分)：<i></i><span>1245</span></div>
                 <div class="money">合计(现金)：<i></i><font>￥</font><span>90</span></div>
             </div>
-            <div class="btn">立即兑换</div>
+            <div class="btn" @click="successMask = true">立即兑换</div>
         </div>
 
         <div class="mask" v-if="successMask">

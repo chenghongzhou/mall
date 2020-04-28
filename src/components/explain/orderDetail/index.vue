@@ -114,8 +114,8 @@ export default {
             this.cy = touch.clientY;
         },
         move(event){
-            let moveDiv = this.$refs.pic;
-            let touch;
+            var moveDiv = this.$refs.pic;
+            var touch;
             if(event.touches){
                 touch = event.touches[0];
             }else {
@@ -166,7 +166,7 @@ export default {
             this.b = this.h - this.t - this.y;
         },
         moveInit(){
-            let moveDiv = this.$refs.pic;
+            var moveDiv = this.$refs.pic;
             this.w = document.documentElement.clientWidth || document.body.clientWidth;
             this.h = document.documentElement.clientHeight || document.body.clientHeight;
             this.x = moveDiv.offsetWidth;
