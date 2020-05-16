@@ -43,7 +43,7 @@
                         <img src="../../../../static/images/home/activity3.png" alt="">
                         <div class="activity_name">阅读有赏</div>
                     </div>
-                    <div class="activity_list">
+                    <div class="activity_list" @click="goLuckDwraw()">
                         <img src="../../../../static/images/home/activity4.png" alt="">
                         <div class="activity_name">幸运转盘</div>
                     </div>
@@ -230,6 +230,9 @@ export default {
        },
         goSign(){
             this.$router.replace({path:'/signIn'});
+        },
+        goLuckDwraw(){
+            this.$router.replace({path:'/luckDraw'});
         },
         exchangeRecord(){
             this.$router.replace({path:'/exchangeRecord',query: {recordPage:'1'}});
