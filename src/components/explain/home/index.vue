@@ -39,7 +39,7 @@
                         <img src="../../../../static/images/home/activity2.png" alt="">
                         <div class="activity_name">推广链接</div>
                     </div>
-                    <div class="activity_list">
+                    <div class="activity_list" @click="read()">
                         <img src="../../../../static/images/home/activity3.png" alt="">
                         <div class="activity_name">阅读有赏</div>
                     </div>
@@ -230,6 +230,9 @@ export default {
        },
         goSign(){
             this.$router.replace({path:'/signIn'});
+        },
+        read(){
+            this.$router.replace({path:'/read'});
         },
         goLuckDwraw(){
             this.$router.replace({path:'/luckDraw'});
