@@ -224,7 +224,7 @@ export default {
                 pagination: ".swiper-p2",
                 autoplayDisableOnInteraction : false,
                 onSlideChangeEnd(swiper){
-
+                    
                 }
             });
        },
