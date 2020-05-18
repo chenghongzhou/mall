@@ -55,9 +55,7 @@
            <div class="get_play_change"></div>
            <div class="play_intru">每人每天5次，首次抽奖免费，再次抽奖20积分/次</div>
        </div>
-       <div class="bottom">
-           <div class="go_link"></div>
-       </div>
+       <footer-view></footer-view>
        <!--中奖是物品积分-->
         <div class="mask" v-if="maskCoupon">
             <div class="mask_main tanchuscale">

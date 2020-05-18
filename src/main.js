@@ -8,7 +8,9 @@ import store from './vuex/store';
 import axios from 'axios';
 import Loading from "./components/loading";
 import VueClipboard from 'vue-clipboard2';
-Vue.use(Loading,VueClipboard)
+import commonFooter from './components/explain/footer/index.vue';
+Vue.use(Loading,VueClipboard);
+Vue.component("footer-view",commonFooter);
 Vue.prototype.$axios = axios;
 
 Vue.config.productionTip = false;
