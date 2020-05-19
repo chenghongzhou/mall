@@ -12,6 +12,14 @@
     /* background-image:-webkit-linear-gradient(top,#ffffff,#f4f4f4);
     background-image:linear-gradient(top,#ffffff,#f4f4f4); */
     overflow-x: hidden;
+    /* padding-top: 2.12rem;
+    box-sizing: border-box; */
+}
+.header_part{
+    /* position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9; */
 }
 .top{
     width: 100%;

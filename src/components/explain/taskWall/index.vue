@@ -4,84 +4,55 @@
             <i class="top_close" @click="forbidBack()"></i>
             赚积分
         </div>
-        <div class="header_bg"></div>
         <div class="content">
-            <div class="header">
-                <div class="my_integral">我的积分</div>
-                <div class="my_integral_number">123465<i class="money_icon"></i><div class="exchage_integral"></div></div>
-                <div class="integral_record" @click="integralRecord()"></div>
-            </div>
-             <div class="banner_box swiper-container swiper-container1">
-                <div class="swiper-wrapper" style="width:100%;">
-                    <div class="banner swiper-slide">
-                            <img src="../../../../static/images/taskWall/banner.png" alt="">
-                        </div>
-                        <div class="banner swiper-slide">
-                            <img src="../../../../static/images/taskWall/banner.png" alt="">
-                        </div>
-                        <div class="banner swiper-slide">
-                            <img src="../../../../static/images/taskWall/banner.png" alt="">
-                        </div>
+            <div class="header_bg"></div>
+            <div class="content_info">
+                <div class="header">
+                    <div class="my_integral">我的积分</div>
+                    <div class="my_integral_number">123465<i class="money_icon"></i><div class="exchage_integral"></div></div>
+                    <div class="integral_record" @click="integralRecord()"></div>
                 </div>
-                <div class="swiper-pagination swiper-p1" slot="pagination"></div>
-            </div>
-            <div class="task_list_box">
-                <div class="task_list">
-                    <div class="task_list_top">每日任务<span>已完成5/10</span><div class="refresh"></div></div>
-                    <div class="list">
-                        <div class="task_img_bg"><img src="" alt=""></div>
-                        <div class="task_info">
-                            <div class="task_type_title">签到领积分</div>
-                            <div class="task_type_intr">喜欢公众号？去菜单栏签到吧~</div>
-                            <div class="task_money"><i></i>+100</div>
-                        </div>
-                        <div class="task_btn task_btn_goon">去完成</div>
-                        <div class="task_finish_status">已完成1/1</div>
+                <div class="banner_box swiper-container swiper-container1">
+                    <div class="swiper-wrapper" style="width:100%;">
+                        <div class="banner swiper-slide">
+                                <img src="../../../../static/images/taskWall/banner.png" alt="">
+                            </div>
+                            <div class="banner swiper-slide">
+                                <img src="../../../../static/images/taskWall/banner.png" alt="">
+                            </div>
+                            <div class="banner swiper-slide">
+                                <img src="../../../../static/images/taskWall/banner.png" alt="">
+                            </div>
                     </div>
-                    <div class="list">
-                        <div class="task_img_bg"><img src="" alt=""></div>
-                        <div class="task_info">
-                            <div class="task_type_title">签到领积分</div>
-                            <div class="task_type_intr">喜欢公众号？去菜单栏签到吧~</div>
-                            <div class="task_money"><i></i>+100</div>
-                        </div>
-                        <div class="task_btn task_btn_finish">领取奖励</div>
-                        <div class="task_finish_status">已完成<span>1/1</span></div>
-                    </div>
+                    <div class="swiper-pagination swiper-p1" slot="pagination"></div>
                 </div>
+                <div class="task_list_box">
+                    <div class="task_list">
+                        <div class="task_list_top">每日任务<span>已完成5/10</span><div class="refresh"></div></div>
+                        <div class="list">
+                            <div class="task_img_bg"><img src="" alt=""></div>
+                            <div class="task_info">
+                                <div class="task_type_title">签到领积分</div>
+                                <div class="task_type_intr">喜欢公众号？去菜单栏签到吧~</div>
+                                <div class="task_money"><i></i>+100</div>
+                            </div>
+                            <div class="task_btn task_btn_goon">去完成</div>
+                            <div class="task_finish_status">已完成1/1</div>
+                        </div>
+                        <div class="list">
+                            <div class="task_img_bg"><img src="" alt=""></div>
+                            <div class="task_info">
+                                <div class="task_type_title">签到领积分</div>
+                                <div class="task_type_intr">喜欢公众号？去菜单栏签到吧~</div>
+                                <div class="task_money"><i></i>+100</div>
+                            </div>
+                            <div class="task_btn task_btn_finish">领取奖励</div>
+                            <div class="task_finish_status">已完成<span>1/1</span></div>
+                        </div>
+                    </div>
 
-                <div class="task_list">
-                    <div class="task_list_top">新人任务<span>已完成5/10</span><div class="refresh"></div></div>
-                    <div class="list">
-                        <div class="task_img_bg"><img src="" alt=""></div>
-                        <div class="task_info">
-                            <div class="task_type_title">签到领积分</div>
-                            <div class="task_type_intr">喜欢公众号？去菜单栏签到吧~</div>
-                            <div class="task_money"><i></i>+100</div>
-                        </div>
-                        <div class="task_btn task_btn_resive">继续完成</div>
-                        <div class="task_finish_status">已完成0/1</div>
-                    </div>
-                    <div class="list">
-                        <div class="task_img_bg"><img src="" alt=""></div>
-                        <div class="task_info">
-                            <div class="task_type_title">签到领积分</div>
-                            <div class="task_type_intr">喜欢公众号？去菜单栏签到吧~</div>
-                            <div class="task_money"><i></i>+100</div>
-                        </div>
-                        <div class="task_btn">去完成</div>
-                        <div class="task_finish_status">已完成1/1</div>
-                    </div>
-                </div>
-                 <div class="task_list">
-                    <div class="task_list_top">任务集市<span>已完成5/10</span><div class="refresh"></div></div>
-                    <div class="task_tab_box">
-                        <div :class="{'active':tabIndex == 1}" @click="handleTab(1)">全部</div>
-                        <div :class="{'active':tabIndex == 2}" @click="handleTab(2)">看广告</div>
-                        <div :class="{'active':tabIndex == 3}" @click="handleTab(3)">办理财</div>
-                        <div :class="{'active':tabIndex == 4}" @click="handleTab(4)">玩游戏</div>
-                    </div>
-                    <div>
+                    <div class="task_list">
+                        <div class="task_list_top">新人任务<span>已完成5/10</span><div class="refresh"></div></div>
                         <div class="list">
                             <div class="task_img_bg"><img src="" alt=""></div>
                             <div class="task_info">
@@ -99,20 +70,50 @@
                                 <div class="task_type_intr">喜欢公众号？去菜单栏签到吧~</div>
                                 <div class="task_money"><i></i>+100</div>
                             </div>
-                            <div class="task_btn task_btn_goon">去完成</div>
+                            <div class="task_btn">去完成</div>
                             <div class="task_finish_status">已完成1/1</div>
                         </div>
                     </div>
+                    <div class="task_list">
+                        <div class="task_list_top">任务集市<span>已完成5/10</span><div class="refresh"></div></div>
+                        <div class="task_tab_box">
+                            <div :class="{'active':tabIndex == 1}" @click="handleTab(1)">全部</div>
+                            <div :class="{'active':tabIndex == 2}" @click="handleTab(2)">看广告</div>
+                            <div :class="{'active':tabIndex == 3}" @click="handleTab(3)">办理财</div>
+                            <div :class="{'active':tabIndex == 4}" @click="handleTab(4)">玩游戏</div>
+                        </div>
+                        <div>
+                            <div class="list">
+                                <div class="task_img_bg"><img src="" alt=""></div>
+                                <div class="task_info">
+                                    <div class="task_type_title">签到领积分</div>
+                                    <div class="task_type_intr">喜欢公众号？去菜单栏签到吧~</div>
+                                    <div class="task_money"><i></i>+100</div>
+                                </div>
+                                <div class="task_btn task_btn_resive">继续完成</div>
+                                <div class="task_finish_status">已完成0/1</div>
+                            </div>
+                            <div class="list">
+                                <div class="task_img_bg"><img src="" alt=""></div>
+                                <div class="task_info">
+                                    <div class="task_type_title">签到领积分</div>
+                                    <div class="task_type_intr">喜欢公众号？去菜单栏签到吧~</div>
+                                    <div class="task_money"><i></i>+100</div>
+                                </div>
+                                <div class="task_btn task_btn_goon">去完成</div>
+                                <div class="task_finish_status">已完成1/1</div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
+                <div class="footer">
+                    <img src="../../../../static/images/taskWall/intr.png" alt="">
+                </div>
             </div>
-
-            <div class="footer">
-                <img src="../../../../static/images/taskWall/intr.png" alt="">
-            </div>
-
         </div>
-
+        <footer-view></footer-view>  
          <div class="mask" v-if="signMask">
 			<div class="mask_main">
 				<div class="box tanchuscale">

@@ -7,7 +7,7 @@
 }
 .top{
     width: 100%;
-    height: auto;
+    height: 0.96rem;
     padding: 0.3rem;
     font-size: 0.36rem;
     text-align: center;
@@ -31,14 +31,15 @@
     background: url("../../../../static/images/taskWall/header.png") center no-repeat;
     background-size: contain;
 }
-.content{
+.content_info{
     width: 100%;
     height: auto;
-    position: absolute;
+    /* position: absolute;
     top: 1.08rem;
-    left: 0;
+    left: 0; */
     padding: 0 0.3rem;
     box-sizing: border-box;
+    margin-top: -5.7rem;
 }
 .header{
     width: 100%;

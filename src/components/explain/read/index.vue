@@ -38,6 +38,8 @@
                </li>
            </ul>
        </div>
+
+       <footer-view></footer-view>
     </div>
 </template>
 
