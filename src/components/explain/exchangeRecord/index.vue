@@ -58,8 +58,12 @@ export default {
             var pervePage = this.$route.query.recordPage;
             if(prveUrl == '/' || pervePage == 1 || pervePage == 3){
                 _this.$router.replace({path:'/'});
-            }else if(pervePage == 2){
+            }else if(pervePage == 2){//从签到进去
                 _this.$router.replace({path:'/signIn'});
+            }else if(pervePage == 4){  //从阅读有礼进去
+                _this.$router.replace({path:'/read'});
+            }else if(pervePage == 5){  //从转盘进去
+                _this.$router.replace({path:'/luckDraw'});
             }
         },
     },

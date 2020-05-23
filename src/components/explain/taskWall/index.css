@@ -7,7 +7,7 @@
 }
 .top{
     width: 100%;
-    height: auto;
+    height: 0.96rem;
     padding: 0.3rem;
     font-size: 0.36rem;
     text-align: center;
@@ -31,13 +31,12 @@
     background: url("../../../../static/images/taskWall/header.png") center no-repeat;
     background-size: contain;
 }
-.content{
+.content_info{
     width: 100%;
     height: auto;
-    position: absolute;
-    top: 1.08rem;
-    left: 0;
+    
     box-sizing: border-box;
+    margin-top: -5.41rem;
 }
 .header{
     width: 100%;
@@ -75,7 +74,7 @@
     width: 0.66rem;
     height: 0.98rem;
     position: absolute;
-    top: 0.3rem;
+    top: 0.2rem;
     right: 1rem;
     background: url("../../../../static/images/taskWall/integral_record_icon.png") center no-repeat;
     background-size: contain;
@@ -84,7 +83,7 @@
     width: 0.66rem;
     height: 0.98rem;
     position: absolute;
-    top: 0.3rem;
+    top: 0.2rem;
     right: 0.3rem;
     background: url("../../../../static/images/taskWall/integral_record_intru.png") center no-repeat;
     background-size: contain;
@@ -197,7 +196,7 @@
     width: 1.5rem;
     position: absolute;
     top: 0.48rem;
-    right: 0.3rem;
+    right: 0.2rem;
     font-size: 0.24rem;
     padding: 0.16rem 0;
     color: #ffffff;
@@ -241,12 +240,12 @@
     box-sizing: border-box;
     float: left;
     font-size: 0.36rem;
-    color: #2b2b2b;
+    color: #ffffff;
+    background: #ff4532;
     text-align: center;
     font-weight: bold;
     padding: 0.2rem 0;
     margin-right: 0.1rem;
-    background: #ffffff;
     border-top-left-radius: 0.15rem;
     border-top-right-radius: 0.15rem;
 }
@@ -254,9 +253,9 @@
     margin-right: 0;
 }
 .task_tab_box div.active{
-    font-weight: bold;
-    color: #ffffff;
-    background: #ff4532;
+    
+    color: #2b2b2b;
+    background: #ffffff;
 }
 .task_tab_box div i{
     width: 0.3rem;
@@ -264,23 +263,24 @@
     display: inline-block;
     vertical-align: middle;
     margin-right: 0.1rem;
+    margin-top: -0.05rem;
 }
 .task_icon{
-    background: url("../../../../static/images/taskWall/task_icon.png") center no-repeat;
+    background: url("../../../../static/images/taskWall/task_icon_active.png") center no-repeat;
     background-size: contain;
 }
 .task_icon_active{
-    background: url("../../../../static/images/taskWall/task_icon_active.png") center no-repeat;
+    background: url("../../../../static/images/taskWall/task_icon.png") center no-repeat;
     background-size: contain;
 }
 .task_tab_box div .task_store_icon{
     width: 0.38rem;
-    background: url("../../../../static/images/taskWall/task_store_icon.png") center no-repeat;
+    background: url("../../../../static/images/taskWall/task_store_icon_active.png") center no-repeat;
     background-size: contain;
 }
 .task_tab_box div .task_store_icon_active{
     width: 0.38rem;
-    background: url("../../../../static/images/taskWall/task_store_icon_active.png") center no-repeat;
+    background: url("../../../../static/images/taskWall/task_store_icon.png") center no-repeat;
     background-size: contain;
 }
 .footer{
@@ -495,4 +495,7 @@
     position: absolute;
     left: 1.9rem;
     top: 0.25rem;
+}
+.every_sigin .task_info{
+    margin-top:0.15rem;
 }

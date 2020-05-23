@@ -14,6 +14,8 @@ const addressManagement = () => import('../components/explain/addressManagement/
 const addressIndex = () => import('../components/explain/addressManagement/index.vue');  //收货地址
 const addressEdit = () => import('../components/explain/addressManagement/edit.vue');  //编辑收货地址
 const luckDraw = () => import('../components/explain/luckDraw/index.vue');  //抽奖
+const read = () => import('../components/explain/read/index.vue');  //阅读有赏
+const poster = () => import('../components/explain/poster/index.vue');  //海报
 Vue.use(Router);
 export default new Router({
   routes: [
@@ -27,7 +29,9 @@ export default new Router({
     {path: '/goodDetail',component: goodDetail,name: goodDetail,meta:{title: '商品详情'},},
     {path: '/buyGood',component: buyGood,name: buyGood,meta:{title: '确认兑换'},},
     {path: '/addressManagement',component: addressManagement,name: addressManagement,meta:{title: '收货地址'},},
-    {path: '/luckDraw',component: luckDraw,name: luckDraw,meta:{title: '抓盘抽奖'},},
+    {path: '/luckDraw',component: luckDraw,name: luckDraw,meta:{title: '转盘抽奖'},},
+    {path: '/read',component: read,name: read,meta:{title: '阅读有礼'},},
+    {path: '/poster',component: poster,name: poster,meta:{title: '分享海报'},},
     {
         path: '/addressManagement',component: addressManagement,name: addressManagement,
         children: [
