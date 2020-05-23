@@ -12,7 +12,7 @@
                     <div class="intergal_msg">累计领取</div>
                 </div>
             </div>
-            <div class="gift_box">
+            <div class="gift_box" @click="goHome()">
                 <img src="../../../../static/images/intergral/gift.png" alt="" class="gift_icon">
                 <div class="intergal_my_box">
                     <div class="gift_exchange">福利兑换</div>
@@ -58,6 +58,9 @@ export default {
         }
     },
     methods:{
+        goHome(){
+            this.$router.replace({path:'/'});
+        },
         forbidBack(){
             var pervePage = this.$route.query.recordPage;
             this.$router.replace({path:'/taskWall',query: {recordPage:pervePage}});
@@ -68,7 +71,6 @@ export default {
     },
     mounted(){
         var _this = this;
-      
         _this.$nextTick(() => {
            
         });

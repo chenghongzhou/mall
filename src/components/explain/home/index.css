@@ -143,6 +143,12 @@
 .activity_box{
     width: 100%;
     height: 1.8rem;
+    background: #ffffff;
+}
+.activity_center{
+    width: 6.9rem;
+    margin: 0 auto;
+    height: 1.8rem;
     overflow: hidden;
 }
 .activity_scoll{
@@ -165,7 +171,8 @@
     display: none
 }
 .activity_box_main{
-    width: 8rem;
+    /* width: 8rem; */
+    width: 100%;
     height: 100%;
     overflow: hidden;
     background: #ffffff;
@@ -176,6 +183,15 @@
     text-align: center;
     margin-right: 0.48rem;
     position: relative;
+}
+.activity_hot{
+    width: 0.65rem;
+    height: 0.32rem;
+    background: url("../../../../static/images/taskWall/activity_hot.png") center no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 0rem;
+    right: -0.18rem;
 }
 .activity_list:last-of-type{
     margin-right: 0;

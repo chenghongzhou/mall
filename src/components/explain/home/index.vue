@@ -29,27 +29,26 @@
            <div class="swiper-pagination swiper-p1" slot="pagination"></div>
        </div>
         <div class="activity_box">
-            <div class="activity_scoll">
+            <div class="activity_center">
+                <div class="activity_scoll">
                 <div class="activity_box_main" ref="activityBoxMain">
-                    <div class="activity_list" ref="activityChild" @click="goSign()">
-                        <img src="../../../../static/images/home/activity1.png" alt="">
-                        <div class="activity_name">每日签到</div>
-                    </div>
-                    <div class="activity_list">
-                        <img src="../../../../static/images/home/activity2.png" alt="">
-                        <div class="activity_name">推广链接</div>
-                    </div>
-                    <div class="activity_list">
-                        <img src="../../../../static/images/home/activity3.png" alt="">
-                        <div class="activity_name">阅读有赏</div>
-                    </div>
-                    <div class="activity_list" @click="goLuckDwraw()">
-                        <img src="../../../../static/images/home/activity4.png" alt="">
-                        <div class="activity_name">幸运转盘</div>
-                    </div>
-                    <div class="activity_list">
-                        <img src="../../../../static/images/home/activity5.png" alt="">
-                        <div class="activity_name">签到有礼</div>
+                        <div class="activity_list" ref="activityChild" @click="goSign()">
+                            <img src="../../../../static/images/home/activity1.png" alt="">
+                            <div class="activity_name">每日签到</div>
+                            <i class="activity_hot"></i>
+                        </div>
+                        <div class="activity_list">
+                            <img src="../../../../static/images/home/activity5.png" alt="">
+                            <div class="activity_name">关注有礼</div>
+                        </div>
+                        <div class="activity_list">
+                            <img src="../../../../static/images/home/activity3.png" alt="">
+                            <div class="activity_name">阅读有赏</div>
+                        </div>
+                        <div class="activity_list" @click="goLuckDwraw()">
+                            <img src="../../../../static/images/home/activity4.png" alt="">
+                            <div class="activity_name">幸运转盘</div>
+                        </div>
                     </div>
                 </div>
             </div>
