@@ -14,12 +14,17 @@
                     <div class="integral_record" @click="integralRecord()"></div>
                     <div class="integral_record_intru" @click="integralRecord()"></div>
                 </div>
-                
+                <div style="width:0.48rem" ref="activityjz"></div>
                 <div class="task_list_box">
                     <div class="activity_box">
                         <div class="activity_scoll">
                             <div class="activity_box_main" ref="activityBoxMain">
-                                <div class="activity_list" ref="activityChild">
+                                <div class="activity_list" v-for="(item, index) in activityList" :key="index" @click="goTo(item)" ref="activityChild">
+                                    <img :src="item.icon" alt="">
+                                    <div class="activity_name">{{item.text}}</div>
+                                    <i class="activity_hot" v-if="item.ishot == 1"></i>
+                                </div>
+                                <!-- <div class="activity_list" ref="activityChild" @click="goSign()">
                                     <img src="../../../../static/images/home/activity1.png" alt="">
                                     <div class="activity_name">每日签到</div>
                                     <i class="activity_hot"></i>
@@ -28,14 +33,14 @@
                                     <img src="../../../../static/images/home/activity5.png" alt="">
                                     <div class="activity_name">关注有礼</div>
                                 </div>
-                                <div class="activity_list">
+                                <div class="activity_list" @click="read()">
                                     <img src="../../../../static/images/home/activity3.png" alt="">
                                     <div class="activity_name">阅读有赏</div>
                                 </div>
                                 <div class="activity_list" @click="goLuckDwraw()">
                                     <img src="../../../../static/images/home/activity4.png" alt="">
                                     <div class="activity_name">幸运转盘</div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -168,6 +173,18 @@
 				</div>
 			</div>
 		</div>
+
+        <div class="mask" v-if="doMask">
+			<div class="mask_main">
+				<div class="godo tanchuscale">
+                    <div class="godo_title">添加客服微信</div>
+                    <img src="../../../../static/images/home/wx_code.jpg" alt="" class="mask_wx_code">
+                    <div class="godo_wx_numb">客服微信号码：SADADAS</div>
+                    <div class="godo_get_info">长按识别二维码，完成任务可获得100积分</div>
+                    <div class="godo_close" @click="doMask = false"></div>
+				</div>
+			</div>
+		</div>
     </div>
 </template>
 
@@ -178,13 +195,35 @@ export default {
     data(){
         return {
             tabIndex: 1,
-            signMask:false
+            signMask:false,
+            doMask: false,   //去完成
+            activityList:[
+                {icon:'../../../../static/images/home/activity1.png',text:'签到有礼',ishot:'1',toUrl:'/signIn'},
+                {icon:'../../../../static/images/home/activity5.png',text:'关注有礼',ishot:'0',toUrl:'/signIn'},
+                {icon:'../../../../static/images/home/activity3.png',text:'阅读有赏',ishot:'0',toUrl:'/read'},
+                {icon:'../../../../static/images/home/activity4.png',text:'幸运转盘',ishot:'0',toUrl:'/luckDraw'},
+
+            ]
         }
     },
     methods: {
         handleTab(index){
             var _this = this;
             _this.tabIndex = index;
+        },
+        goTo(item){
+            var toPath = item.toUrl;
+            this.$router.replace({path:toPath,query: {recordPage:'taskWall'}});
+        },
+        //活动入口的设计
+        setActivity(){
+            var _this = this;
+            var {activityBoxMain, activityChild, activityjz} = _this.$refs;
+            var len = _this.activityList.length;
+            if(len <= 0){
+                return false;
+            };
+            activityBoxMain.style.width = (activityChild[0].getBoundingClientRect().width*(len) + activityjz.getBoundingClientRect().width*(len-1)) +2+'px';
         },
        integralRecord(){
            var pervePage = this.$route.query.recordPage;
@@ -213,7 +252,7 @@ export default {
     mounted(){
         var _this = this;
         _this.$nextTick(() => {
-           
+           _this.setActivity();
         });
         config.isGoBack(_this.forbidBack);
     }

@@ -31,11 +31,17 @@
                 </div>
                 <div class="swiper-pagination swiper-p1" slot="pagination"></div>
             </div>
+            <div style="width:0.48rem" ref="activityjz"></div>
             <div class="activity_box">
                 <!-- <div class="activity_center"> -->
                     <div class="activity_scoll">
                         <div class="activity_box_main" ref="activityBoxMain">
-                            <div class="activity_list" ref="activityChild" @click="goSign()">
+                            <div class="activity_list" v-for="(item, index) in activityList" :key="index" @click="goTo(item)" ref="activityChild">
+                                <img :src="item.icon" alt="">
+                                <div class="activity_name">{{item.text}}</div>
+                                <i class="activity_hot" v-if="item.ishot == 1"></i>
+                            </div>
+                            <!-- <div class="activity_list" ref="activityChild" @click="goSign()">
                                 <img src="../../../../static/images/home/activity1.png" alt="">
                                 <div class="activity_name">每日签到</div>
                             </div>
@@ -53,8 +59,8 @@
                             </div>
                             <div class="activity_list">
                                 <img src="../../../../static/images/home/activity5.png" alt="">
-                                <div class="activity_name">签到有礼</div>
-                            </div>
+                                <div class="activity_name">关注有礼</div>
+                            </div> -->
                         </div>
                     <!-- </div> -->
                 </div>
@@ -149,6 +155,13 @@ export default {
         return {
             times: 0,
             goodsTypeTab: 1, //商品类型切换
+            activityList:[
+                {icon:'../../../../static/images/home/activity1.png',text:'签到有礼',ishot:'1',toUrl:'/signIn'},
+                {icon:'../../../../static/images/home/activity5.png',text:'关注有礼',ishot:'0',toUrl:'/signIn'},
+                {icon:'../../../../static/images/home/activity3.png',text:'阅读有赏',ishot:'0',toUrl:'/read'},
+                {icon:'../../../../static/images/home/activity4.png',text:'幸运转盘',ishot:'0',toUrl:'/luckDraw'},
+                {icon:'../../../../static/images/home/activity2.png',text:'推广链接',ishot:'0',toUrl:'/luckDraw'},
+            ]
         }
     },
     methods:{
@@ -234,14 +247,19 @@ export default {
                 }
             });
        },
-        goSign(){
-            this.$router.replace({path:'/signIn'});
+        goTo(item){
+            var toPath = item.toUrl;
+            this.$router.replace({path:toPath});
         },
-        read(){
-            this.$router.replace({path:'/read'});
-        },
-        goLuckDwraw(){
-            this.$router.replace({path:'/luckDraw'});
+        //活动入口的设计
+        setActivity(){
+            var _this = this;
+            var {activityBoxMain, activityChild, activityjz} = _this.$refs;
+            var len = _this.activityList.length;
+            if(len <= 0){
+                return false;
+            };
+            activityBoxMain.style.width = (activityChild[0].getBoundingClientRect().width*(len) + activityjz.getBoundingClientRect().width*(len-1)) +2+'px';
         },
         exchangeRecord(){
             this.$router.replace({path:'/exchangeRecord',query: {recordPage:'1'}});
@@ -259,6 +277,7 @@ export default {
             if(config.thirdParty().isWechat == true){
                 WeixinJSBridge.call('closeWindow');
             }else{
+                this.$router.replace({path:'/'});
                 return false;
             }
         }
@@ -270,6 +289,7 @@ export default {
         var _this = this;
         _this.$nextTick(() => {
             _this.login();
+            _this.setActivity();
             //_this.updateInfo();
             _this.banner1();
             _this.banner2();

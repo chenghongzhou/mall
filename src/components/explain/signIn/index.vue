@@ -144,7 +144,13 @@ export default {
             });
         },
         forbidBack(){
-            this.$router.replace({path:'/'});
+            var _this = this;
+            var pervePage = this.$route.query.recordPage;
+            if(pervePage == 'taskWall'){
+                _this.$router.replace({path:'/taskWall'});
+            }else{
+                 _this.$router.replace({path:'/'});
+            };
         }
     },
     destroyed(){

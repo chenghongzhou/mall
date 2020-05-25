@@ -57,7 +57,7 @@
     font-size: 0.5rem;
     color: #ffffff;
     font-weight: bold;
-    margin-top:-0.1rem;
+    margin-top:0rem;
 }
 .money_icon{
     width: 0.4rem;
@@ -218,7 +218,7 @@
 .task_finish_status{
     font-size: 0.2rem;
     text-align: center;
-    width: 1.5rem;
+    width: 1.2rem;
     text-align: center;
     position: absolute;
     right: 0.3rem;
@@ -369,7 +369,53 @@
     width: 100%;
     height: 100%;
 }
-
+.godo{
+    width: 6rem;
+	height: 5.6rem;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -3rem;
+	margin-top: -2.8rem;
+    background: #ffffff;
+    border-radius: 0.2rem;
+    padding-top: 0.4rem;
+    box-sizing: border-box;
+    background-size: contain;
+}
+.mask_wx_code{
+    width: 2.9rem;
+    height: 2.9rem;
+    display: block;
+    margin: 0.3rem auto 0;
+}
+.godo_title{
+    font-size: 0.36rem;
+    color: #2b2b2b;
+    font-weight: bold;
+    text-align: center;
+}
+.godo_wx_numb{
+    font-size: 0.24rem;
+    color: #2b2b2b;
+    text-align: center;
+    
+}
+.godo_close{
+    width: 0.4rem;
+    height: 0.4rem;
+    background: url("../../../../static/images/buyGood/close_mask.png") center no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 0.2rem;
+    right: 0.2rem;
+}
+.godo_get_info{
+    font-size: 0.24rem;
+    color: #2b2b2b;
+    text-align: center;
+    margin-top: 0.3rem;
+}
 .activity_box{
     width: 6.9rem;
     height: 2rem;
@@ -402,6 +448,7 @@
     height: 100%;
     overflow: hidden;
     background: #ffffff;
+    margin: 0 auto;
 }
 .activity_list{
     float: left;
@@ -463,6 +510,8 @@
 .task_content .box{
     width: 100%;
     height: 100%;
+    padding-bottom: 0.4rem;
+    box-sizing: border-box;
 }
 .every_task_box{
     width: 6.9rem;

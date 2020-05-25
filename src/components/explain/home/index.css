@@ -184,6 +184,7 @@
     height: 100%;
     overflow: hidden;
     background: #ffffff;
+    margin: 0 auto;
 }
 .activity_list{
     float: left;
@@ -435,4 +436,13 @@
     height: 0.08rem;
     border-radius: 0.1rem;
     background: #ff4532;
+}
+.activity_hot{
+    width: 0.65rem;
+    height: 0.32rem;
+    background: url("../../../../static/images/taskWall/activity_hot.png") center no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 0rem;
+    right: -0.18rem;
 }
