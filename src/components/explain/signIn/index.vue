@@ -115,10 +115,10 @@ export default {
             _this.tabIndex = num;
         },
         exchangeRecord(){
-            this.$router.replace({path:'/exchangeRecord',query: {recordPage:'2'}});
+            this.$router.replace({path:'/exchangeRecord',query: {recordPage:'signIn'}});
         },
         taskWall(){
-            this.$router.replace({path:'/taskWall',query: {recordPage:'2'}});
+            this.$router.replace({path:'/taskWall',query: {recordPage:'signIn'}});
         },
         //签到
         signIn(){

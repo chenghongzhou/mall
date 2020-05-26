@@ -16,6 +16,8 @@ const addressEdit = () => import('../components/explain/addressManagement/edit.v
 const luckDraw = () => import('../components/explain/luckDraw/index.vue');  //抽奖
 const read = () => import('../components/explain/read/index.vue');  //阅读有赏
 const poster = () => import('../components/explain/poster/index.vue');  //海报
+const extension = () => import('../components/explain/extension/index.vue');  //推荐有礼
+const friendRecommend = () => import('../components/explain/friendRecommend/index.vue');  //好友推荐
 Vue.use(Router);
 export default new Router({
   routes: [
@@ -32,6 +34,8 @@ export default new Router({
     {path: '/luckDraw',component: luckDraw,name: luckDraw,meta:{title: '转盘抽奖'},},
     {path: '/read',component: read,name: read,meta:{title: '阅读有礼'},},
     {path: '/poster',component: poster,name: poster,meta:{title: '分享海报'},},
+    {path: '/extension',component: extension,name: extension,meta:{title: '推荐有礼'},},
+    {path: '/friendRecommend',component: friendRecommend,name: friendRecommend,meta:{title: '好友推荐'},},
     {
         path: '/addressManagement',component: addressManagement,name: addressManagement,
         children: [

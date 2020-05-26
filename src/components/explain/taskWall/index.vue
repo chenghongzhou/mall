@@ -235,15 +235,19 @@ export default {
             var pervePage = this.$route.query.recordPage;
             if(prveUrl == '/' || pervePage == 1 || !pervePage){
                 _this.$router.replace({path:'/'});
-            }else if(pervePage == 2){
-                _this.$router.replace({path:'/signIn'});  //从签到进去
-            }else if(pervePage == 3){
-                _this.$router.replace({path:'/orderDetail',query: {recordPage:pervePage}});
-            }else if(pervePage == 4){  //从阅读有礼进去
-                _this.$router.replace({path:'/read'});
-            }else if(pervePage == 5){  //从转盘进去
-                _this.$router.replace({path:'/luckDraw'});
             }
+            else{
+                _this.$router.replace({path:'/'+pervePage});
+            }
+            // else if(pervePage == 2){
+            //     _this.$router.replace({path:'/signIn'});  //从签到进去
+            // }else if(pervePage == 3){
+            //     _this.$router.replace({path:'/orderDetail',query: {recordPage:pervePage}});
+            // }else if(pervePage == 4){  //从阅读有礼进去
+            //     _this.$router.replace({path:'/read'});
+            // }else if(pervePage == 5){  //从转盘进去
+            //     _this.$router.replace({path:'/luckDraw'});
+            // }
         },
     },
     destroyed(){

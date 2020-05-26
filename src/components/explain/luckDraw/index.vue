@@ -172,10 +172,10 @@ export default {
     },
      methods: {
         exchangeRecord(){
-            this.$router.replace({path:'/exchangeRecord',query: {recordPage:'5'}});
+            this.$router.replace({path:'/exchangeRecord',query: {recordPage:'luckDraw'}});
         },
         taskWall(){
-            this.$router.replace({path:'/taskWall',query: {recordPage:'5'}});
+            this.$router.replace({path:'/taskWall',query: {recordPage:'luckDraw'}});
         },
         // 抽奖
 		handleStart() {

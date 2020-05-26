@@ -89,7 +89,7 @@ export default {
             if(num == 1){  //去首页
                 this.$router.replace({path:'/'});
             }else if(num == 2){
-                this.$router.replace({path:'/taskWall',query: {recordPage:'3'}});
+                this.$router.replace({path:'/taskWall',query: {recordPage:'orderDetail'}});
             }
         },
         forbidBack(){

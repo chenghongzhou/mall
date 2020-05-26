@@ -52,10 +52,10 @@ export default {
     },
     methods: {
         exchangeRecord(){
-            this.$router.replace({path:'/exchangeRecord',query: {recordPage:'4'}});
+            this.$router.replace({path:'/exchangeRecord',query: {recordPage:'read'}});
         },
         taskWall(){
-            this.$router.replace({path:'/taskWall',query: {recordPage:'4'}});
+            this.$router.replace({path:'/taskWall',query: {recordPage:'read'}});
         },
         forbidBack(){
             var _this = this;

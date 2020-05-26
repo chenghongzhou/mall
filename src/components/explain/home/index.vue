@@ -160,7 +160,7 @@ export default {
                 {icon:'../../../../static/images/home/activity5.png',text:'关注有礼',ishot:'0',toUrl:'/signIn'},
                 {icon:'../../../../static/images/home/activity3.png',text:'阅读有赏',ishot:'0',toUrl:'/read'},
                 {icon:'../../../../static/images/home/activity4.png',text:'幸运转盘',ishot:'0',toUrl:'/luckDraw'},
-                {icon:'../../../../static/images/home/activity2.png',text:'推广链接',ishot:'0',toUrl:'/luckDraw'},
+                {icon:'../../../../static/images/home/activity2.png',text:'推广链接',ishot:'0',toUrl:'/extension'},
             ]
         }
     },
@@ -262,10 +262,10 @@ export default {
             activityBoxMain.style.width = (activityChild[0].getBoundingClientRect().width*(len) + activityjz.getBoundingClientRect().width*(len-1)) +2+'px';
         },
         exchangeRecord(){
-            this.$router.replace({path:'/exchangeRecord',query: {recordPage:'1'}});
+            this.$router.replace({path:'/exchangeRecord'});
         },
         taskWall(){
-            this.$router.replace({path:'/taskWall',query: {recordPage:'1'}});
+            this.$router.replace({path:'/taskWall'});
         },
         goodDetail(){
             this.$router.replace({path:'/goodDetail'});
