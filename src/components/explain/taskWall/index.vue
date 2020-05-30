@@ -198,10 +198,10 @@ export default {
             signMask:false,
             doMask: false,   //去完成
             activityList:[
-                {icon:'../../../../static/images/home/activity1.png',text:'签到有礼',ishot:'1',toUrl:'/signIn'},
-                {icon:'../../../../static/images/home/activity5.png',text:'关注有礼',ishot:'0',toUrl:'/signIn'},
-                {icon:'../../../../static/images/home/activity3.png',text:'阅读有赏',ishot:'0',toUrl:'/read'},
-                {icon:'../../../../static/images/home/activity4.png',text:'幸运转盘',ishot:'0',toUrl:'/luckDraw'},
+                {icon:'./static/images/home/activity1.png',text:'签到有礼',ishot:'1',toUrl:'/signIn'},
+                {icon:'./static/images/home/activity5.png',text:'关注有礼',ishot:'0',toUrl:'/signIn'},
+                {icon:'./static/images/home/activity3.png',text:'阅读有赏',ishot:'0',toUrl:'/read'},
+                {icon:'./static/images/home/activity4.png',text:'幸运转盘',ishot:'0',toUrl:'/luckDraw'},
 
             ]
         }
