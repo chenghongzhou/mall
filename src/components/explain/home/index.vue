@@ -169,28 +169,64 @@ export default {
             var _this = this;
             _this.goodsTypeTab = index;
         },
-        //login
+        //授权登陆
         login(){
-            var _this = this;
-            var formData = {
-                'open_id': '19231654',
-                'store_id': '1001'
-            };
-            var headerConfig = {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            };
-            _this.$axios.post(allget+"/c_account/sign_login/",formData,headerConfig).then((res) => {
-                if(res.data.data.code == 1){
-                    _this.$store.state.session_id = res.data.data.session_id;
-                    config.setCookie('open_id',formData.open_id,14);
-                }else{
-                    config.layerMsg(res.data.data.message, 2);
+            var appid = 'wx91c0cbe98956a703';
+            var url = 'http%3a%2f%2fv8homepage.youwoxing.net';
+           // window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_userinfo&state=123123&component_appid=wx00f2bf419bcd81c9")
+        },
+        //获取openid
+        getOpenId(){
+             var _this = this;
+           // if(config.thirdParty().isWechat == true){
+                var formData = {
+                    "appid":"wx91c0cbe98956a703",
+                    "code":"0215mXg92NmrEN0QyXi92esXg925mXgu"
                 };
-            }).catch(() => {
-                console.log('error');
-            });
+            //     let formData = new FormData();
+            //   	formData.append('appid', "wx91c0cbe98956a703");
+            //   	formData.append('code', "0215mXg92NmrEN0QyXi92esXg925mXgu");
+        //         var headerConfig = {
+        //             headers: {
+        //                 'Content-Type': 'multipart/form-data'
+        //             }
+        //         };
+                _this.$axios.post(allget+"/GetOpenID",formData).then((res) => {
+                    if(res.data.data.code == 1){
+                    
+                        alert(res.data)
+                    }else{
+                        config.layerMsg(res.data.data.message, 2);
+                    };
+                }).catch(() => {
+                    console.log('error');
+                });
+           // }
+        },
+        //获取第三方appid
+        getComponentAccessToken(){
+            var _this = this;
+            if(config.thirdParty().isWechat == true){
+                var formData = {
+                
+                };
+                // var headerConfig = {
+                //     headers: {
+                //         'Content-Type': 'multipart/form-data',
+                        
+                //     }
+                // };
+                _this.$axios.post(allget+"/GetComponentAccessToken/",formData).then((res) => {
+                    if(res.data.data.code == 1){
+                    
+                        alert(res.data)
+                    }else{
+                        config.layerMsg(res.data.data.message, 2);
+                    };
+                }).catch(() => {
+                    console.log('error');
+                });
+            }
         },
         //上传用户信息
         updateInfo(){
@@ -289,6 +325,8 @@ export default {
         var _this = this;
         _this.$nextTick(() => {
             _this.login();
+            _this.getOpenId();
+            _this.getComponentAccessToken();
             _this.setActivity();
             //_this.updateInfo();
             _this.banner1();
