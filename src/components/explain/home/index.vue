@@ -5,9 +5,9 @@
                     微吧商城
                 </div>
             <div class="header">
-                <div class="my_img"><img src="../../../../static/images/home/my_img.png" alt=""></div>
+                <div class="my_img"><img :src="userInfo.headimgurl" alt=""></div>
                 <div class="my_info">
-                    <div class="my_name">青松少女</div>
+                    <div class="my_name">{{userInfo.nickname}}</div>
                     <div class="my_money">1212<i class="money_icon"></i></div>
                 </div>
                 <div class="my_info_right">
@@ -161,7 +161,10 @@ export default {
                 {icon:'./static/images/home/activity3.png',text:'阅读有赏',ishot:'0',toUrl:'/read'},
                 {icon:'./static/images/home/activity4.png',text:'幸运转盘',ishot:'0',toUrl:'/luckDraw'},
                 {icon:'./static/images/home/activity2.png',text:'推广链接',ishot:'0',toUrl:'/extension'},
-            ]
+            ],
+            appid:'',
+            open_id:'',
+            userInfo:{},
         }
     },
     methods:{
@@ -171,83 +174,57 @@ export default {
         },
         //授权登陆
         login(){
-            var appid = 'wx91c0cbe98956a703';
+            var appid = this.appid;
             var url = 'http%3a%2f%2fv8homepage.youwoxing.net';
            // window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_userinfo&state=123123&component_appid=wx00f2bf419bcd81c9")
         },
         //获取openid
         getOpenId(){
-             var _this = this;
-           // if(config.thirdParty().isWechat == true){
-                var formData = {
-                    "appid":"wx91c0cbe98956a703",
-                    "code":"0215mXg92NmrEN0QyXi92esXg925mXgu"
-                };
-            //     let formData = new FormData();
-            //   	formData.append('appid', "wx91c0cbe98956a703");
-            //   	formData.append('code', "0215mXg92NmrEN0QyXi92esXg925mXgu");
-        //         var headerConfig = {
-        //             headers: {
-        //                 'Content-Type': 'multipart/form-data'
-        //             }
-        //         };
-                _this.$axios.post(allget+"/GetOpenID",formData).then((res) => {
-                    if(res.data.data.code == 1){
-                    
-                        alert(res.data)
-                    }else{
-                        config.layerMsg(res.data.data.message, 2);
-                    };
-                }).catch(() => {
-                    console.log('error');
-                });
-           // }
-        },
-        //获取第三方appid
-        getComponentAccessToken(){
-            var _this = this;
-            if(config.thirdParty().isWechat == true){
-                var formData = {
-                
-                };
-                // var headerConfig = {
-                //     headers: {
-                //         'Content-Type': 'multipart/form-data',
-                        
-                //     }
-                // };
-                _this.$axios.post(allget+"/GetComponentAccessToken/",formData).then((res) => {
-                    if(res.data.data.code == 1){
-                    
-                        alert(res.data)
-                    }else{
-                        config.layerMsg(res.data.data.message, 2);
-                    };
-                }).catch(() => {
-                    console.log('error');
-                });
-            }
-        },
-        //上传用户信息
-        updateInfo(){
             var _this = this;
             var formData = {
-                'avatar_url': 'http://img.dianliaoapp.com/DEBUG/12381/head/1545212384514.png',
-                'nick_name': '青葱少女'
+                "appid":_this.appid,
+                "code":"061iP0J82iGnWL06pEK82cdZI82iP0J8"
             };
-            var config = {
+            // let formData = new FormData();
+            // formData.append('appid', _this.appid);
+            // formData.append('code', 'oaWxEv6SZ42oA2TBLY-ykhTNWDqE');
+            var headerConfig = {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
-                    
-                }
+                    'Content-Type': 'multipart/form-data'
+                }
             };
-            axios.post(allget+"/c_account/update_user_data/",formData,config).then((res) => {
-                console.log(1111)
-                if(res.data.data.code == 1){
-                    console.log(7457454)
-                }else{
-                    beasConfig.layerMsg(res.data.data.message, 2);
-                };
+            _this.$axios.post(allget+"/GetOpenID/",formData,headerConfig).then((res) => {
+                _this.open_id = res.open_id;
+                // if(res.data.data.code == 1){
+                
+                // }else{
+                //     config.layerMsg(res.data.data.message, 2);
+                // };
+            }).catch(() => {
+                console.log('error');
+            });
+            _this.getUserInfo()
+        },
+        //获取用户信息
+        getUserInfo(){
+            var _this = this;
+            var formData = {
+                "openid":'oaWxEv6SZ42oA2TBLY-ykhTNWDqE',//_this.open_id,
+                "appid":_this.appid
+            };
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            _this.$axios.post(allget+"/GetUserInfo/",formData,headerConfig).then((res) => {
+                _this.userInfo = res.data;
+                console.log(_this.userInfo.nickname)
+                // if(res.data.data.code == 1){
+                
+                // }else{
+                //     config.layerMsg(res.data.data.message, 2);
+                // };
             }).catch(() => {
                 console.log('error');
             });
@@ -324,11 +301,11 @@ export default {
     mounted(){
         var _this = this;
         _this.$nextTick(() => {
+            _this.appid = config.getHashVReq('appid');
             _this.login();
             _this.getOpenId();
-            _this.getComponentAccessToken();
+
             _this.setActivity();
-            //_this.updateInfo();
             _this.banner1();
             _this.banner2();
         });
