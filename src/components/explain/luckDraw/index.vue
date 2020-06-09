@@ -6,11 +6,11 @@
                 转盘抽奖
             </div>
             <div class="header">
-            <div class="my_img"><img src="../../../../static/images/home/my_img.png" alt=""></div>
-            <div class="my_info">
-                <div class="my_name">青松少女</div>
-                <div class="my_money">1212<i class="money_icon"></i></div>
-            </div>
+                <div class="my_img"><img :src="userInfoData.avatar_url" alt=""></div>
+                <div class="my_info">
+                    <div class="my_name">{{userInfoData.nick_name}}</div>
+                    <div class="my_money">{{userInfoData.score}}<i class="money_icon"></i></div>
+                </div>
             <div class="my_info_right">
                     <div class="get_integral" @click="taskWall()"><i></i></div>
                     <div class="change_in_record" @click="exchangeRecord()"></div>
@@ -138,6 +138,7 @@
 </template>
 
 <script>
+import { allget } from '../../../api/api.js';
 export default {
     data(){
         return {
@@ -168,6 +169,7 @@ export default {
                 {name:'中国移动', prize:'现金券2'},
                 {name:'中国移动', prize:'现金券3'},
             ],
+            userInfoData:{},
         }
     },
      methods: {
@@ -176,6 +178,36 @@ export default {
         },
         taskWall(){
             this.$router.replace({path:'/taskWall',query: {recordPage:'luckDraw'}});
+        },
+        //获取抽奖奖品
+        getLotteryPrize(){
+            var _this = this;
+            var openid = JSON.parse(config.getCookie('userInfo')).openid;
+            var formData = {
+                'store_id': 1001,
+                "open_id":_this.openid
+            };
+            
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            };
+            _this.$axios.post(allget+"/lottery/get_sets/",formData,headerConfig).then((res) => {
+                _this.getData = res.data;
+                if(res.data.error_code == 0){
+                    _this.signMask = true;
+                    _this.siginList = res.data.data.list.day_list;
+                }else if(res.data.error_code == 1){
+                    console.log(res.data.data.list.day_list,789)
+                    _this.siginList = res.data.data.list.day_list;
+                    config.layerMsg(res.data.msg, 2);
+                }else{
+                    config.layerMsg(res.data.msg, 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
         },
         // 抽奖
 		handleStart() {
@@ -268,6 +300,7 @@ export default {
         var _this = this;
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
+            _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
             let scrollTimer = setInterval(this.scroll, 2000);
         })
     }

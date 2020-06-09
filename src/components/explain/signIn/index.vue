@@ -6,10 +6,10 @@
                 每日签到
             </div>
                 <div class="header">
-                <div class="my_img"><img src="../../../../static/images/home/my_img.png" alt=""></div>
+                <div class="my_img"><img :src="userInfoData.avatar_url" alt=""></div>
                 <div class="my_info">
-                    <div class="my_name">青松少女</div>
-                    <div class="my_money">1212<i class="money_icon"></i></div>
+                    <div class="my_name">{{userInfoData.nick_name}}</div>
+                    <div class="my_money">{{userInfoData.score}}<i class="money_icon"></i></div>
                 </div>
                 <div class="my_info_right">
                         <div class="get_integral" @click="taskWall()"><i></i></div>
@@ -20,7 +20,7 @@
         <div class="content">
             <div class="sign_box">
                 <div class="my_sign">
-                    <img src="../../../../static/images/home/my_img.png" alt="" class="my_icon">
+                    <img :src="userInfoData.avatar_url" alt="" class="my_icon">
                     <img src="../../../../static/images/sign/top_no1.png" alt="" class="my_rank">
                     <!-- <div>4</div> -->
                     <!-- <img src="../../../../static/images/sign/top_no2.png" alt="" class="my_rank"> -->
@@ -47,41 +47,17 @@
             <div class="list_box">
                 <div class="list_main">
                     <ul>
-                        <li>
-                            <div class="list_rank"><img src="../../../../static/images/sign/rank1.png" alt=""></div>
+                        <li v-for="(item,index) in siginList" :key="index">
+                            <div class="list_rank" v-if="index == 0"><img src="../../../../static/images/sign/rank1.png" alt=""></div>
+                            <div class="list_rank" v-if="index == 1"><img src="../../../../static/images/sign/rank1.png" alt=""></div>
+                            <div class="list_rank" v-if="index == 2"><img src="../../../../static/images/sign/rank1.png" alt=""></div>
+                            <div class="list_rank" v-else>{{index+1}}</div>
                             <img src="../../../../static/images/home/my_img.png" alt="" class="list_img">
                             <div class="list_info">
                                 <p class="list_info_name">秦松少女/</p>
-                                <div class="list_info_signs">累计签到1天<span>01:23:18</span></div>
+                                <div class="list_info_signs">累计签到{{item.sign_count}}天<span>{{item.sign_time}}</span></div>
                             </div>
                             <!-- <div class="love"></div> -->
-                        </li>
-                        <li>
-                            <div class="list_rank"><img src="../../../../static/images/sign/rank2.png" alt=""></div>
-                            <img src="../../../../static/images/home/my_img.png" alt="" class="list_img">
-                            <div class="list_info">
-                                <p class="list_info_name">秦松少女/</p>
-                                <div class="list_info_signs">累计签到1天<span>01:23:18</span></div>
-                            </div>
-                            <div class="love"></div>
-                        </li>
-                        <li>
-                            <div class="list_rank"><img src="../../../../static/images/sign/rank3.png" alt=""></div>
-                            <img src="../../../../static/images/home/my_img.png" alt="" class="list_img">
-                            <div class="list_info">
-                                <p class="list_info_name">秦松少女/</p>
-                                <div class="list_info_signs">累计签到1天<span>01:23:18</span></div>
-                            </div>
-                            <!-- <div class="love"></div> -->
-                        </li>
-                        <li>
-                            <div class="list_rank">4</div>
-                            <img src="../../../../static/images/home/my_img.png" alt="" class="list_img">
-                            <div class="list_info">
-                                <p class="list_info_name">秦松少女/</p>
-                                <div class="list_info_signs">累计签到1天<span>01:23:18</span></div>
-                            </div>
-                            <div class="love"></div>
                         </li>
                     </ul>
                 </div>
@@ -90,7 +66,7 @@
                 <div class="mask_main">
                     <div class="box tanchuscale">
                         <div class="mask_title">签到成功</div>
-                        <div class="mask_you_get">恭喜你获得20积分</div>
+                        <div class="mask_you_get">恭喜你获得{{getData.get_score}}积分</div>
                         <div class="mask_btn" @click="signMask = false">确认</div>
                     </div>
                 </div>
@@ -107,12 +83,17 @@ export default {
         return {
             tabIndex: 1, //切换
             signMask: false,
+            userInfoData: {},  //用户信息包含积分
+            getData: {},
+            siginList:[],
         }
     },
     methods: {
         handTab(num){
             var _this = this;
             _this.tabIndex = num;
+            _this.siginList = _this.getData.data.list.day_list;
+            num == 1?_this.siginList = _this.getData.data.list.day_list:num == 2?_this.siginList = _this.getData.data.list.month_list:_this.siginList = _this.getData.data.list.total_list;
         },
         exchangeRecord(){
             this.$router.replace({path:'/exchangeRecord',query: {recordPage:'signIn'}});
@@ -123,21 +104,28 @@ export default {
         //签到
         signIn(){
             var _this = this;
+            var openid = JSON.parse(config.getCookie('userInfo')).openid;
             var formData = {
-                'store_id': '1001'
+                'store_id': 1001,
+                "open_id":openid
             };
-            var sessionid = config.getCookie('sessionid') || '';
+            
             var headerConfig = {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    'open_id': sessionid
                 }
             };
-            _this.$axios.post(allget+"/sign/sign_once/",formData,headerConfig).then((res) => {
-                if(res.data.code == 1){
-                   // _this.signMask = true;
+            _this.$axios.post("http://v8.python.youwoxing.net:8003/sign/sign_once/",formData,headerConfig).then((res) => {
+                _this.getData = res.data;
+                if(res.data.error_code == 0){
+                    _this.signMask = true;
+                    _this.siginList = res.data.data.list.day_list;
+                }else if(res.data.error_code == 1){
+                    console.log(res.data.data.list.day_list,789)
+                    _this.siginList = res.data.data.list.day_list;
+                    config.layerMsg(res.data.msg, 2);
                 }else{
-                   // config.layerMsg(res.data.data.message, 2);
+                    config.layerMsg(res.data.msg, 2);
                 };
             }).catch(() => {
                 console.log('error');
@@ -160,6 +148,8 @@ export default {
         var _this = this;
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
+            _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+            console.log(_this.userInfoData)
             _this.signIn();
         })
     }   
