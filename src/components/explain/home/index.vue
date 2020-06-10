@@ -19,14 +19,8 @@
        <div class="content">
             <div class="banner_box swiper-container swiper-container1">
                 <div class="swiper-wrapper" style="width:100%;">
-                    <div class="banner swiper-slide">
-                            <img src="../../../../static/images/home/banner.png" alt="">
-                        </div>
-                        <div class="banner swiper-slide">
-                            <img src="../../../../static/images/home/banner.png" alt="">
-                        </div>
-                        <div class="banner swiper-slide">
-                            <img src="../../../../static/images/home/banner.png" alt="">
+                        <div class="banner swiper-slide" v-for="(item,index) in banner_list" :key="index">
+                            <img :src="item.icon" alt="">
                         </div>
                 </div>
                 <div class="swiper-pagination swiper-p1" slot="pagination"></div>
@@ -74,9 +68,9 @@
                     </div>
                     <div class="goods_box">
                         <div class="nodata_good" v-if="goodList.length == 0">暂无数据</div>
-                        <div class="goods_list" @click="goodDetail()" v-for="(item,index) in goodList" :key="index">
+                        <div class="goods_list" @click="goodDetail(item)" v-for="(item,index) in goodList" :key="index">
                             <div class="goods_free_shipping"></div>
-                            <div class="change_people">123人已兑</div>
+                            <div class="change_people">{{item.is_buy_nums}}人已兑</div>
                             <div class="goods">
                                 <img :src="item.pic" alt="">
                             </div>
@@ -115,6 +109,7 @@ export default {
             activity_list:[],  //活动列表
             getStoreGroupList:[],  //获取店铺列表
             goodList: [],  //商品列表
+            banner_list: [],  //banner
         }
     },
     methods:{
@@ -158,6 +153,7 @@ export default {
                 _this.getActivityList();
                 _this.getStoreGroups();
                 _this.getStoreItems(-1);
+                _this.getBanner();
             }).catch(() => {
                 console.log('error');
             });
@@ -268,6 +264,28 @@ export default {
                 console.log('error');
             });
         },
+        //获取banner
+        getBanner(){
+             var _this = this;
+            var formData = {
+                "open_id":_this.open_id,
+                "store_id":1,
+            };
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            _this.$axios.post(allget+"/items/get_banners/",formData,headerConfig).then((res) => {
+                if(res.data.error_code == 0){
+                   _this.banner_list = res.data.data;
+                }else{
+                    config.layerMsg(res.data.msg, 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+        },
         //获取店铺类型
         getStoreGroups(){
             var _this = this;
@@ -308,7 +326,13 @@ export default {
             };
             _this.$axios.post(allget+"/items/get_items",formData,headerConfig).then((res) => {
                 if(res.data.error_code == 0){
-                   _this.goodList = res.data.product_list;
+                    var params = res.data.product_list;
+                    params.forEach((element,index) => {
+                        var nameNums = parseInt(Math.random()*(20)+1,10);
+                        element.is_buy_nums = 50*nameNums+'+';
+                    });
+                   _this.goodList = params;
+                   setTimeout(() => {_this.banner1()},500);
                 }else{
                     config.layerMsg(res.data.msg, 2);
                 };
@@ -379,8 +403,8 @@ export default {
         taskWall(){
             this.$router.replace({path:'/taskWall'});
         },
-        goodDetail(){
-            this.$router.replace({path:'/goodDetail'});
+        goodDetail(rows){
+            this.$router.replace({path:'/goodDetail',query:{item:rows}});
         },
         forbidBack(){
             // if(config.getHashVReq('recordPage') && config.thirdParty().isWechat == true){

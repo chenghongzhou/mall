@@ -10,7 +10,7 @@
             <div class="content_info">
                 <div class="header">
                     <div class="my_integral">我的积分</div>
-                    <div class="my_integral_number">123465<i class="money_icon"></i><div class="exchage_integral"></div></div>
+                    <div class="my_integral_number">{{userInfoData.score}}<i class="money_icon"></i><div class="exchage_integral"></div></div>
                     <div class="integral_record" @click="integralRecord()"></div>
                     <div class="integral_record_intru" @click="integralRecord()"></div>
                 </div>
@@ -19,10 +19,10 @@
                     <div class="activity_box">
                         <div class="activity_scoll">
                             <div class="activity_box_main" ref="activityBoxMain">
-                                <div class="activity_list" v-for="(item, index) in activityList" :key="index" @click="goTo(item)" ref="activityChild">
+                                 <div class="activity_list" v-for="(item, index) in activity_list" :key="index" @click="goTo(item)" ref="activityChild">
                                     <img :src="item.icon" alt="">
-                                    <div class="activity_name">{{item.text}}</div>
-                                    <i class="activity_hot" v-if="item.ishot == 1"></i>
+                                    <div class="activity_name">{{item.name}}</div>
+                                    <i class="activity_hot" v-if="item.ishot && item.ishot == 1"></i>
                                 </div>
                                 <!-- <div class="activity_list" ref="activityChild" @click="goSign()">
                                     <img src="../../../../static/images/home/activity1.png" alt="">
@@ -191,6 +191,7 @@
 <script>
 import '../../../../static/js/swiper.js';
 import '../../../../static/css/swiper-3.4.2.min.css';
+import { allget } from '../../../api/api.js';
 export default {
     data(){
         return {
@@ -203,7 +204,10 @@ export default {
                 {icon:'./static/images/home/activity3.png',text:'阅读有赏',ishot:'0',toUrl:'/read'},
                 {icon:'./static/images/home/activity4.png',text:'幸运转盘',ishot:'0',toUrl:'/luckDraw'},
 
-            ]
+            ],
+            open_id:'',
+            userInfoData:{},
+            activity_list:[],
         }
     },
     methods: {
@@ -211,15 +215,41 @@ export default {
             var _this = this;
             _this.tabIndex = index;
         },
-        goTo(item){
-            var toPath = item.toUrl;
-            this.$router.replace({path:toPath,query: {recordPage:'taskWall'}});
+         goTo(item){
+            var sys_activity_id = item.sys_activity_id;
+            var toPath = '';
+            sys_activity_id == 1?toPath = '/signIn':sys_activity_id == 2?toPath = '/read':sys_activity_id == 3?toPath = '/extension':sys_activity_id == 4?toPath = '/luckDraw':toPath='';
+            this.$router.replace({path:toPath});
+        },
+        //获取活动列表
+        getActivityList(){
+            var _this = this;
+            var openid = _this.userInfoData.open_id;
+            var formData = {
+                "open_id":openid,
+                "store_id":1,
+            };
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            _this.$axios.post(allget+"/activity/get_activities",formData,headerConfig).then((res) => {
+                if(res.data.error_code == 0){
+                   _this.activity_list = res.data.activity_list;
+                   setTimeout(() => {_this.setActivity();},0)
+                }else{
+                    config.layerMsg(res.data.msg, 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
         },
         //活动入口的设计
         setActivity(){
             var _this = this;
             var {activityBoxMain, activityChild, activityjz} = _this.$refs;
-            var len = _this.activityList.length;
+            var len = _this.activity_list.length;
             if(len <= 0){
                 return false;
             };
@@ -239,15 +269,6 @@ export default {
             else{
                 _this.$router.replace({path:'/'+pervePage});
             }
-            // else if(pervePage == 2){
-            //     _this.$router.replace({path:'/signIn'});  //从签到进去
-            // }else if(pervePage == 3){
-            //     _this.$router.replace({path:'/orderDetail',query: {recordPage:pervePage}});
-            // }else if(pervePage == 4){  //从阅读有礼进去
-            //     _this.$router.replace({path:'/read'});
-            // }else if(pervePage == 5){  //从转盘进去
-            //     _this.$router.replace({path:'/luckDraw'});
-            // }
         },
     },
     destroyed(){
@@ -256,7 +277,8 @@ export default {
     mounted(){
         var _this = this;
         _this.$nextTick(() => {
-           _this.setActivity();
+            _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+           _this.getActivityList();
         });
         config.isGoBack(_this.forbidBack);
     }

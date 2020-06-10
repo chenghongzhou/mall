@@ -104,7 +104,7 @@ export default {
         //签到
         signIn(){
             var _this = this;
-            var openid = JSON.parse(config.getCookie('userInfo')).openid;
+            var openid = _this.userInfoData.open_id;
             var formData = {
                 'store_id': 1001,
                 "open_id":openid
@@ -115,7 +115,7 @@ export default {
                     'Content-Type': 'multipart/form-data',
                 }
             };
-            _this.$axios.post("http://v8.python.youwoxing.net:8003/sign/sign_once/",formData,headerConfig).then((res) => {
+            _this.$axios.post(allget+"/sign/sign_once",formData,headerConfig).then((res) => {
                 _this.getData = res.data;
                 if(res.data.error_code == 0){
                     _this.signMask = true;
@@ -149,7 +149,6 @@ export default {
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
             _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
-            console.log(_this.userInfoData)
             _this.signIn();
         })
     }   

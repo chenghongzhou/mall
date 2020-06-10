@@ -12,22 +12,27 @@
         </div>
         <div class="list_box">
             <div class="content">
-                <div class="list" @click="orderDetail()">
-                    <div class="order_number">兑换单号：6022545554444455</div>
-                    <div class="order_status">待发货</div>
+                <div class="nodata" v-if="!dataList || dataList.length == 0">暂无数据</div>
+                <div class="list" @click="orderDetail()" v-for="(item,index) in dataList" :key="index">
+                    <div class="order_number">兑换单号：{{item.out_trade_no}}</div>
+                    <div class="order_status">
+                        <span v-if="item.status == 0">待发货</span>
+                        <span v-if="item.status == 1">待收货</span>
+                        <span v-if="item.status == 2">已完成</span>
+                    </div>
                     <div class="order_info_box">
-                        <img src="../../../../static/images/exchangeRecord/good.png" alt="" class="order_good_img">
+                        <img :src="item.product_thumbnail" alt="" class="order_good_img">
                         <div class="order_info">
-                            <div class="order_name">游戏耳机</div>
-                            <div class="good_intr">纯正原声，真实体验</div>
-                            <div class="good_price"><i class="money_icon"></i>800+￥900</div>
-                            <div class="good_nums">X1</div>
+                            <div class="order_name">{{item.product_name}}</div>
+                            <div class="good_intr">{{item.dec}}</div>
+                            <div class="good_price"><i class="money_icon"></i>{{item.cost_integral}}+￥{{item.pay_num}}</div>
+                            <div class="good_nums">X{{item.num}}</div>
                         </div>
                     </div>
                     <div class="order_money_box">
                         <div class="order_money">
-                            <div class="order_money_in">共1件，合计(积分):<span>8540</span></div>
-                            <div class="order_money_in" style="margin-top:0.03rem">合计(现金):<span class="money">￥900.00</span></div>
+                            <div class="order_money_in">共{{item.num}}件，合计(积分):<span>{{item.cost_integral}}</span></div>
+                            <div class="order_money_in" style="margin-top:0.03rem">合计(现金):<span class="money">￥{{item.pay_num}}</span></div>
                         </div>
                     </div>
                 </div>
@@ -37,10 +42,12 @@
 </template>
 
 <script>
+import { allget } from '../../../api/api.js';
 export default {
     data(){
         return {
             tabIndex: 1,
+            dataList:[],
         }
     },
     methods: {
@@ -52,6 +59,30 @@ export default {
             var pervePage = this.$route.query.recordPage;
             this.$router.replace({path:'/orderDetail',query: {recordPage:pervePage}});
         },
+        //获取数据
+        getData(){
+             var _this = this;
+            var openid = JSON.parse(config.getCookie('userInfo')).openid;
+            var formData = {
+                'store_id': 1001,
+                "open_id":openid
+            };
+            
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            };
+            _this.$axios.post(allget+"/items/get_items_record",formData,headerConfig).then((res) => {
+                if(res.data.error_code == 0){
+                    _this.dataList = res.data.result_list;
+                }else{
+                    config.layerMsg('出错了~', 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+        },
         forbidBack(){
             var _this = this;
             var prveUrl = localStorage.getItem('backName');
@@ -61,13 +92,6 @@ export default {
             }else{
                 _this.$router.replace({path:'/'+pervePage});
             }
-            // else if(pervePage == 2){//从签到进去
-            //     _this.$router.replace({path:'/signIn'});
-            // }else if(pervePage == 4){  //从阅读有礼进去
-            //     _this.$router.replace({path:'/read'});
-            // }else if(pervePage == 5){  //从转盘进去
-            //     _this.$router.replace({path:'/luckDraw'});
-            // }
         },
     },
     destroyed(){
@@ -76,6 +100,9 @@ export default {
     mounted(){
         var _this = this;
         config.isGoBack(_this.forbidBack);
+        _this.$nextTick(() => {
+            _this.getData();
+        })
     }
 }
 </script>

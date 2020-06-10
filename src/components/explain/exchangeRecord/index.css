@@ -154,6 +154,12 @@
     vertical-align: top;
    
 }
+.nodata{
+    font-size: 0.24rem;
+    color: #cccccc;
+    text-align: center;
+    margin-top: 2rem;
+}
 .order_money_box{
     margin-top: 0.2rem;
     width: 100%;

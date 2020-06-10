@@ -18,7 +18,7 @@
             </div>
         </div>    
        <div class="content" ref="content">
-           <div class="content_title">积分抽大奖</div>
+           <div class="content_title">{{getData.title}}</div>
            <div class="content_vice_title">10000份大奖抽不停</div>
            <div class="notice_box">
                <div class="notice">
@@ -28,41 +28,41 @@
                </div>
            </div>
            <div class="luck_draw_box">
-               <ul>
+               <ul v-if="awards.length>=8">
                    <img src="../../../../static/images/luckDraw/active.png" alt="" class="play_active" :class="['play_active_' + current]">
                    <li v-for="(item, index) in awards.slice(0,3)" :key="index">
-                        <img :src="item.img" alt="" class="prize">
-                        <div class="prize_name">{{item.id}}</div>
+                        <img :src="item.icon_url" alt="" class="prize" v-if="item.icon_url">
+                        <div class="prize_name">{{item.name}}</div>
                    </li>
                    <li>
-                        <img :src="awards[7].img" alt="" class="prize">
-                        <div class="prize_name">{{awards[7].id}}</div>
+                        <img :src="awards[7].icon_url" alt="" class="prize" v-if="awards[7].icon_url">
+                        <div class="prize_name">{{awards[7].name}}</div>
                    </li>
                    <li @click="handleStart()">
                        <img src="../../../../static/images/luckDraw/begain.png" alt="" class="begain">
                         <div class="play_times">20积分/次</div>
                    </li>
                    <li>
-                        <img :src="awards[3].img" alt="" class="prize">
-                        <div class="prize_name">{{awards[3].id}}</div>
+                        <img :src="awards[3].icon_url" alt="" class="prize" v-if="awards[3].icon_url">
+                        <div class="prize_name">{{awards[3].name}}</div>
                    </li>
                    <li>
-                        <img :src="awards[6].img" alt="" class="prize">
-                        <div class="prize_name">{{awards[6].id}}</div>
+                        <img :src="awards[6].icon_url" alt="" class="prize" v-if="awards[6].icon_url">
+                        <div class="prize_name">{{awards[6].name}}</div>
                    </li>
                    <li>
-                        <img :src="awards[5].img" alt="" class="prize">
-                        <div class="prize_name">{{awards[5].id}}</div>
+                        <img :src="awards[5].icon_url" alt="" class="prize" v-if="awards[5].icon_url">
+                        <div class="prize_name">{{awards[5].name}}</div>
                    </li>
                    <li>
-                        <img :src="awards[4].img" alt="" class="prize">
-                        <div class="prize_name">{{awards[4].id}}</div>
+                        <img :src="awards[4].icon_url" alt="" class="prize" v-if="awards[4].icon_url">
+                        <div class="prize_name">{{awards[4].name}}</div>
                    </li>
                </ul>
-               <div class="play_remmid">我的抽奖机会：<span>5</span>次</div>
+               <div class="play_remmid">我的抽奖机会：<span>{{myChange}}</span>次</div>
            </div>
            <div class="get_play_change"></div>
-           <div class="play_intru">每人每天5次，首次抽奖免费，再次抽奖20积分/次</div>
+           <div class="play_intru">每人每天{{getData.limit_count}}次，前{{getData.free_chance_per_day}}次抽奖免费，再次抽奖{{getData.cost}}积分/次</div>
        </div>
        <footer-view></footer-view>
        <!--中奖是物品积分-->
@@ -139,6 +139,7 @@
 
 <script>
 import { allget } from '../../../api/api.js';
+import { userName } from './name.js';
 export default {
     data(){
         return {
@@ -155,14 +156,7 @@ export default {
 			current: 0,  // 当前转动的位置
 			isRuningLucky: false,  // 是否正在抽奖
             awards: [  //奖品
-                {id: 1,name:'任天堂游戏机',img:'../../../../static/images/luckDraw/prize.png'},
-                {id: 2,name:'任天堂游戏机',img:'../../../../static/images/luckDraw/prize.png'},
-                {id: 3,name:'任天堂游戏机',img:'../../../../static/images/luckDraw/prize.png'},
-                {id: 4,name:'任天堂游戏机',img:'../../../../static/images/luckDraw/prize.png'},
-                {id: 5,name:'任天堂游戏机',img:'../../../../static/images/luckDraw/prize.png'},
-                {id: 6,name:'任天堂游戏机',img:'../../../../static/images/luckDraw/prize.png'},
-                {id: 7,name:'任天堂游戏机',img:'../../../../static/images/luckDraw/prize.png'},
-                {id: 8,name:'任天堂游戏机',img:'../../../../static/images/luckDraw/prize.png'},
+                {id: 1,name:'任天堂游戏机',icon_url:'../../../../static/images/luckDraw/prize.png'},
             ],
             noticeList: [  //中奖信息
                 {name:'中国移动', prize:'现金券1'},
@@ -170,6 +164,9 @@ export default {
                 {name:'中国移动', prize:'现金券3'},
             ],
             userInfoData:{},
+            getData: {},
+            reallAwards:[],  //正真的奖品信息
+            myChange:'0', //我的抽奖次数
         }
     },
      methods: {
@@ -179,13 +176,27 @@ export default {
         taskWall(){
             this.$router.replace({path:'/taskWall',query: {recordPage:'luckDraw'}});
         },
+        //跑马灯
+        getAds(){
+            var name = userName;
+            var len = this.reallAwards.length;
+            var arrList = [];
+             var awardsNums = parseInt(Math.random()*(len),10);
+            for(var i = 0;i<30;i++){
+                var nameNums = parseInt(Math.random()*(500),10);
+                var awardsNums = parseInt(Math.random()*(len),10);
+                var item = {'name':name[nameNums],'prize':this.reallAwards[awardsNums].name};
+                arrList.push(item);
+            };
+            this.noticeList = arrList;
+        },
         //获取抽奖奖品
         getLotteryPrize(){
             var _this = this;
             var openid = JSON.parse(config.getCookie('userInfo')).openid;
             var formData = {
                 'store_id': 1001,
-                "open_id":_this.openid
+                "open_id":openid
             };
             
             var headerConfig = {
@@ -193,17 +204,73 @@ export default {
                     'Content-Type': 'multipart/form-data',
                 }
             };
-            _this.$axios.post(allget+"/lottery/get_sets/",formData,headerConfig).then((res) => {
-                _this.getData = res.data;
-                if(res.data.error_code == 0){
-                    _this.signMask = true;
-                    _this.siginList = res.data.data.list.day_list;
-                }else if(res.data.error_code == 1){
-                    console.log(res.data.data.list.day_list,789)
-                    _this.siginList = res.data.data.list.day_list;
-                    config.layerMsg(res.data.msg, 2);
+            _this.$axios.post(allget+"/lottery/get_sets",formData,headerConfig).then((res) => {
+                if(res.data){
+                    _this.reallAwards = res.data.bonus_sets;
+                    var list = res.data.bonus_sets;
+                    var awardsList = [];
+                    var len = list.length;
+                    _this.getData = res.data;
+                    list.forEach((item,index,arr) => {
+                        item.id = index+1;
+                    });
+                    for(var i = len;i<9-len;i++){
+                        var ele = {'id':i+1,'icon_url':'','name':''}
+                        awardsList.push(ele);
+                    }
+                    _this.awards = list.concat(awardsList);
+                    _this.getAds();
+                    
                 }else{
-                    config.layerMsg(res.data.msg, 2);
+                    config.layerMsg('出错了~', 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+        },
+        //获取我的剩余抽奖次数
+        getMyChange(){
+             var _this = this;
+            var openid = JSON.parse(config.getCookie('userInfo')).openid;
+            var formData = {
+                'store_id': 1001,
+                "open_id":openid
+            };
+            
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            };
+            _this.$axios.post(allget+"/lottery/get_today_lottery",formData,headerConfig).then((res) => {
+                if(res.data){
+                    _this.myChange = res.data.today_count;
+                }else{
+                    config.layerMsg('出错了~', 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+        },
+        //获取抽奖]
+        getBtnLottery(){
+             var _this = this;
+            var openid = JSON.parse(config.getCookie('userInfo')).openid;
+            var formData = {
+                'store_id': 1001,
+                "open_id":openid
+            };
+            
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            };
+            _this.$axios.post(allget+"/lottery/get_lottery",formData,headerConfig).then((res) => {
+                if(res.data){
+                    
+                }else{
+                    config.layerMsg('出错了~', 2);
                 };
             }).catch(() => {
                 console.log('error');
@@ -302,6 +369,8 @@ export default {
         _this.$nextTick(() =>{
             _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
             let scrollTimer = setInterval(this.scroll, 2000);
+            _this.getLotteryPrize();
+            _this.getMyChange();
         })
     }
 }
