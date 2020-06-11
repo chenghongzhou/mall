@@ -75,8 +75,8 @@
                                 <img :src="item.pic" alt="">
                             </div>
                             <div class="goods_name">{{item.name}}</div>
-                            <div class="goods_old_price">原价10元</div>
-                            <div class="goods_now_price"><span>99</span>积分+<span>99</span>元</div>
+                            <div class="goods_old_price">原价{{item.normal_price}}元</div>
+                            <div class="goods_now_price"><span>{{item.is_give_integral}}</span>积分+<span>{{item.current_price}}</span>元</div>
                             <div class="buy_btn">立即兑</div>
                         </div>
                     </div>
@@ -404,7 +404,7 @@ export default {
             this.$router.replace({path:'/taskWall'});
         },
         goodDetail(rows){
-            this.$router.replace({path:'/goodDetail',query:{item:rows}});
+            this.$router.replace({path:'/goodDetail',params:{item:'454'}});
         },
         forbidBack(){
             // if(config.getHashVReq('recordPage') && config.thirdParty().isWechat == true){

@@ -167,6 +167,7 @@ export default {
             getData: {},
             reallAwards:[],  //正真的奖品信息
             myChange:'0', //我的抽奖次数
+            getPrizeInfo:{},  //获取中奖后的结果
         }
     },
      methods: {
@@ -193,7 +194,7 @@ export default {
         //获取抽奖奖品
         getLotteryPrize(){
             var _this = this;
-            var openid = JSON.parse(config.getCookie('userInfo')).openid;
+            var openid = _this.userInfoData.open_id;
             var formData = {
                 'store_id': 1001,
                 "open_id":openid
@@ -211,11 +212,8 @@ export default {
                     var awardsList = [];
                     var len = list.length;
                     _this.getData = res.data;
-                    list.forEach((item,index,arr) => {
-                        item.id = index+1;
-                    });
                     for(var i = len;i<9-len;i++){
-                        var ele = {'id':i+1,'icon_url':'','name':''}
+                        var ele = {'icon_url':'','name':''}
                         awardsList.push(ele);
                     }
                     _this.awards = list.concat(awardsList);
@@ -231,7 +229,7 @@ export default {
         //获取我的剩余抽奖次数
         getMyChange(){
              var _this = this;
-            var openid = JSON.parse(config.getCookie('userInfo')).openid;
+            var openid = _this.userInfoData.open_id;
             var formData = {
                 'store_id': 1001,
                 "open_id":openid
@@ -245,30 +243,6 @@ export default {
             _this.$axios.post(allget+"/lottery/get_today_lottery",formData,headerConfig).then((res) => {
                 if(res.data){
                     _this.myChange = res.data.today_count;
-                }else{
-                    config.layerMsg('出错了~', 2);
-                };
-            }).catch(() => {
-                console.log('error');
-            });
-        },
-        //获取抽奖]
-        getBtnLottery(){
-             var _this = this;
-            var openid = JSON.parse(config.getCookie('userInfo')).openid;
-            var formData = {
-                'store_id': 1001,
-                "open_id":openid
-            };
-            
-            var headerConfig = {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                }
-            };
-            _this.$axios.post(allget+"/lottery/get_lottery",formData,headerConfig).then((res) => {
-                if(res.data){
-                    
                 }else{
                     config.layerMsg('出错了~', 2);
                 };
@@ -293,13 +267,38 @@ export default {
 			//config.layerMsg("开始抽奖",1);
 		},
 		drawAward() {
+            var _this = this;
+            var openid = _this.userInfoData.open_id;
+            var formData = {
+                'store_id': 1001,
+                "open_id":openid
+            };
+            
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            };
+            _this.$axios.post(allget+"/lottery/get_lottery",formData,headerConfig).then((res) => {
+                if(res.data){
+                    this.award = {
+                        id: res.data.lottery_id
+                    };
+                    _this.getPrizeInfo = res.data;
+                    _this.getMyChange();
+                }else{
+                    config.layerMsg('出错了~', 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
 			// 请求接口，模拟一个抽奖数据(假设请求时间为2s)
-			setTimeout(() => {
-				this.award = {
-					id: "1"
-				};
-				//console.log("返回的抽奖结果是", this.award);
-			}, 2000);
+			// setTimeout(() => {
+			// 	this.award = {
+			// 		id: "1"
+			// 	};
+			// 	//console.log("返回的抽奖结果是", this.award);
+			// }, 2000);
 			this.move();
 		},
 		move() {

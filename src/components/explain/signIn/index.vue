@@ -20,21 +20,26 @@
         <div class="content">
             <div class="sign_box">
                 <div class="my_sign">
-                    <img :src="userInfoData.avatar_url" alt="" class="my_icon">
-                    <img src="../../../../static/images/sign/top_no1.png" alt="" class="my_rank">
-                    <!-- <div>4</div> -->
-                    <!-- <img src="../../../../static/images/sign/top_no2.png" alt="" class="my_rank"> -->
-                    <!-- <img src="../../../../static/images/sign/top_no3.png" alt="" class="my_rank"> -->
+                    <img :src="userInfoData.avatar_url" alt="" class="my_icon" v-if="rank<3">
+                    <img src="../../../../static/images/sign/top_no1.png" alt="" class="my_rank" v-if="rank == 1">
+                    
+                    <img src="../../../../static/images/sign/top_no2.png" alt="" class="my_rank" v-else-if="rank == 2">
+                    <img src="../../../../static/images/sign/top_no3.png" alt="" class="my_rank" v-else-if="rank == 3">
+                    <div v-if="rank>3">{{rank}}</div>
                 </div>
-                <div class="rank_msg">今日排名</div>
+                <div class="rank_msg">
+                    <span v-if="tabIndex == 1">今日排名</span>
+                    <span v-if="tabIndex == 2">本月排行</span>
+                    <span v-if="tabIndex == 3">总排行</span>
+                </div>
                 <div class="my_sign_info">
                     <div>
                         <p>连续签到</p>
-                        <p>1天</p>
+                        <p>{{continue_sign_count}}天</p>
                     </div>
                     <div>
                         <p>累计签到</p>
-                        <p>1天</p>
+                        <p>{{total_sign_count}}天</p>
                     </div>
                 </div>
             </div>
@@ -47,15 +52,16 @@
             <div class="list_box">
                 <div class="list_main">
                     <ul>
+                        <div class="nodata" v-if="siginList.length == 0">暂无数据</div>
                         <li v-for="(item,index) in siginList" :key="index">
                             <div class="list_rank" v-if="index == 0"><img src="../../../../static/images/sign/rank1.png" alt=""></div>
                             <div class="list_rank" v-if="index == 1"><img src="../../../../static/images/sign/rank1.png" alt=""></div>
                             <div class="list_rank" v-if="index == 2"><img src="../../../../static/images/sign/rank1.png" alt=""></div>
                             <div class="list_rank" v-else>{{index+1}}</div>
-                            <img src="../../../../static/images/home/my_img.png" alt="" class="list_img">
+                            <img :src="item.avatar_url" alt="" class="list_img">
                             <div class="list_info">
-                                <p class="list_info_name">秦松少女/</p>
-                                <div class="list_info_signs">累计签到{{item.sign_count}}天<span>{{item.sign_time}}</span></div>
+                                <p class="list_info_name">{{item.nick_name}}</p>
+                                <div class="list_info_signs">累计签到{{item.sign_count}}天<span v-if="tabIndex == 1">{{item.sign_time}}</span></div>
                             </div>
                             <!-- <div class="love"></div> -->
                         </li>
@@ -86,14 +92,26 @@ export default {
             userInfoData: {},  //用户信息包含积分
             getData: {},
             siginList:[],
+            continue_sign_count:'',  //连续签到
+            total_sign_count: '', //累计签到
+            rank:1,  //今日，本月，总排行 
         }
     },
     methods: {
         handTab(num){
             var _this = this;
             _this.tabIndex = num;
-            _this.siginList = _this.getData.data.list.day_list;
-            num == 1?_this.siginList = _this.getData.data.list.day_list:num == 2?_this.siginList = _this.getData.data.list.month_list:_this.siginList = _this.getData.data.list.total_list;
+            _this.siginList = _this.getData.list.day_list;
+            if(num == 1){
+                _this.siginList = _this.getData.list.day_list;
+                _this.rank = _this.getData.user_position.in_day_list;
+            }else if(num == 2){
+                _this.siginList = _this.getData.list.month_list;
+                _this.rank = _this.getData.user_position.in_month_list;
+            }else{
+                _this.siginList = _this.getData.list.total_list;
+                _this.rank = _this.getData.user_position.in_total_list;
+            };
         },
         exchangeRecord(){
             this.$router.replace({path:'/exchangeRecord',query: {recordPage:'signIn'}});
@@ -116,13 +134,17 @@ export default {
                 }
             };
             _this.$axios.post(allget+"/sign/sign_once",formData,headerConfig).then((res) => {
-                _this.getData = res.data;
+                _this.getData = res.data.data;
+                _this.continue_sign_count = res.data.data.user_position.continue_sign_count;
+                _this.total_sign_count = res.data.data.user_position.total_sign_count;
+
                 if(res.data.error_code == 0){
                     _this.signMask = true;
                     _this.siginList = res.data.data.list.day_list;
+                     _this.rank = res.data.data.user_position.in_day_list;
                 }else if(res.data.error_code == 1){
-                    console.log(res.data.data.list.day_list,789)
                     _this.siginList = res.data.data.list.day_list;
+                     _this.rank = res.data.data.user_position.in_day_list;
                     config.layerMsg(res.data.msg, 2);
                 }else{
                     config.layerMsg(res.data.msg, 2);

@@ -27,6 +27,12 @@
     left: 0.3rem;
     display: block;
 }
+.nodata{
+    font-size: 0.24rem;
+    color: #cccccc;
+    text-align: center;
+    margin-top: 2rem;
+}
 .header{
     width: 100%;
     height: auto;
@@ -272,6 +278,7 @@
     height: auto;
     padding: 0 0.3rem;
     box-sizing: border-box;
+    background: #f1f1f1;
 }
 ul li{
     width: 100%;

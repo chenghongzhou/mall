@@ -10,8 +10,8 @@
         </div>
         <div class="good_info_box">
             <div class="good_price_part">
-                <div class="price">原价：19.9元</div>
-                <div class="price_result"><i></i><span>99</span>积分 + <span>9</span>元</div>
+                <div class="price">原价：{{params.normal_price}}元</div>
+                <div class="price_result"><i></i><span>{{params.is_give_integral}}</span>积分 + <span>{{params.current_price}}</span>元</div>
             </div>
             <div class="ex_people_nums">
                 <div>{{params.is_buy_nums}}人已兑</div>
@@ -47,7 +47,7 @@ export default {
         var _this = this;
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
-            console.log(_this.$route.query)
+            console.log(this.$route.params)
             _this.params = _this.$route.query.item;
         })
     }
