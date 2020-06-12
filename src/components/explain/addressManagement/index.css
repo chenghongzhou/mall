@@ -126,3 +126,13 @@
     margin-left: 0.2rem;
     vertical-align: top;
 }
+.btn{
+    width: 5.8rem;
+    margin: 0.6rem auto;
+    background: #ff4532;
+    font-size: 0.32rem;
+    text-align: center;
+    color: #ffffff;
+    border-radius: 0.6rem;
+    padding: 0.24rem 0; 
+}

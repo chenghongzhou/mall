@@ -47,8 +47,7 @@ export default {
         var _this = this;
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
-            console.log(this.$route.params)
-            _this.params = _this.$route.query.item;
+            _this.params = _this.$store.state.goodInfo;
         })
     }
 }

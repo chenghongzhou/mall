@@ -3,8 +3,7 @@ import Vuex from 'vuex';
  
 Vue.use(Vuex);
 const state = {
-    uid: '',
-    sessionId: '',
+    goodInfo:{},  //点击的物品信息
 
 }
 const mutations={

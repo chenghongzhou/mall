@@ -404,7 +404,8 @@ export default {
             this.$router.replace({path:'/taskWall'});
         },
         goodDetail(rows){
-            this.$router.replace({path:'/goodDetail',params:{item:'454'}});
+            this.$store.state.goodInfo = rows;
+            this.$router.replace({path:'/goodDetail'});
         },
         forbidBack(){
             // if(config.getHashVReq('recordPage') && config.thirdParty().isWechat == true){

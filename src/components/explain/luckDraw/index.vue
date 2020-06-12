@@ -74,14 +74,14 @@
                     <div class="mask_prize_name">恭喜您获得拼多多无门槛现金券</div>
                     <div class="prize_things_box">
                         <div class="prize_coupon_bg">
-                            <div class="prize_coupon_num">￥<span>20</span></div>
+                            <div class="prize_coupon_num">￥<span>{{getPrizeInfo.num}}</span></div>
                             <div class="prize_coupon_info">
                                 <p class="prize_coupon_use">无门槛代金券</p>
                                 <p class="prize_coupon_use_time">领取后30天内有效</p>
                             </div>
                         </div>
                     </div>
-                    <div class="mask_btn">立即使用</div>
+                    <div class="mask_btn" @click="handleUse()">立即使用</div>
                     <div class="mask_close" @click="maskCoupon = false"></div>
                 </div>
             </div>
@@ -93,12 +93,12 @@
                 <div class="light"></div>
                 <div class="box prize_things">
                     <div class="mask_title">恭喜中奖</div>
-                    <div class="mask_prize_name">恭喜您获得100积分</div>
+                    <div class="mask_prize_name">恭喜您获得{{getPrizeInfo.num}}积分</div>
                     <div class="prize_things_box">
                         <img src="../../../../static/images/luckDraw/integral.png" alt="" class="mask_integral">
-                        <div class="prize_integral_num">X100</div>
+                        <div class="prize_integral_num">X1</div>
                     </div>
-                    <div class="mask_btn">立即使用</div>
+                    <div class="mask_btn" @click="maskIntegral = false">立即使用</div>
                     <div class="mask_close" @click="maskIntegral = false"></div>
                 </div>
             </div>
@@ -111,8 +111,8 @@
                 <div class="box prize_redpackets">
                     <div class="mask_title">恭喜中奖</div>
                     <div class="mask_prize_name">恭喜您获得拼多多现金红包</div>
-                    <div class="prize_redpackets_num">￥<span>20.00</span></div>
-                    <div class="mask_btn">立即使用</div>
+                    <div class="prize_redpackets_num">￥<span>{{getPrizeInfo.num}}</span></div>
+                    <div class="mask_btn" @click="handleUse()">立即使用</div>
                     <div class="mask_close" @click="maskRedpackets = false"></div>
                 </div>
             </div>
@@ -160,8 +160,6 @@ export default {
             ],
             noticeList: [  //中奖信息
                 {name:'中国移动', prize:'现金券1'},
-                {name:'中国移动', prize:'现金券2'},
-                {name:'中国移动', prize:'现金券3'},
             ],
             userInfoData:{},
             getData: {},
@@ -190,6 +188,9 @@ export default {
                 arrList.push(item);
             };
             this.noticeList = arrList;
+        },
+        handleUse(){
+            window.location.href = this.getPrizeInfo.value;
         },
         //获取抽奖奖品
         getLotteryPrize(){
@@ -302,7 +303,8 @@ export default {
 			this.move();
 		},
 		move() {
-			let timer = setTimeout(() => {
+            var _this = this;
+			var timer = setTimeout(() => {
 				this.current++;
 				if (this.current > 7) {
 					this.current = 0;
@@ -322,10 +324,13 @@ export default {
 				        setTimeout(() => {
                             this.isRuningLucky = false;
                                 // 这里写停下来要执行的操作（弹出奖品框）
-                                this.maskCoupon = true;
-                                console.log(
-                                    "您抽中的奖品是" + this.awards[this.current].name + ",奖品id是" + this.awards[this.current].id
-                                );
+                                if(_this.getPrizeInfo.type == 1){
+                                    _this.maskCoupon = true;
+                                }else if(_this.getPrizeInfo.type == 2){
+                                    _this.maskRedpackets = true;
+                                }else{
+                                    _this.maskIntegral = true;
+                                };
                             }, 400);
 						return;
 					}

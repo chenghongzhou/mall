@@ -34,6 +34,7 @@
                     </div>
                 </div>
             </div>
+            <div class="btn">添加地址</div>
         </div>
     </div>
 </template>

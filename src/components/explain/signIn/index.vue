@@ -55,8 +55,8 @@
                         <div class="nodata" v-if="siginList.length == 0">暂无数据</div>
                         <li v-for="(item,index) in siginList" :key="index">
                             <div class="list_rank" v-if="index == 0"><img src="../../../../static/images/sign/rank1.png" alt=""></div>
-                            <div class="list_rank" v-if="index == 1"><img src="../../../../static/images/sign/rank1.png" alt=""></div>
-                            <div class="list_rank" v-if="index == 2"><img src="../../../../static/images/sign/rank1.png" alt=""></div>
+                            <div class="list_rank" v-else-if="index == 1"><img src="../../../../static/images/sign/rank2.png" alt=""></div>
+                            <div class="list_rank" v-else-if="index == 2"><img src="../../../../static/images/sign/rank3.png" alt=""></div>
                             <div class="list_rank" v-else>{{index+1}}</div>
                             <img :src="item.avatar_url" alt="" class="list_img">
                             <div class="list_info">

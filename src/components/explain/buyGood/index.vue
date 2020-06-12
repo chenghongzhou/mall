@@ -18,11 +18,11 @@
 
         <div class="buy_good_box">
             <div class="order_info_box">
-                <img src="../../../../static/images/exchangeRecord/good.png" alt="" class="order_good_img">
+                <img :src="goodInfo.pic" alt="" class="order_good_img">
                 <div class="order_info">
-                    <div class="order_name">游戏耳机</div>
-                    <div class="good_intr">纯正原声，真实体验</div>
-                    <div class="good_price"><i class="money_icon"></i>800+￥900</div>
+                    <div class="order_name">{{goodInfo.name}}</div>
+                    <div class="good_intr">{{goodInfo.name_dec}}</div>
+                    <div class="good_price"><i class="money_icon"></i>{{goodInfo.is_give_integral}}<span>+￥{{goodInfo.current_price}}</span></div>
                 </div>
             </div>
             <div class="order_money_box">
@@ -35,8 +35,8 @@
 
         <div class="footer">
             <div class="money_box">
-                <div class="intergral">合计(积分)：<i></i><span>1245</span></div>
-                <div class="money">合计(现金)：<i></i><font>￥</font><span>90</span></div>
+                <div class="intergral">合计(积分)：<i></i><span>{{total_integral}}</span></div>
+                <div class="money">合计(现金)：<i></i><font>￥</font><span>{{total_price}}</span></div>
             </div>
             <div class="btn" @click="successMask = true">立即兑换</div>
         </div>
@@ -71,6 +71,9 @@ export default {
             num: 1,
             successMask: false,
             fileMask: false,
+            goodInfo:{},
+            total_integral:'',  //总共的积分
+            total_price:'',    //总共的价格
         }
     },
     methods: {
@@ -79,8 +82,10 @@ export default {
             if(index == 1){
                 this.num>1?this.num = this.num-1:this.num=1;
             }else{
-                this.num++;
+                this.num++; 
             };
+            this.total_integral = this.goodInfo.is_give_integral*this.num;
+            this.total_price = this.goodInfo.current_price*this.num;
         },
         goAddress(){
             this.$router.replace({path:'/addressManagement/index'});
@@ -99,7 +104,9 @@ export default {
         var _this = this;
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
-            
+             _this.goodInfo = _this.$store.state.goodInfo;
+             _this.total_integral = _this.goodInfo.is_give_integral;
+             _this.total_price = _this.goodInfo.current_price;
         })
     }
 }
