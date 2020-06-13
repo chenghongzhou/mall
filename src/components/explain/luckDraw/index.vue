@@ -59,7 +59,7 @@
                         <div class="prize_name">{{awards[4].name}}</div>
                    </li>
                </ul>
-               <div class="play_remmid">我的抽奖机会：<span>{{myChange}}</span>次</div>
+               <div class="play_remmid">我的抽奖机会：<span>{{getData.limit_count-myChange}}</span>次</div>
            </div>
            <div class="get_play_change"></div>
            <div class="play_intru">每人每天{{getData.limit_count}}次，前{{getData.free_chance_per_day}}次抽奖免费，再次抽奖{{getData.cost}}积分/次</div>

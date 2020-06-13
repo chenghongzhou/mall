@@ -2,37 +2,37 @@
     <div class="main" ref="main">
         <div class="top">
             <i class="top_close" @click="forbidBack()"></i>
-            编辑收货地址
+            添加收货地址
         </div>
         <div class="header">
             <div class="go_back" @click="forbidBack()"></div>
-            <div class="delet_btn">删除</div>
+            <!-- <div class="delet_btn">删除</div> -->
         </div>
         <div class="content">
             <div class="list">
                 <div class="label_left">收货人</div>
-                <div class="label_right"><input type="text" name="" id="" class="address_detail" @focus="handBlur()" placeholder="收货人姓名"></div>
+                <div class="label_right"><input type="text" name="" id="" v-model="addInfo.name" class="address_detail" @focus="handBlur()" placeholder="收货人姓名"></div>
             </div>
             <div class="list">
                 <div class="label_left">手机号</div>
-                <div class="label_right"><input type="number" name="" id="" class="address_detail" @focus="handBlur()" placeholder="收货人手机号"></div>
+                <div class="label_right"><input type="number" name="" id="" v-model="addInfo.tel" class="address_detail" @focus="handBlur()" placeholder="收货人手机号"></div>
             </div>
             <div class="list" id="demo">
                 <div class="label_left">所在地区</div>
-                <div class="label_right" :class="{'addressColor':isAddressCheck==false}">{{address1}}<i></i></div>
+                <div class="label_right" :class="{'addressColor':isAddressCheck==false}">{{addInfo.address}}<i></i></div>
             </div>
             <div class="list">
                 <div class="label_left">详细地址</div>
                 <div class="label_right">
-                    <input type="text" name="" id="" class="address_detail" @focus="handBlur()" placeholder="详细地址">
+                    <input type="text" name="" id="" class="address_detail" v-model="addInfo.AddressDetail" @focus="handBlur()" placeholder="详细地址">
                 </div>
             </div>
         </div>
         <input id="value" type="hidden" value="20,234,504">
         <div class="content">
-            <div class="list">设为默认地址<i :class="{'open':isOpen}" @click="handleSet()"></i></div>
+            <div class="list">设为默认地址<i :class="{'open':addInfo.is_defautl}" @click="handleSet()"></i></div>
         </div>
-        <div class="btn" v-if="btnShow">保存</div>
+        <div class="btn" v-if="btnShow" @click="addAddress()">保存</div>
     </div>
 </template>
 
@@ -40,19 +40,65 @@
 import '../../../../static/js/LAreaData.js';
 import '../../../../static/css/LArea.css';
 import '../../../../static/js/LArea.js';
-
+import { allget } from '../../../api/api.js';
 export default {
     data(){
         return {
-            isOpen: false,
             btnShow: true,
-            address1:'请选择地址',
-            isAddressCheck: false
+            isAddressCheck: false,
+            userInfoData:{},
+            addInfo:{
+                "address":'',
+                "AddressDetail":'',
+                "tel":'',
+                "name":'',
+                "is_defautl": false,
+            }
         }
     },
     methods: {
         handleSet(){
-            this.isOpen?this.isOpen=false:this.isOpen=true;
+            this.addInfo.is_defautl?this.addInfo.is_defautl=false:this.addInfo.is_defautl=true;
+        },
+        addAddress(){
+            var _this = this;
+            var openid = _this.userInfoData.open_id;
+            var formData = {
+                'store_id': 1001,
+                "open_id":openid,
+                "data":{
+                    "address":_this.addInfo.address,
+                    "AddressDetail":_this.addInfo.AddressDetail,
+                    "tel":_this.addInfo.tel,
+                    "name":_this.addInfo.name,
+                    "if_default":_this.addInfo.is_defautl
+                }
+            };
+            if(_this.addInfo.address == "" || _this.addInfo.AddressDetail == "" || _this.addInfo.tel == "" || _this.addInfo.name == ""){
+                config.layerMsg('所提交得信息不能为空~', 2);
+                return false;
+            };
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            };
+            _this.$axios.post(allget+"/c_account/add_user_contact",formData,headerConfig).then((res) => {
+                if(res.data.error_code == 0){
+                    config.layerMsg('添加成功~', 2);
+                    _this.addInfo = {
+                        "address":'',
+                        "AddressDetail":'',
+                        "tel":'',
+                        "name":'',
+                        "is_defautl":false
+                    };
+                }else{
+                    config.layerMsg('出错了~', 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
         },
         onSelected(){
             var _this = this;
@@ -67,7 +113,7 @@ export default {
                 'type': 1, //数据源类型
                 'data': LAreaData,
                 'onResult':function(result){
-                    _this.address1 = result;
+                    _this.addInfo.address = result;
                     _this.isAddressCheck = true;
                 }
             });
@@ -97,6 +143,7 @@ export default {
         var _this = this;
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
+            _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
             _this.setPosition();
             _this.onSelected();
         })
@@ -215,7 +262,7 @@ export default {
         border-radius: 0.6rem;
         padding: 0.34rem 0; 
         position: absolute;
-        bottom: 0.8rem;
+        bottom: 1.8rem;
         left: 50%;
         margin-left: -2.9rem;
     }

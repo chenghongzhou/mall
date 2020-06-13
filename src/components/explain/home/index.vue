@@ -131,7 +131,7 @@ export default {
             var _this = this;
             var formData = {
                 "appid":_this.appid,
-                "code":"061KK7hT0vrmo1270heT0EyahT0KK7hM"
+                "code":"071ZkS982L2ggM0eTi882lMS982ZkS9D"
             };
             var headerConfig = {
                 headers: {
@@ -150,10 +150,6 @@ export default {
                     _this.open_id = JSON.parse(config.getCookie('openid')).open_id;
                 };
                 _this.getUserInfo();
-                _this.getActivityList();
-                _this.getStoreGroups();
-                _this.getStoreItems(-1);
-                _this.getBanner();
             }).catch(() => {
                 console.log('error');
             });
@@ -183,6 +179,10 @@ export default {
                 };
                 _this.getUserInfoMy();
                 _this.updateUserInfo();
+                _this.getActivityList();
+                _this.getStoreGroups();
+                _this.getStoreItems(-1);
+                _this.getBanner();
                 
             }).catch(() => {
                 console.log('error');
@@ -204,7 +204,7 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             };
-            _this.$axios.post(allget+"/c_account/update_user_data/",formData,headerConfig).then((res) => {
+            _this.$axios.post(allget+"/c_account/update_user_data",formData,headerConfig).then((res) => {
                 
             }).catch(() => {
                 console.log('error');
@@ -226,7 +226,7 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             };
-            _this.$axios.post(allget+"/c_account/get_user_info/",formData,headerConfig).then((res) => {
+            _this.$axios.post(allget+"/c_account/get_user_info",formData,headerConfig).then((res) => {
                 if(res.data.error_code == 0){
                     _this.userInfoData = res.data.user_data;
                     config.setCookie(
@@ -276,7 +276,7 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             };
-            _this.$axios.post(allget+"/items/get_banners/",formData,headerConfig).then((res) => {
+            _this.$axios.post(allget+"/items/get_banners",formData,headerConfig).then((res) => {
                 if(res.data.error_code == 0){
                    _this.banner_list = res.data.data;
                 }else{

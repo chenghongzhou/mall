@@ -21,6 +21,7 @@
                 </div>
             </div>
         </div>
+        <div class="nodata" v-if="list.length == 0">暂无数据</div>
         <div class="list_box">
             <div class="list">
                 <div class="list_left">
@@ -38,28 +39,45 @@
                     <div class="list_intergral_icon"></div>
                 </div>
             </div>
-            <div class="list">
-                <div class="list_left">
-                    <div class="list_msg">每日签到</div>
-                    <div class="time">2020-05-20 15:20:56</div>
-                    <div class="nums subtract">-500</div>
-                    <div class="list_intergral_icon"></div>
-                </div>
-            </div>
         </div>
     </div>
 </template>
 
 <script>
+import { allget } from '../../../api/api.js';
 export default {
     data(){
         return {
-
+            userInfoData:{},
+            list:[],
         }
     },
     methods:{
         goHome(){
             this.$router.replace({path:'/'});
+        },
+        getData(){
+            var _this = this;
+            var openid = _this.userInfoData.open_id;
+            var formData = {
+                'store_id': 1001,
+                "open_id":openid
+            };
+            
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            };
+            _this.$axios.post(allget+"/lottery/get_lottery",formData,headerConfig).then((res) => {
+                if(res.data){
+
+                }else{
+                    config.layerMsg('出错了~', 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
         },
         forbidBack(){
             var pervePage = this.$route.query.recordPage;
@@ -72,7 +90,7 @@ export default {
     mounted(){
         var _this = this;
         _this.$nextTick(() => {
-           
+           _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
         });
         config.isGoBack(_this.forbidBack);
         

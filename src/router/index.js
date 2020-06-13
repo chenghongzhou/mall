@@ -12,7 +12,7 @@ const buyGood = () => import('../components/explain/buyGood/index.vue');  //确�
 
 const addressManagement = () => import('../components/explain/addressManagement/main.vue');  //收货地址
 const addressIndex = () => import('../components/explain/addressManagement/index.vue');  //收货地址
-const addressEdit = () => import('../components/explain/addressManagement/edit.vue');  //编辑收货地址
+const addressAdd = () => import('../components/explain/addressManagement/add.vue');  //添加收货地址
 const luckDraw = () => import('../components/explain/luckDraw/index.vue');  //抽奖
 const read = () => import('../components/explain/read/index.vue');  //阅读有赏
 const poster = () => import('../components/explain/poster/index.vue');  //海报
@@ -40,7 +40,7 @@ export default new Router({
         path: '/addressManagement',component: addressManagement,name: addressManagement,
         children: [
            {path: '/addressManagement/index',component: addressIndex,name: addressIndex,meta:{title: '收货地址'}}, 
-           {path: '/addressManagement/edit',component: addressEdit,name: addressEdit,meta:{title: '编辑收货地址'}}, 
+           {path: '/addressManagement/add',component: addressAdd,name: addressAdd,meta:{title: '添加收货地址'}}, 
         ]
     }
   ]
