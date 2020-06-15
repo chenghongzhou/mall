@@ -356,3 +356,8 @@
     top: 0.1rem;
     right: 0.1rem;
 }
+.address_list{
+    width: 1rem;
+    height: 100%;
+    float: right;
+}

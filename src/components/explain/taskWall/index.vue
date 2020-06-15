@@ -12,7 +12,7 @@
                     <div class="my_integral">我的积分</div>
                     <div class="my_integral_number">{{userInfoData.score}}<i class="money_icon"></i><div class="exchage_integral"></div></div>
                     <div class="integral_record" @click="integralRecord()"></div>
-                    <div class="integral_record_intru" @click="integralRecord()"></div>
+                    <div class="integral_record_intru" @click="integralRecordIntru()"></div>
                 </div>
                 <div style="width:0.48rem" ref="activityjz"></div>
                 <div class="task_list_box">
@@ -214,6 +214,10 @@ export default {
         handleTab(index){
             var _this = this;
             _this.tabIndex = index;
+        },
+        //积分说明  integralExplain
+        integralRecordIntru(){  
+            this.$router.replace({path:'/integralExplain'});
         },
          goTo(item){
             var sys_activity_id = item.sys_activity_id;

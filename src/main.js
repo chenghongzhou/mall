@@ -4,7 +4,7 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import 'babel-polyfill';
-import store from './vuex/store';
+import store from './vuex/store.js';
 import axios from 'axios';
 import Loading from "./components/loading";
 import VueClipboard from 'vue-clipboard2';

@@ -4,6 +4,7 @@
             <i class="top_close" @click="forbidBack()"></i>
             收货地址
         </div>
+        <div>
         <div class="header">
             <div class="go_back" @click="forbidBack()"></div>
         </div>
@@ -13,7 +14,8 @@
                     <div class="name">{{item.name}}</div>
                     <div class="tel">{{item.tel}}</div>
                 </div>
-                <div class="address">{{item.address}}  {{item.address_detail}}</div>
+                <div class="address" style="margin-top:0.2rem">{{item.address}}</div>
+                <div class="address">{{item.address_detail}}</div>
                 <div class="btns">
                     <div class="set_default" @click="handleDefault(item,index)"><i :class="{'default':item.if_default == true}"></i>默认地址</div>
                     <div class="operation">
@@ -36,6 +38,7 @@
             </div> -->
             <div class="btn" @click="handleAdd()">添加地址</div>
         </div>
+        </div>
     </div>
 </template>
 
@@ -51,6 +54,14 @@ export default {
     methods: {
       handleAdd(){
           this.$router.replace({path:'/addressManagement/add'});
+      },
+      handleEdit(rows){
+          config.setCookie(
+                'editAddress', 
+                JSON.stringify(rows), 
+                7
+            );
+          this.$router.replace({path:'/addressManagement/add',query: {edit:'1'}});
       },
       //获取收获地址
       getAddress(){
@@ -148,7 +159,6 @@ export default {
         _this.$axios.post(allget+"/c_account/alter_default_address",formData,headerConfig).then((res) => {
             if(res.data.error_code == 0){
                 _this.getAddress();
-                 config.layerMsg(res.data.msg, 2);
             }else{
                 config.layerMsg(res.data.msg, 2);
             };

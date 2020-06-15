@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-        <div class="header_part">
+        <div class="header_part" style="position:fixed;top:0;left:0;z-index:10">
             <div class="top">
                     微吧商城
                 </div>
@@ -16,7 +16,9 @@
                 </div>
             </div>
         </div>
+        
        <div class="content">
+           <div style="height:2.12rem;width:100%"></div>
             <div class="banner_box swiper-container swiper-container1">
                 <div class="swiper-wrapper" style="width:100%;">
                         <div class="banner swiper-slide" v-for="(item,index) in banner_list" :key="index">
@@ -124,14 +126,16 @@ export default {
         login(){
             var appid = this.appid;
             var url = 'http%3a%2f%2fv8homepage.youwoxing.net';
-           // window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_userinfo&state=123123&component_appid=wx00f2bf419bcd81c9")
+            if(config.thirdParty().isWechat == true){
+                // window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_userinfo&state=123123&component_appid=wx00f2bf419bcd81c9")
+            }
         },
         //获取openid
         getOpenId(){
             var _this = this;
             var formData = {
                 "appid":_this.appid,
-                "code":"071ZkS982L2ggM0eTi882lMS982ZkS9D"
+                "code":"021kWBtC069Hdk2OfSwC08DDtC0kWBtr"
             };
             var headerConfig = {
                 headers: {
@@ -428,8 +432,6 @@ export default {
             _this.appid = config.getHashVReq('appid');
             _this.login();
             _this.getOpenId();
-            
-           
             _this.banner1();
             _this.banner2();
         });

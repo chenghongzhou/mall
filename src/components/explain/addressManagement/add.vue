@@ -48,32 +48,38 @@ export default {
             isAddressCheck: false,
             userInfoData:{},
             addInfo:{
-                "address":'',
+                "address":'请选择所在地区',
                 "AddressDetail":'',
                 "tel":'',
                 "name":'',
                 "is_defautl": false,
-            }
+                "id":''
+            },
+            isEdit:'',
         }
     },
     methods: {
         handleSet(){
             this.addInfo.is_defautl?this.addInfo.is_defautl=false:this.addInfo.is_defautl=true;
         },
+        getEditAddress(){
+            this.isEdit = this.$route.query.edit;
+            if(this.isEdit && this.isEdit == 1){
+                var isEditData = JSON.parse(config.getCookie('editAddress'));
+                this.addInfo = {
+                    "address":isEditData.address,
+                    "AddressDetail":isEditData.address_detail,
+                    "tel":isEditData.tel,
+                    "name":isEditData.name,
+                    "is_defautl": isEditData.if_default,
+                    "id":isEditData.id,
+                };
+                this.isAddressCheck = true;
+            }
+        },
         addAddress(){
             var _this = this;
             var openid = _this.userInfoData.open_id;
-            var formData = {
-                'store_id': 1001,
-                "open_id":openid,
-                "data":{
-                    "address":_this.addInfo.address,
-                    "AddressDetail":_this.addInfo.AddressDetail,
-                    "tel":_this.addInfo.tel,
-                    "name":_this.addInfo.name,
-                    "if_default":_this.addInfo.is_defautl
-                }
-            };
             if(_this.addInfo.address == "" || _this.addInfo.AddressDetail == "" || _this.addInfo.tel == "" || _this.addInfo.name == ""){
                 config.layerMsg('所提交得信息不能为空~', 2);
                 return false;
@@ -83,22 +89,58 @@ export default {
                     'Content-Type': 'multipart/form-data',
                 }
             };
-            _this.$axios.post(allget+"/c_account/add_user_contact",formData,headerConfig).then((res) => {
-                if(res.data.error_code == 0){
-                    config.layerMsg('添加成功~', 2);
-                    _this.addInfo = {
-                        "address":'',
-                        "AddressDetail":'',
-                        "tel":'',
-                        "name":'',
-                        "is_defautl":false
-                    };
-                }else{
-                    config.layerMsg('出错了~', 2);
+            if(this.isEdit && this.isEdit == 1){
+                var formData = {
+                    'store_id': 1001,
+                    "open_id":openid,
+                    "data":{
+                        "id":_this.addInfo.id,
+                        "address":_this.addInfo.address,
+                        "AddressDetail":_this.addInfo.AddressDetail,
+                        "tel":_this.addInfo.tel,
+                        "name":_this.addInfo.name,
+                        "if_default":_this.addInfo.is_defautl
+                    }
                 };
-            }).catch(() => {
-                console.log('error');
-            });
+                _this.$axios.post(allget+"/c_account/alter_user_contact",formData,headerConfig).then((res) => {
+                    if(res.data.error_code == 0){
+                        config.layerMsg('修改成功~', 2);
+                    }else{
+                        config.layerMsg('出错了~', 2);
+                    };
+                }).catch(() => {
+                    console.log('error');
+                });
+            }else{
+                var formData = {
+                    'store_id': 1001,
+                    "open_id":openid,
+                    "data":{
+                        "address":_this.addInfo.address,
+                        "AddressDetail":_this.addInfo.AddressDetail,
+                        "tel":_this.addInfo.tel,
+                        "name":_this.addInfo.name,
+                        "if_default":_this.addInfo.is_defautl
+                    }
+                };
+                _this.$axios.post(allget+"/c_account/add_user_contact",formData,headerConfig).then((res) => {
+                    if(res.data.error_code == 0){
+                        config.layerMsg('添加成功~', 2);
+                        _this.isAddressCheck = false;
+                        _this.addInfo = {
+                            "address":'请选择所在地区',
+                            "AddressDetail":'',
+                            "tel":'',
+                            "name":'',
+                            "is_defautl":false
+                        };
+                    }else{
+                        config.layerMsg('出错了~', 2);
+                    };
+                }).catch(() => {
+                    console.log('error');
+                });
+            }
         },
         onSelected(){
             var _this = this;
@@ -144,6 +186,7 @@ export default {
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
             _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+            _this.getEditAddress();
             _this.setPosition();
             _this.onSelected();
         })
@@ -209,7 +252,7 @@ export default {
         height: auto;
         padding-left: 0.3rem;
         box-sizing: border-box;
-        margin: 0.2rem auto 0;
+        margin: 0.2rem auto 0.1rem;
         background: #ffffff;
         border-radius: 0.2rem;
     }

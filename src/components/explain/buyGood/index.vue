@@ -9,11 +9,16 @@
         </div>
         <div class="address_box">
             <div class="address_icon"></div>
-            <div class="address_info">
-                <div class="address_info_name">陈先生  1806400664</div>
-                <div class="address_info_address">广东省 深圳市 南山区 深圳湾1号8栋101</div>
+            <div class="address_info" v-if="list.length >0">
+                <div class="address_info_name">{{defaultDate.name}}  {{defaultDate.tel}}</div>
+                <div class="address_info_address">{{defaultDate.address}} {{defaultDate.address_detail}}</div>
             </div>
-            <div class="go_edit_address" @click="goAddress()"></div>
+            <div class="address_info" v-if="list.length == 0">
+               
+                <div class="address_info_name" style="margin-top:0.4rem"> 您还没有收获地址，去添加</div>
+            </div>
+            <div class="address_list" @click="goAddress()"></div>
+            <div class="go_edit_address"></div>
         </div>
 
         <div class="buy_good_box">
@@ -65,6 +70,7 @@
 </template>
 
 <script>
+import store from '../../../vuex/store';
 export default {
     data(){
         return {
@@ -74,6 +80,9 @@ export default {
             goodInfo:{},
             total_integral:'',  //总共的积分
             total_price:'',    //总共的价格
+            userInfoData:{},
+            list:[],
+            defaultDate:{},
         }
     },
     methods: {
@@ -86,6 +95,36 @@ export default {
             };
             this.total_integral = this.goodInfo.is_give_integral*this.num;
             this.total_price = this.goodInfo.current_price*this.num;
+        },
+        //获取地址
+        getAddress(){
+            var _this = this;
+            var openid = _this.userInfoData.open_id;
+            var addressInfo = {
+                'store_id': 1001,
+                "open_id":openid
+            };
+            store.dispatch('GetAddress', addressInfo)
+                .then((res) => {
+                    if(res) {
+                        _this.list = res.data;
+                        if(_this.list.length > 0){
+                          _this.list.forEach((item,index) => {
+                             if(item.if_default){
+                                 _this.defaultDate = item;
+                             }
+                          });
+                          if(_this.defaultDate == '{}'){
+                            _this.defaultDate=_this.list[0];
+                          };
+                        }
+                    } else {
+                        
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
         goAddress(){
             this.$router.replace({path:'/addressManagement/index'});
@@ -105,8 +144,10 @@ export default {
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
              _this.goodInfo = _this.$store.state.goodInfo;
+             _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
              _this.total_integral = _this.goodInfo.is_give_integral;
              _this.total_price = _this.goodInfo.current_price;
+            _this.getAddress();
         })
     }
 }

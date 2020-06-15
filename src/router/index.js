@@ -18,6 +18,7 @@ const read = () => import('../components/explain/read/index.vue');  //阅读有�
 const poster = () => import('../components/explain/poster/index.vue');  //海报
 const extension = () => import('../components/explain/extension/index.vue');  //推荐有礼
 const friendRecommend = () => import('../components/explain/friendRecommend/index.vue');  //好友推荐
+const integralExplain = () => import('../components/explain/taskWall/integralExplain.vue');  //积分说明
 Vue.use(Router);
 export default new Router({
   routes: [
@@ -36,6 +37,7 @@ export default new Router({
     {path: '/poster',component: poster,name: poster,meta:{title: '分享海报'},},
     {path: '/extension',component: extension,name: extension,meta:{title: '推荐有礼'},},
     {path: '/friendRecommend',component: friendRecommend,name: friendRecommend,meta:{title: '好友推荐'},},
+    {path: '/integralExplain',component: integralExplain,name: integralExplain,meta:{title: '积分说明'},},
     {
         path: '/addressManagement',component: addressManagement,name: addressManagement,
         children: [

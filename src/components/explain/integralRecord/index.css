@@ -99,16 +99,17 @@
     margin:0.2rem auto;
     background:#ffffff;
     border-radius: 0.2rem;
-    padding: 0.1rem 0.3rem;
-    box-sizing: border-box;
+    /* padding: 0.1rem 0.3rem;
+    box-sizing: border-box; */
 }
 .list{
     width: 100%;
     border-bottom: 1px solid #f1f1f1;
     position: relative;
-    padding: 0.2rem 0;
+    padding: 0.2rem 0.3rem;
     box-sizing: border-box;
     overflow: hidden;
+
 }
 .list:last-of-type{
     border: 0;
@@ -132,7 +133,7 @@
     font-weight: bold;
     position: absolute;
     top: 0.4rem;
-    right: 0.4rem;
+    right: 0.7rem;
 }
 .list_intergral_icon{
     width: 0.35rem;
@@ -141,7 +142,7 @@
     background-size: contain;
     position: absolute;
     top: 0.4rem;
-    right: 0rem;
+    right: 0.3rem;
 }
 .subtract{
     color: #ff4532;

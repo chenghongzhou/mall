@@ -23,22 +23,23 @@
         </div>
         <div class="nodata" v-if="list.length == 0">暂无数据</div>
         <div class="list_box">
-            <div class="list">
+                <div class="list" v-for="(item,index) in list" :key="index">
+                    <div class="list_left">
+                        <div class="list_msg">{{item.info}}</div>
+                        <div class="time">{{item.info}}</div>
+                        <div class="nums">{{item.get_time}}</div>
+                        <div class="list_intergral_icon"></div>
+                    </div>
+                </div>
+            
+            <!-- <div class="list">
                 <div class="list_left">
                     <div class="list_msg">每日签到</div>
                     <div class="time">2020-05-20 15:20:56</div>
                     <div class="nums">500</div>
                     <div class="list_intergral_icon"></div>
                 </div>
-            </div>
-            <div class="list">
-                <div class="list_left">
-                    <div class="list_msg">每日签到</div>
-                    <div class="time">2020-05-20 15:20:56</div>
-                    <div class="nums">500</div>
-                    <div class="list_intergral_icon"></div>
-                </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -69,9 +70,9 @@ export default {
                     'Content-Type': 'multipart/form-data',
                 }
             };
-            _this.$axios.post(allget+"/lottery/get_lottery",formData,headerConfig).then((res) => {
-                if(res.data){
-
+            _this.$axios.post(allget+"/c_account/get_score_records",formData,headerConfig).then((res) => {
+                if(res.data.error_code == 0){
+                    _this.list = res.data.data;
                 }else{
                     config.layerMsg('出错了~', 2);
                 };
@@ -91,6 +92,7 @@ export default {
         var _this = this;
         _this.$nextTick(() => {
            _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+           _this.getData();
         });
         config.isGoBack(_this.forbidBack);
         
