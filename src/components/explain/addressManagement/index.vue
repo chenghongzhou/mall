@@ -5,9 +5,9 @@
             收货地址
         </div>
         <div>
-        <div class="header">
+        <!-- <div class="header">
             <div class="go_back" @click="forbidBack()"></div>
-        </div>
+        </div> -->
         <div class="address_box">
             <div class="address_list" v-for="(item,index) in list" :key="index">
                 <div class="address_xl">

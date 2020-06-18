@@ -1,9 +1,9 @@
 <template>
     <div class="main">
-        <div class="header_part" style="position:fixed;top:0;left:0;z-index:10">
-            <div class="top">
+        <div class="header_part" style="position:fixed;top:0;left:0;z-index:10;height:1.04rem">
+            <!-- <div class="top">
                     微吧商城
-                </div>
+                </div> -->
             <div class="header">
                 <div class="my_img"><img :src="userInfo.headimgurl" alt=""></div>
                 <div class="my_info">
@@ -18,7 +18,7 @@
         </div>
         
        <div class="content">
-           <div style="height:2.12rem;width:100%"></div>
+           <div style="height:1.04rem;width:100%"></div>
             <div class="banner_box swiper-container swiper-container1">
                 <div class="swiper-wrapper" style="width:100%;">
                         <div class="banner swiper-slide" v-for="(item,index) in banner_list" :key="index">
@@ -85,6 +85,7 @@
                 </div>
             </div>
             <footer-view></footer-view>
+            <div class="login_bg" v-if="login_bg"></div>
     </div>
 </template>
 
@@ -98,11 +99,7 @@ export default {
             times: 0,
             goodsTypeTab: -1, //商品类型切换
             activityList:[
-                {icon:'./static/images/home/activity1.png',text:'签到有礼',ishot:'1',toUrl:'/signIn'},
-                {icon:'./static/images/home/activity5.png',text:'关注有礼',ishot:'0',toUrl:'/signIn'},
-                {icon:'./static/images/home/activity3.png',text:'阅读有赏',ishot:'0',toUrl:'/read'},
-                {icon:'./static/images/home/activity4.png',text:'幸运转盘',ishot:'0',toUrl:'/luckDraw'},
-                {icon:'./static/images/home/activity2.png',text:'推广链接',ishot:'0',toUrl:'/extension'},
+                
             ],
             appid:'',
             open_id:'',
@@ -112,6 +109,8 @@ export default {
             getStoreGroupList:[],  //获取店铺列表
             goodList: [],  //商品列表
             banner_list: [],  //banner
+            tcode:'',
+            login_bg:true,
         }
     },
     methods:{
@@ -122,20 +121,12 @@ export default {
             _this.goodsTypeTab = index;
             _this.getStoreItems(id);
         },
-        //授权登陆
-        login(){
-            var appid = this.appid;
-            var url = 'http%3a%2f%2fv8homepage.youwoxing.net';
-            if(config.thirdParty().isWechat == true){
-                // window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_userinfo&state=123123&component_appid=wx00f2bf419bcd81c9")
-            }
-        },
         //获取openid
         getOpenId(){
             var _this = this;
             var formData = {
                 "appid":_this.appid,
-                "code":"021kWBtC069Hdk2OfSwC08DDtC0kWBtr"
+                "code":_this.tcode
             };
             var headerConfig = {
                 headers: {
@@ -150,9 +141,16 @@ export default {
                         JSON.stringify(res.data), 
                         7
                     );
-                }else{
-                    _this.open_id = JSON.parse(config.getCookie('openid')).open_id;
-                };
+                }
+                // else{
+                //     _this.open_id = JSON.parse(config.getCookie('openid')).open_id;
+                // };
+                
+               
+                _this.getActivityList();
+                _this.getStoreGroups();
+                _this.getStoreItems(-1);
+                _this.getBanner();
                 _this.getUserInfo();
             }).catch(() => {
                 console.log('error');
@@ -171,6 +169,7 @@ export default {
                 }
             };
             _this.$axios.post(allgetLogin+"/GetUserInfo/",formData,headerConfig).then((res) => {
+                //config.layerMsg(JSON.stringify(res.data), 1);
                 if(res.data && res.data.nickname && res.data.nickname != ''){
                     _this.userInfo = res.data;
                     config.setCookie(
@@ -183,10 +182,7 @@ export default {
                 };
                 _this.getUserInfoMy();
                 _this.updateUserInfo();
-                _this.getActivityList();
-                _this.getStoreGroups();
-                _this.getStoreItems(-1);
-                _this.getBanner();
+                
                 
             }).catch(() => {
                 console.log('error');
@@ -379,7 +375,7 @@ export default {
             var sys_activity_id = item.sys_activity_id;
             var toPath = '';
             sys_activity_id == 1?toPath = '/signIn':sys_activity_id == 2?toPath = '/read':sys_activity_id == 3?toPath = '/extension':sys_activity_id == 4?toPath = '/luckDraw':toPath='';
-            this.$router.replace({path:toPath});
+            this.$router.replace({path:toPath,query: {recordPage:'index'}});
         },
         //活动入口的设计
         setActivity(){
@@ -411,16 +407,49 @@ export default {
             this.$store.state.goodInfo = rows;
             this.$router.replace({path:'/goodDetail'});
         },
-        forbidBack(){
-            // if(config.getHashVReq('recordPage') && config.thirdParty().isWechat == true){
-            //     WeixinJSBridge.call('closeWindow');
-            // }
-            if(config.thirdParty().isWechat == true){
-                WeixinJSBridge.call('closeWindow');
-            }else{
-                this.$router.replace({path:'/'});
+        login(){
+            var _this = this;
+            var appid = _this.appid;//'wx91c0cbe98956a703';
+            var url = 'http%3a%2f%2fv8homepage.youwoxing.net';
+            var data = config.getCookie('openid');
+            if(data){
+                _this.open_id = JSON.parse(data).open_id;
+                _this.login_bg = false;
                 return false;
+            };
+            if(config.thirdParty().isWechat == true && _this.tcode == ''){
+                _this.login_bg = false;
+                window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state=123123&component_appid=wx00f2bf419bcd81c9")
             }
+        },
+        forbidBack(){
+            if(config.thirdParty().isWechat == true){
+                parent.WeixinJSBridge.call("closeWindow");
+            }else{
+                window.opener=null;
+                window.open('','_self');
+                window.location.href="about:blank";
+                window.close(); 
+            };
+        },
+        getCdata(){
+            var _this = this;
+            var t_p = config.getHashVReq('appid');
+            var t_code = config.getHashVReq('code');
+            if(t_p){
+                if(t_p.indexOf('#/') == '-1'){
+                    _this.appid = t_p;
+                }else{
+                    _this.appid = t_p.substring(0,t_p.length-2);
+                };
+            };
+            if(t_code){
+                if(t_code.indexOf('#/') == '-1'){
+                    _this.tcode = t_code;
+                }else{
+                    _this.tcode = t_code.substring(0,t_code.length-2);
+                }
+            };
         }
     },
     destroyed(){
@@ -428,14 +457,14 @@ export default {
     },
     mounted(){
         var _this = this;
+        _this.getCdata();
+        _this.login();
         _this.$nextTick(() => {
-            _this.appid = config.getHashVReq('appid');
-            _this.login();
             _this.getOpenId();
             _this.banner1();
             _this.banner2();
         });
-        config.isGoBack(_this.forbidBack);
+         config.isGoBack(_this.forbidBack);
     }
 }
 </script>

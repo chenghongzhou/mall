@@ -81,7 +81,19 @@ export default {
             });
         },
         forbidBack(){
+            var prveUrl = localStorage.getItem('backName');
             var pervePage = this.$route.query.recordPage;
+            // if(prveUrl == '/'){
+            //     if(config.thirdParty().isWechat == true){
+            //          WeixinJSBridge.call('closeWindow');
+            //     }else{
+            //         window.opener=null;
+            //         window.open('','_self');
+            //         window.location.href="about:blank";
+            //         window.close(); 
+            //     };
+            //     return false
+            // };
             this.$router.replace({path:'/taskWall',query: {recordPage:pervePage}});
         },
     },

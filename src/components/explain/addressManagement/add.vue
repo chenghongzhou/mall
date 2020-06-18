@@ -5,7 +5,7 @@
             添加收货地址
         </div>
         <div class="header">
-            <div class="go_back" @click="forbidBack()"></div>
+            <!-- <div class="go_back" @click="forbidBack()"></div> -->
             <!-- <div class="delet_btn">删除</div> -->
         </div>
         <div class="content">
@@ -31,8 +31,9 @@
         <input id="value" type="hidden" value="20,234,504">
         <div class="content">
             <div class="list">设为默认地址<i :class="{'open':addInfo.is_defautl}" @click="handleSet()"></i></div>
+            <div class="btn" v-if="btnShow" @click="addAddress()">保存</div>
         </div>
-        <div class="btn" v-if="btnShow" @click="addAddress()">保存</div>
+        
     </div>
 </template>
 
@@ -56,6 +57,7 @@ export default {
                 "id":''
             },
             isEdit:'',
+            isshow:true
         }
     },
     methods: {
@@ -161,9 +163,6 @@ export default {
             });
             area.value=[1,13,3];//控制初始位置，注意：该方法并不会影响到input的value
         },
-        handBlur(){
-            window.scroll(0,0);
-        },
         setPosition(){
             var _this = this;
             if(config.appVersion.android==true){
@@ -185,10 +184,10 @@ export default {
         var _this = this;
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
-            _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
             _this.getEditAddress();
-            _this.setPosition();
             _this.onSelected();
+            _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+            
         })
     }
 }
@@ -304,10 +303,11 @@ export default {
         color: #ffffff;
         border-radius: 0.6rem;
         padding: 0.34rem 0; 
-        position: absolute;
+        margin-top: 1.5rem;
+        /* position: absolute;
         bottom: 1.8rem;
         left: 50%;
-        margin-left: -2.9rem;
+        margin-left: -2.9rem; */
     }
     .address_detail{
         width: 100%;

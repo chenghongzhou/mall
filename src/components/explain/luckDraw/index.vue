@@ -356,12 +356,22 @@ export default {
 		},
         forbidBack(){
             var _this = this;
+            var prveUrl = localStorage.getItem('backName');
             var pervePage = this.$route.query.recordPage;
             if(pervePage == 'taskWall'){
                 _this.$router.replace({path:'/taskWall'});
-            }else{
+            }else if(pervePage == 'index'){
                  _this.$router.replace({path:'/'});
-            };
+            }else{
+                if(config.thirdParty().isWechat == true){
+                     WeixinJSBridge.call('closeWindow');
+                }else{
+                    window.opener=null;
+                    window.open('','_self');
+                    window.location.href="about:blank";
+                    window.close(); 
+                };
+            }
         },
     },
     destroyed(){

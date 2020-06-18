@@ -51,12 +51,12 @@
     background: url("../../../../static/images/goodDetail/good_info_bg.png") center no-repeat;
     background-size: contain;
     overflow: hidden;
-    padding-left: 0.3rem;
+    /* padding-left: 0.3rem; */
     box-sizing: border-box;
 }
 .good_price_part{
     float: left;
-
+    margin-left: 0.3rem;
 }
 .price{
     font-size: 0.26rem;

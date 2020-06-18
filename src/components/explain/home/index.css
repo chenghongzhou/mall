@@ -452,3 +452,12 @@
     top: 0rem;
     right: -0.18rem;
 }
+.login_bg{
+    width: 100%;
+    height: 100%;
+    background: #f0f0f0;
+    position: fixed;
+    top:0;
+    left: 0;
+    z-index: 20;
+}

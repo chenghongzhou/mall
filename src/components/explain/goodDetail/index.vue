@@ -5,7 +5,7 @@
             商品详情
         </div>
         <div class="header">
-            <div class="go_back" @click="forbidBack()"></div>
+            <!-- <div class="go_back" @click="forbidBack()"></div> -->
             <img :src="params.pic" alt="">
         </div>
         <div class="good_info_box">

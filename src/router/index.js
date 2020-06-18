@@ -19,10 +19,12 @@ const poster = () => import('../components/explain/poster/index.vue');  //海报
 const extension = () => import('../components/explain/extension/index.vue');  //推荐有礼
 const friendRecommend = () => import('../components/explain/friendRecommend/index.vue');  //好友推荐
 const integralExplain = () => import('../components/explain/taskWall/integralExplain.vue');  //积分说明
+const login = () => import('../components/explain/login/index.vue');  //登陆
 Vue.use(Router);
 export default new Router({
   routes: [
     //登录
+    {path: '/index',component: login,name: login,meta:{title: '微吧商城'},},
     {path: '/',component: home,name: home,meta:{title: '微吧商城'},},
     {path: '/signIn',component: signIn,name: signIn,meta:{title: '每日签到'},},
     {path: '/exchangeRecord',component: exchangeRecord,name: exchangeRecord,meta:{title: '兑换记录'},},

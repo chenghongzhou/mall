@@ -10,7 +10,9 @@
             <div class="content_info">
                 <div class="header">
                     <div class="my_integral">我的积分</div>
-                    <div class="my_integral_number">{{userInfoData.score}}<i class="money_icon"></i><div class="exchage_integral"></div></div>
+                    <div class="my_integral_number">{{userInfoData.score}}<i class="money_icon"></i>
+                        <!-- <div class="exchage_integral"></div> -->
+                    </div>
                     <div class="integral_record" @click="integralRecord()"></div>
                     <div class="integral_record_intru" @click="integralRecordIntru()"></div>
                 </div>
@@ -199,10 +201,8 @@ export default {
             signMask:false,
             doMask: false,   //去完成
             activityList:[
-                {icon:'./static/images/home/activity1.png',text:'签到有礼',ishot:'1',toUrl:'/signIn'},
-                {icon:'./static/images/home/activity5.png',text:'关注有礼',ishot:'0',toUrl:'/signIn'},
-                {icon:'./static/images/home/activity3.png',text:'阅读有赏',ishot:'0',toUrl:'/read'},
-                {icon:'./static/images/home/activity4.png',text:'幸运转盘',ishot:'0',toUrl:'/luckDraw'},
+                // {icon:'./static/images/home/activity1.png',text:'签到有礼',ishot:'1',toUrl:'/signIn'},
+                
 
             ],
             open_id:'',
@@ -223,7 +223,7 @@ export default {
             var sys_activity_id = item.sys_activity_id;
             var toPath = '';
             sys_activity_id == 1?toPath = '/signIn':sys_activity_id == 2?toPath = '/read':sys_activity_id == 3?toPath = '/extension':sys_activity_id == 4?toPath = '/luckDraw':toPath='';
-            this.$router.replace({path:toPath});
+            this.$router.replace({path:toPath,query: {recordPage:'taskWall'}});
         },
         //获取活动列表
         getActivityList(){
@@ -267,6 +267,17 @@ export default {
             var _this = this;
             var prveUrl = localStorage.getItem('backName');
             var pervePage = this.$route.query.recordPage;
+            // if(prveUrl == '/'){
+            //     if(config.thirdParty().isWechat == true){
+            //          WeixinJSBridge.call('closeWindow');
+            //     }else{
+            //         window.opener=null;
+            //         window.open('','_self');
+            //         window.location.href="about:blank";
+            //         window.close(); 
+            //     };
+            //     return false
+            // };
             if(prveUrl == '/' || pervePage == 1 || !pervePage){
                 _this.$router.replace({path:'/'});
             }
@@ -281,6 +292,7 @@ export default {
     mounted(){
         var _this = this;
         _this.$nextTick(() => {
+            console.log(localStorage.getItem('backName'))
             _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
            _this.getActivityList();
         });

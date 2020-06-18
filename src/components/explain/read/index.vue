@@ -23,18 +23,11 @@
                <li>
                    <img src="../../../../static/images/home/read.png" alt="" class="read_img">
                    <div class="reading">
-                       <div class="reading_content">新赛季开启！两款战令皮肤返场，新上线皮肤科免费体验！</div>
+                       <div class="reading_content">标题</div>
+                       <div class="reading_content" style="margin-top:0.08rem">简介</div>
                    </div>
-                   <div class="reading_time">2天前</div>
+                   <div class="reading_time">+1000积分</div>
                    <div class="go_read">去阅读</div>
-               </li>
-               <li>
-                   <img src="../../../../static/images/home/read.png" alt="" class="read_img">
-                   <div class="reading">
-                       <div class="reading_content">新赛季开启！两款战令皮肤返场，新上线皮肤科免费体验！</div>
-                   </div>
-                   <div class="reading_time">2天前</div>
-                   <div class="is_finish"></div>
                </li>
            </ul>
        </div>
@@ -59,12 +52,22 @@ export default {
         },
         forbidBack(){
             var _this = this;
+            var prveUrl = localStorage.getItem('backName');
             var pervePage = this.$route.query.recordPage;
             if(pervePage == 'taskWall'){
                 _this.$router.replace({path:'/taskWall'});
-            }else{
+            }else if(pervePage == 'index'){
                  _this.$router.replace({path:'/'});
-            };
+            }else{
+                if(config.thirdParty().isWechat == true){
+                     WeixinJSBridge.call('closeWindow');
+                }else{
+                    window.opener=null;
+                    window.open('','_self');
+                    window.location.href="about:blank";
+                    window.close(); 
+                };
+            }
         }
     },
     destroyed(){

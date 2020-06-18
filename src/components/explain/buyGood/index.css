@@ -108,6 +108,7 @@
 .order_info{
     float: left;
     margin-left: 0.2rem;
+    width: 4.5rem;
 }
 .order_name{
     font-size: 0.3rem;

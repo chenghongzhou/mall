@@ -44,8 +44,14 @@ export default {
             this.$router.replace({path:'/taskWall',query: {recordPage:'extension'}});
         },
         forbidBack(){
-            var _this = this;
-            _this.$router.replace({path:'/'});
+            if(config.thirdParty().isWechat == true){
+                    WeixinJSBridge.call('closeWindow');
+            }else{
+                window.opener=null;
+                window.open('','_self');
+                window.location.href="about:blank";
+                window.close(); 
+            };
         }
     },
     destroyed(){

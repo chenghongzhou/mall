@@ -1,7 +1,7 @@
 <template>
     <div class="main">
         <div class="top">
-            <i class="top_close" @click="forbidBack()"></i>
+            <i class="top_close"></i>
             好友推荐
         </div>
 

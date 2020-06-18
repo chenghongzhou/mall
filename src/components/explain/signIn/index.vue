@@ -49,10 +49,10 @@
                 <div :class="{'tab_active':tabIndex == 3}" @click="handTab(3)" ><span>总排行<i v-if="tabIndex == 3"></i></span></div>
             </div>
             <div style="width:100%;height:0.2rem"></div>
+            <div class="nodata" v-if="siginList.length == 0">暂无数据</div>
             <div class="list_box">
                 <div class="list_main">
                     <ul>
-                        <div class="nodata" v-if="siginList.length == 0">暂无数据</div>
                         <li v-for="(item,index) in siginList" :key="index">
                             <div class="list_rank" v-if="index == 0"><img src="../../../../static/images/sign/rank1.png" alt=""></div>
                             <div class="list_rank" v-else-if="index == 1"><img src="../../../../static/images/sign/rank2.png" alt=""></div>
@@ -145,7 +145,7 @@ export default {
                 }else if(res.data.error_code == 1){
                     _this.siginList = res.data.data.list.day_list;
                      _this.rank = res.data.data.user_position.in_day_list;
-                    config.layerMsg(res.data.msg, 2);
+                   // config.layerMsg(res.data.msg, 2);
                 }else{
                     config.layerMsg(res.data.msg, 2);
                 };
@@ -155,12 +155,22 @@ export default {
         },
         forbidBack(){
             var _this = this;
+            var prveUrl = localStorage.getItem('backName');
             var pervePage = this.$route.query.recordPage;
             if(pervePage == 'taskWall'){
                 _this.$router.replace({path:'/taskWall'});
-            }else{
+            }else if(pervePage == 'index'){
                  _this.$router.replace({path:'/'});
-            };
+            }else{
+                if(config.thirdParty().isWechat == true){
+                     WeixinJSBridge.call('closeWindow');
+                }else{
+                    window.opener=null;
+                    window.open('','_self');
+                    window.location.href="about:blank";
+                    window.close(); 
+                };
+            }
         }
     },
     destroyed(){

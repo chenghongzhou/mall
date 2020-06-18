@@ -4,18 +4,18 @@
             <i class="top_close" @click="forbidBack()"></i>
             确认兑换
         </div>
-        <div class="header">
+        <!-- <div class="header">
             <div class="go_back" @click="forbidBack()"></div>
-        </div>
+        </div> -->
         <div class="address_box">
-            <div class="address_icon"></div>
+            <div class="address_icon" v-if="list.length >0"></div>
             <div class="address_info" v-if="list.length >0">
                 <div class="address_info_name">{{defaultDate.name}}  {{defaultDate.tel}}</div>
                 <div class="address_info_address">{{defaultDate.address}} {{defaultDate.address_detail}}</div>
             </div>
             <div class="address_info" v-if="list.length == 0">
                
-                <div class="address_info_name" style="margin-top:0.4rem"> 您还没有收获地址，去添加</div>
+                <div class="address_info_name" style="margin-top:0.4rem;color:#cccccc"> 您还没有收获地址，去添加</div>
             </div>
             <div class="address_list" @click="goAddress()"></div>
             <div class="go_edit_address"></div>
@@ -114,7 +114,7 @@ export default {
                                  _this.defaultDate = item;
                              }
                           });
-                          if(_this.defaultDate == '{}'){
+                          if(!_this.defaultDate.if_default){
                             _this.defaultDate=_this.list[0];
                           };
                         }
@@ -144,9 +144,10 @@ export default {
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
              _this.goodInfo = _this.$store.state.goodInfo;
-             _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
              _this.total_integral = _this.goodInfo.is_give_integral;
              _this.total_price = _this.goodInfo.current_price;
+             _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+             
             _this.getAddress();
         })
     }
