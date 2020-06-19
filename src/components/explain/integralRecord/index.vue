@@ -1,23 +1,25 @@
 <template>
     <div class="main">
-        <div class="top">
-            <i class="top_close" @click="forbidBack()"></i>
-            积分记录
-        </div>
-        <div class="header">
-            <div class="my_intergal_box">
-                <img src="../../../../static/images/intergral/intergral_icon.png" alt="" class="intergral_icon">
-                <div class="intergal_my_box">
-                    <div class="intergal_nums">6564</div>
-                    <div class="intergal_msg">累计领取</div>
-                </div>
+        <div>
+            <div class="top">
+                <i class="top_close" @click="forbidBack()"></i>
+                积分记录
             </div>
-            <div class="gift_box" @click="goHome()">
-                <img src="../../../../static/images/intergral/gift.png" alt="" class="gift_icon">
-                <div class="intergal_my_box">
-                    <div class="gift_exchange">福利兑换</div>
-                    <div class="intergal_msg" style="margin-top:0.05rem">累计领取</div>
-                    <div class="go_in"></div>
+            <div class="header">
+                <div class="my_intergal_box">
+                    <img src="../../../../static/images/intergral/intergral_icon.png" alt="" class="intergral_icon">
+                    <div class="intergal_my_box">
+                        <div class="intergal_nums">6564</div>
+                        <div class="intergal_msg">累计领取</div>
+                    </div>
+                </div>
+                <div class="gift_box" @click="goHome()">
+                    <img src="../../../../static/images/intergral/gift.png" alt="" class="gift_icon">
+                    <div class="intergal_my_box">
+                        <div class="gift_exchange">福利兑换</div>
+                        <div class="intergal_msg" style="margin-top:0.05rem">累计领取</div>
+                        <div class="go_in"></div>
+                    </div>
                 </div>
             </div>
         </div>
