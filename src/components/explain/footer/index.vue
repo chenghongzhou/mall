@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="bottom">
-           <div class="go_link"></div>
+           <div class="go_link" @click="goLink()"></div>
        </div>
     </div>
 </template>
@@ -10,7 +10,9 @@
 export default {
     data(){
         return {
-
+            goLink(){
+                window.location.href = 'http://v8tob.youwoxing.net/user/login.html';
+            }
         }
     }
 }

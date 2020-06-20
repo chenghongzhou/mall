@@ -143,10 +143,14 @@ export default {
         var _this = this;
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
+            var t_data = config.getCookie('userInfoData');
+            if(t_data){
+                _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+            };
              _this.goodInfo = _this.$store.state.goodInfo;
              _this.total_integral = _this.goodInfo.is_give_integral;
              _this.total_price = _this.goodInfo.current_price;
-             _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+             
              
             _this.getAddress();
         })

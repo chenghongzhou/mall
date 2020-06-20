@@ -1,10 +1,11 @@
 <template>
-    <div class="main">
+    <div class="main" ref="main">
         <!-- 要生成海报的-->
-      <div id="posterHtml"  ref="creatGivePoster" >
-         <div class="edit">
+      <div id="posterHtml"  ref="creatGivePoster">
+          <img src="../../../../static/images/luckDraw/bg.png" alt="" srcset="" class="pic" ref="pic">
+         <div class="edit" ref="edit">
             <div style="position:relative;width:100%;height:100%">
-                <img src="../../../../static/images/home/my_img.png" alt="" class="my_img">
+                <img src="../../../../static/images/home/my_img.png" alt="" class="my_img" ref="myimg">
                 <div class="code_img">
                     <vue-qr :logo-src="config.logo" :logoScale="0.25" :text="config.value" :margin="0" style="width:85%;height:85%;display:block"  class="player-bottom-panel-qrcode center" />
                 </div>
@@ -38,6 +39,13 @@ export default {
         }
     },
       methods: {
+          setHeight(){
+              var {main, edit, pic, myimg} = this.$refs;
+              var mainHight = main.clientHeight;
+              var editHeight = edit.clientHeight;
+              var myimgHeight = myimg.clientHeight;
+              pic.style.height = mainHight-editHeight+myimgHeight+'px';
+          },
     // 生成海报
         getPoster() {
             var _this = this;
@@ -79,6 +87,7 @@ export default {
         }
     },
     mounted(){
+        this.setHeight();
         setTimeout(_ => { this.getPoster() }, 500)
     }
 }
@@ -95,8 +104,12 @@ export default {
     #posterHtml{
         width: 100%;
         height: 100%;
-        background: url('../../../../static/images/luckDraw/bg.png') top center no-repeat;
-        background-size: 100% 100%;
+        /* background: url('../../../../static/images/luckDraw/bg.png') top center no-repeat;
+        background-size: 100% 100%; */
+    }
+    .pic{
+        width: 100%;
+        height: auto;
     }
     .edit{
         width: 100%;

@@ -16,12 +16,11 @@
                 </div>
             </div>
         </div>
-        
        <div class="content">
            <div style="height:1.04rem;width:100%"></div>
             <div class="banner_box swiper-container swiper-container1">
                 <div class="swiper-wrapper" style="width:100%;">
-                        <div class="banner swiper-slide" v-for="(item,index) in banner_list" :key="index">
+                        <div class="banner swiper-slide" v-for="(item,index) in banner_list" :key="index" @click="goLink(item)">
                             <img :src="item.icon" alt="">
                         </div>
                 </div>
@@ -41,7 +40,7 @@
                     <!-- </div> -->
                 </div>
                 </div>
-
+                <!-- <div style="font-size:0.2rem;color:#333">{{open_id}}</div> -->
                 <div class="activity_entra_box swiper-container swiper-container2">
                     <div class="swiper-wrapper" style="width:100%;">
                         <div class="activity_entra swiper-slide">
@@ -102,7 +101,7 @@ export default {
                 
             ],
             appid:'',
-            open_id:'',
+            open_id:'',//oaWxEv2NUHC4q04-i3IRgFLZTBoU
             userInfo:{}, //用户信息
             userInfoData: {},  //用户信息包含积分
             activity_list:[],  //活动列表
@@ -111,9 +110,13 @@ export default {
             banner_list: [],  //banner
             tcode:'',
             login_bg:true,
+            position: '',  //跳转定位
         }
     },
     methods:{
+        goLink(item){
+            window.location.replace(item.url);
+        },
         handleGoodsTypeTab(rows,index){
             var _this = this;
             var id = '';
@@ -234,6 +237,10 @@ export default {
                         JSON.stringify(_this.userInfoData), 
                         7
                     );
+                    if(_this.position == 1){  //跳推荐
+                        _this.login_bg = false;
+                        _this.$router.replace({path:'/extension'});
+                    };
                 }else{
                     config.layerMsg(res.data.msg, 2);
                 };
@@ -279,6 +286,7 @@ export default {
             _this.$axios.post(allget+"/items/get_banners",formData,headerConfig).then((res) => {
                 if(res.data.error_code == 0){
                    _this.banner_list = res.data.data;
+                   setTimeout(() => {_this.banner1();},300)
                 }else{
                     config.layerMsg(res.data.msg, 2);
                 };
@@ -332,7 +340,6 @@ export default {
                         element.is_buy_nums = 50*nameNums+'+';
                     });
                    _this.goodList = params;
-                   setTimeout(() => {_this.banner1()},500);
                 }else{
                     config.layerMsg(res.data.msg, 2);
                 };
@@ -412,14 +419,17 @@ export default {
             var appid = _this.appid;//'wx91c0cbe98956a703';
             var url = 'http%3a%2f%2fv8homepage.youwoxing.net';
             var data = config.getCookie('openid');
+            if(_this.position != 0){
+                _this.getUserInfo();
+                return false;
+            };
+            _this.login_bg = false;
             if(data){
                 _this.open_id = JSON.parse(data).open_id;
-                _this.login_bg = false;
                 return false;
             };
             if(config.thirdParty().isWechat == true && _this.tcode == ''){
-                _this.login_bg = false;
-                window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state=123123&component_appid=wx00f2bf419bcd81c9")
+                window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9")
             }
         },
         forbidBack(){
@@ -436,6 +446,7 @@ export default {
             var _this = this;
             var t_p = config.getHashVReq('appid');
             var t_code = config.getHashVReq('code');
+            _this.position = config.getHashVReq('position') || 0;
             if(t_p){
                 if(t_p.indexOf('#/') == '-1'){
                     _this.appid = t_p;
@@ -461,7 +472,6 @@ export default {
         _this.login();
         _this.$nextTick(() => {
             _this.getOpenId();
-            _this.banner1();
             _this.banner2();
         });
          config.isGoBack(_this.forbidBack);

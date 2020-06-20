@@ -292,11 +292,13 @@ export default {
     mounted(){
         var _this = this;
         _this.$nextTick(() => {
-            console.log(localStorage.getItem('backName'))
-            _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+            var t_data = config.getCookie('userInfoData');
+            if(t_data){
+                _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+            };
            _this.getActivityList();
         });
-        config.isGoBack(_this.forbidBack);
+       // config.isGoBack(_this.forbidBack);
     }
 }
 </script>

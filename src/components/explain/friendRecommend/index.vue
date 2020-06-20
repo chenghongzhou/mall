@@ -1,9 +1,9 @@
 <template>
     <div class="main">
-        <div class="top">
+        <!-- <div class="top">
             <i class="top_close"></i>
             好友推荐
-        </div>
+        </div> -->
 
         <div class="content">
             <div class="info_box">

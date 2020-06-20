@@ -177,7 +177,10 @@ export default {
         var _this = this;
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
-            _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+            var t_data = config.getCookie('userInfoData');
+            if(t_data){
+                _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+            };
             _this.getAddress();
         })
     }

@@ -1,16 +1,16 @@
 <template>
     <div class="main">
-        <div class="header_part" ref="header">
+        <div class="header_part" ref="header" style="height:1.08rem">
             <div class="top">
                 <i class="top_close" @click="forbidBack()"></i>
                 推荐有礼
             </div>
             <div class="header">
-            <div class="my_img"><img src="../../../../static/images/home/my_img.png" alt=""></div>
-            <div class="my_info">
-                <div class="my_name">青松少女</div>
-                <div class="my_money">1212<i class="money_icon"></i></div>
-            </div>
+           <div class="my_img"><img :src="userInfoData.avatar_url" alt=""></div>
+                <div class="my_info">
+                    <div class="my_name">{{userInfoData.nick_name}}</div>
+                    <div class="my_money">{{userInfoData.score}}<i class="money_icon"></i></div>
+                </div>
             <div class="my_info_right">
                     <div class="get_integral" @click="taskWall()"><i></i></div>
                     <div class="change_in_record" @click="exchangeRecord()"></div>
@@ -33,7 +33,7 @@
 export default {
     data(){
         return {
-
+            userInfoData: {}
         }
     },
     methods:{
@@ -61,7 +61,10 @@ export default {
         var _this = this;
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
-            let scrollTimer = setInterval(this.scroll, 2000);
+            var t_data = config.getCookie('userInfoData');
+            if(t_data){
+                _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+            };
         })
     }
 }

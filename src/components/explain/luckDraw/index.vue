@@ -19,7 +19,7 @@
         </div>    
        <div class="content" ref="content">
            <div class="content_title">{{getData.title}}</div>
-           <div class="content_vice_title">10000份大奖抽不停</div>
+           <div class="content_vice_title">大奖抽不停</div>
            <div class="notice_box">
                <div class="notice">
                    <ul>
@@ -40,7 +40,7 @@
                    </li>
                    <li @click="handleStart()">
                        <img src="../../../../static/images/luckDraw/begain.png" alt="" class="begain">
-                        <div class="play_times">20积分/次</div>
+                        <div class="play_times">{{getData.cost}}积分/次</div>
                    </li>
                    <li>
                         <img :src="awards[3].icon_url" alt="" class="prize" v-if="awards[3].icon_url">
@@ -59,10 +59,10 @@
                         <div class="prize_name">{{awards[4].name}}</div>
                    </li>
                </ul>
-               <div class="play_remmid">我的抽奖机会：<span>{{getData.limit_count-myChange}}</span>次</div>
+               <div class="play_remmid" v-if="getData.limit_count-myChange && getData.limit_count-myChange>0">我的抽奖机会：<span>{{getData.limit_count-myChange}}</span>次</div>
            </div>
-           <div class="get_play_change"></div>
-           <div class="play_intru">每人每天{{getData.limit_count}}次，前{{getData.free_chance_per_day}}次抽奖免费，再次抽奖{{getData.cost}}积分/次</div>
+           <div class="get_play_change" @click="taskWall()"></div>
+           <!-- <div class="play_intru">每人每天{{getData.limit_count}}次，前{{getData.free_chance_per_day}}次抽奖免费，再次抽奖{{getData.cost}}积分/次</div> -->
        </div>
        <footer-view></footer-view>
        <!--中奖是物品积分-->
@@ -381,7 +381,10 @@ export default {
         var _this = this;
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
-            _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+            var t_data = config.getCookie('userInfoData');
+            if(t_data){
+                _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+            };
             let scrollTimer = setInterval(this.scroll, 2000);
             _this.getLotteryPrize();
             _this.getMyChange();

@@ -184,9 +184,13 @@ export default {
         var _this = this;
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
+            var t_data = config.getCookie('userInfoData');
+            if(t_data){
+                _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+            };
             _this.getEditAddress();
             _this.onSelected();
-            _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+            
             
         })
     }
