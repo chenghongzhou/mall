@@ -208,6 +208,24 @@ export default {
                     window.close(); 
                 };
             }
+        },
+         isLg(){
+            var _this = this;
+            var t_p = config.getHashVReq('appid');
+            var t_data = config.getCookie('userInfoData');
+            if(t_p){
+                if(t_p.indexOf('#/') == '-1'){
+                    _this.appid = t_p;
+                }else{
+                    _this.appid = t_p.substring(0,t_p.length-2);
+                };
+            };
+            if(t_data){
+                _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+            }else{ //去授权
+                window.location.replace('http://v8homepage.youwoxing.net/?position=extension&appid='+t_p)
+            };
+           
         }
     },
     destroyed(){
@@ -215,12 +233,9 @@ export default {
     },
     mounted(){
         var _this = this;
+        _this.isLg()
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
-            var t_data = config.getCookie('userInfoData');
-            if(t_data){
-                _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
-            };
             _this.signIn();
         })
     }   
