@@ -211,6 +211,19 @@ ul li:last-of-type{
     text-align: center;
     border-radius: 0.3rem;
 }
+.go_readed{
+    width: 1.6rem;
+    height: auto;
+    font-size: 0.26rem;
+    padding: 0.12rem 0;
+    color: #ffffff;
+    position: absolute;
+    bottom: 0.3rem;
+    right: 0.2rem;
+    background-color: #cccccc;
+    text-align: center;
+    border-radius: 0.3rem;
+}
 .is_finish{
     width: 1.03rem;
     height: 1.01rem;

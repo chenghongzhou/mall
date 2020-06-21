@@ -38,20 +38,51 @@ export default {
     },
     methods:{
         exchangeRecord(){
-            this.$router.replace({path:'/exchangeRecord',query: {recordPage:'extension'}});
+            this.$router.replace({path:'/exchangeRecord?recordPage=extension&ishome='+ishome});
         },
         taskWall(){
-            this.$router.replace({path:'/taskWall',query: {recordPage:'extension'}});
+            var ishome = config.getHashVReq('ishome');
+            this.$router.replace({path:'/taskWall?recordPage=extension&ishome='+ishome});
         },
         forbidBack(){
-            if(config.thirdParty().isWechat == true){
-                    WeixinJSBridge.call('closeWindow');
+            var _this = this;
+            var prveUrl = localStorage.getItem('backName');
+            var pervePage = config.getHashVReq('recordPage');
+            var ishome = config.getHashVReq('ishome');
+            if(ishome && ishome == 1){
+                if(pervePage == 'index' || !pervePage || ishome == 1){
+                    _this.$router.replace({path:'/'});
+                }else{
+                    _this.$router.replace({path:'/'+pervePage});
+                };
             }else{
-                window.opener=null;
-                window.open('','_self');
-                window.location.href="about:blank";
-                window.close(); 
+                 if(config.thirdParty().isWechat == true){
+                     WeixinJSBridge.call('closeWindow');
+                }else{
+                    window.opener=null;
+                    window.open('','_self');
+                    window.location.href="about:blank";
+                    window.close(); 
+                };
+            }
+        },
+        isLg(){
+            var _this = this;
+            var t_p = config.getHashVReq('appid');
+            var t_data = config.getCookie('userInfoData');
+            if(t_p){
+                if(t_p.indexOf('#/') == '-1'){
+                    _this.appid = t_p;
+                }else{
+                    _this.appid = t_p.substring(0,t_p.length-2);
+                };
             };
+            if(t_data){
+                _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+            }else{ //去授权
+                window.location.replace('http://v8homepage.youwoxing.net/?position=extension&appid='+t_p)
+            };
+           
         }
     },
     destroyed(){
@@ -59,12 +90,10 @@ export default {
     },
     mounted(){
         var _this = this;
+        _this.isLg();
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
-            var t_data = config.getCookie('userInfoData');
-            if(t_data){
-                _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
-            };
+            
         })
     }
 }

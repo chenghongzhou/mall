@@ -56,8 +56,9 @@ export default {
             _this.tabIndex = index;
         },
         orderDetail(){
-            var pervePage = this.$route.query.recordPage;
-            this.$router.replace({path:'/orderDetail',query: {recordPage:pervePage}});
+             var ishome = config.getHashVReq('ishome');
+             var pervePage = config.getHashVReq('pervePage');
+            this.$router.replace({path:'/orderDetail?recordPage='+pervePage+'&ishome='+ishome});
         },
         //获取数据
         getData(){
@@ -86,22 +87,21 @@ export default {
         forbidBack(){
             var _this = this;
             var prveUrl = localStorage.getItem('backName');
-            var pervePage = this.$route.query.recordPage;
-            // if(prveUrl == '/'){
-            //     if(config.thirdParty().isWechat == true){
-            //          WeixinJSBridge.call('closeWindow');
-            //     }else{
-            //         window.opener=null;
-            //         window.open('','_self');
-            //         window.location.href="about:blank";
-            //         window.close(); 
-            //     };
-            //     return false
-            // };
-            if(prveUrl == '/' || !pervePage){
-                _this.$router.replace({path:'/'});
+            var pervePage = config.getHashVReq('recordPage');
+            var ishome = config.getHashVReq('ishome');
+            if(pervePage == 'index'){
+                 _this.$router.replace({path:'/'});
+            }else if(pervePage != '/' && pervePage){
+               _this.$router.replace({path:'/'+pervePage+'?ishome='+ishome});
             }else{
-                _this.$router.replace({path:'/'+pervePage});
+                if(config.thirdParty().isWechat == true){
+                     WeixinJSBridge.call('closeWindow');
+                }else{
+                    window.opener=null;
+                    window.open('','_self');
+                    window.location.href="about:blank";
+                    window.close(); 
+                };
             }
         },
     },

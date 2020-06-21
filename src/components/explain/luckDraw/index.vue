@@ -170,10 +170,12 @@ export default {
     },
      methods: {
         exchangeRecord(){
-            this.$router.replace({path:'/exchangeRecord',query: {recordPage:'luckDraw'}});
+            var ishome = config.getHashVReq('ishome');
+            this.$router.replace({path:'/exchangeRecord?recordPage=luckDraw&ishome='+ishome});
         },
         taskWall(){
-            this.$router.replace({path:'/taskWall',query: {recordPage:'luckDraw'}});
+            var ishome = config.getHashVReq('ishome');
+            this.$router.replace({path:'/taskWall?recordPage=luckDraw&ishome='+ishome});
         },
         //跑马灯
         getAds(){
@@ -357,13 +359,16 @@ export default {
         forbidBack(){
             var _this = this;
             var prveUrl = localStorage.getItem('backName');
-            var pervePage = this.$route.query.recordPage;
-            if(pervePage == 'taskWall'){
-                _this.$router.replace({path:'/taskWall'});
-            }else if(pervePage == 'index'){
-                 _this.$router.replace({path:'/'});
+            var pervePage = config.getHashVReq('recordPage');
+            var ishome = config.getHashVReq('ishome');
+            if(ishome && ishome == 1){
+                if(pervePage == 'index' || !pervePage || ishome == 1){
+                    _this.$router.replace({path:'/'});
+                }else{
+                    _this.$router.replace({path:'/'+pervePage});
+                };
             }else{
-                if(config.thirdParty().isWechat == true){
+                 if(config.thirdParty().isWechat == true){
                      WeixinJSBridge.call('closeWindow');
                 }else{
                     window.opener=null;

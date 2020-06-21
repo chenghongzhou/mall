@@ -148,12 +148,12 @@ export default {
                 // else{
                 //     _this.open_id = JSON.parse(config.getCookie('openid')).open_id;
                 // };
-                
-               
-                _this.getActivityList();
-                _this.getStoreGroups();
-                _this.getStoreItems(-1);
-                _this.getBanner();
+                if(_this.position == ''){  //如果等于0则不跳
+                    _this.getActivityList();
+                    _this.getStoreGroups();
+                    _this.getStoreItems(-1);
+                    _this.getBanner();
+                };
                 _this.getUserInfo();
             }).catch(() => {
                 console.log('error');
@@ -237,9 +237,9 @@ export default {
                         JSON.stringify(_this.userInfoData), 
                         7
                     );
-                    if(_this.position == 1){  //跳推荐
+                    if(_this.position&& _this.tcode){  //跳推荐
                         _this.login_bg = false;
-                        _this.$router.replace({path:'/extension'});
+                        _this.$router.replace({path:'/'+_this.position});
                     };
                 }else{
                     config.layerMsg(res.data.msg, 2);
@@ -382,7 +382,7 @@ export default {
             var sys_activity_id = item.sys_activity_id;
             var toPath = '';
             sys_activity_id == 1?toPath = '/signIn':sys_activity_id == 2?toPath = '/read':sys_activity_id == 3?toPath = '/extension':sys_activity_id == 4?toPath = '/luckDraw':toPath='';
-            this.$router.replace({path:toPath,query: {recordPage:'index'}});
+            this.$router.replace({path:toPath+'?recordPage=index&ishome=1'});
         },
         //活动入口的设计
         setActivity(){
@@ -405,22 +405,22 @@ export default {
             storeGroupsBox.style.width = (storeGroupsChild.getBoundingClientRect().width*(len) + storeGroupsjz.getBoundingClientRect().width*(len-1)) +15+'px';
         },
         exchangeRecord(){
-            this.$router.replace({path:'/exchangeRecord'});
+            this.$router.replace({path:'/exchangeRecord?recordPage=index&ishome=1'});
         },
         taskWall(){
-            this.$router.replace({path:'/taskWall'});
+            this.$router.replace({path:'/taskWall?recordPage=index&ishome=1'});
         },
         goodDetail(rows){
             this.$store.state.goodInfo = rows;
-            this.$router.replace({path:'/goodDetail'});
+            this.$router.replace({path:'/goodDetail?recordPage=index&ishome=1'});
         },
         login(){
             var _this = this;
             var appid = _this.appid;//'wx91c0cbe98956a703';
             var url = 'http%3a%2f%2fv8homepage.youwoxing.net';
             var data = config.getCookie('openid');
-            if(_this.position != 0){
-                _this.getUserInfo();
+            if(_this.position && _this.tcode){
+                 _this.getOpenId();
                 return false;
             };
             _this.login_bg = false;
@@ -446,20 +446,28 @@ export default {
             var _this = this;
             var t_p = config.getHashVReq('appid');
             var t_code = config.getHashVReq('code');
-            _this.position = config.getHashVReq('position') || 0;
+            _this.position = config.getHashVReq('position') || '';
             if(t_p){
                 if(t_p.indexOf('#/') == '-1'){
                     _this.appid = t_p;
                 }else{
                     _this.appid = t_p.substring(0,t_p.length-2);
                 };
+                config.setCookie(
+                    'appid', 
+                    t_p, 
+                    7
+                );
+            }else{
+                t_p = config.getCookie('appid') || '';
             };
             if(t_code){
                 if(t_code.indexOf('#/') == '-1'){
                     _this.tcode = t_code;
                 }else{
                     _this.tcode = t_code.substring(0,t_code.length-2);
-                }
+                };
+                _this.position = config.getHashVReq('state');
             };
         }
     },
@@ -471,7 +479,9 @@ export default {
         _this.getCdata();
         _this.login();
         _this.$nextTick(() => {
-            _this.getOpenId();
+             if(_this.position == '' || _this.tcode == ''){  //如果等于0则不跳
+                 _this.getOpenId();
+            };
             _this.banner2();
         });
          config.isGoBack(_this.forbidBack);

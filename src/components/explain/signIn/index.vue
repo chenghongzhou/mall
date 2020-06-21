@@ -114,10 +114,12 @@ export default {
             };
         },
         exchangeRecord(){
-            this.$router.replace({path:'/exchangeRecord',query: {recordPage:'signIn'}});
+             var ishome = config.getHashVReq('ishome');
+            this.$router.replace({path:'/exchangeRecord?recordPage=signIn&ishome='+ishome});
         },
         taskWall(){
-            this.$router.replace({path:'/taskWall',query: {recordPage:'signIn'}});
+            var ishome = config.getHashVReq('ishome');
+            this.$router.replace({path:'/taskWall?recordPage=signIn&ishome='+ishome});
         },
         //签到
         signIn(){
@@ -142,6 +144,7 @@ export default {
                     _this.signMask = true;
                     _this.siginList = res.data.data.list.day_list;
                      _this.rank = res.data.data.user_position.in_day_list;
+                     _this.getUserInfoMy();
                 }else if(res.data.error_code == 1){
                     _this.siginList = res.data.data.list.day_list;
                      _this.rank = res.data.data.user_position.in_day_list;
@@ -153,16 +156,50 @@ export default {
                 console.log('error');
             });
         },
-        forbidBack(){
+        //获取用户信息和金币
+        getUserInfoMy(){
             var _this = this;
+            var formData = {
+                "open_id":_this.open_id,//oaWxEv2NUHC4q04-i3IRgFLZTBoU
+                "store_id":1001,
+                "data":{
+                    "avatar_url":_this.userInfoData.avatar_url,
+                    "nick_name":_this.userInfoData.nick_name,
+                }
+            };
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            _this.$axios.post(allget+"/c_account/get_user_info",formData,headerConfig).then((res) => {
+                if(res.data.error_code == 0){
+                    _this.userInfoData = res.data.user_data;
+                    config.setCookie(
+                        'userInfoData', 
+                        JSON.stringify(_this.userInfoData), 
+                        7
+                    );
+                }else{
+                    config.layerMsg(res.data.msg, 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+        },
+        forbidBack(){
+           var _this = this;
             var prveUrl = localStorage.getItem('backName');
-            var pervePage = this.$route.query.recordPage;
-            if(pervePage == 'taskWall'){
-                _this.$router.replace({path:'/taskWall'});
-            }else if(pervePage == 'index'){
-                 _this.$router.replace({path:'/'});
+            var pervePage = config.getHashVReq('recordPage');
+            var ishome = config.getHashVReq('ishome');
+            if(ishome && ishome == 1){
+                if(pervePage == 'index' || !pervePage || ishome == 1){
+                    _this.$router.replace({path:'/'});
+                }else{
+                    _this.$router.replace({path:'/'+pervePage});
+                };
             }else{
-                if(config.thirdParty().isWechat == true){
+                 if(config.thirdParty().isWechat == true){
                      WeixinJSBridge.call('closeWindow');
                 }else{
                     window.opener=null;

@@ -26,23 +26,6 @@
                                     <div class="activity_name">{{item.name}}</div>
                                     <i class="activity_hot" v-if="item.ishot && item.ishot == 1"></i>
                                 </div>
-                                <!-- <div class="activity_list" ref="activityChild" @click="goSign()">
-                                    <img src="../../../../static/images/home/activity1.png" alt="">
-                                    <div class="activity_name">每日签到</div>
-                                    <i class="activity_hot"></i>
-                                </div>
-                                <div class="activity_list">
-                                    <img src="../../../../static/images/home/activity5.png" alt="">
-                                    <div class="activity_name">关注有礼</div>
-                                </div>
-                                <div class="activity_list" @click="read()">
-                                    <img src="../../../../static/images/home/activity3.png" alt="">
-                                    <div class="activity_name">阅读有赏</div>
-                                </div>
-                                <div class="activity_list" @click="goLuckDwraw()">
-                                    <img src="../../../../static/images/home/activity4.png" alt="">
-                                    <div class="activity_name">幸运转盘</div>
-                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -56,28 +39,21 @@
                             <div class="every_task_box">
                                 <div class="task_list_top">
                                     <img src="../../../../static/images/taskWall/task_store.png" alt="" class="every_task_icon">    
-                                    <div class="refresh"></div>
+                                    <div class="refresh" @click="handleRefresh(1)"></div>
                                 </div>
                                 <div class="task_content_list">
-                                    <div class="list">
-                                        <div class="task_img_bg"><img src="../../../../static/images/taskWall/task_store_ads.png" alt=""></div>
+                                    <div class="nodata" v-if="storeList.length == 0">暂无数据</div>
+                                    <div class="list" v-for="(item,index) in storeList" :key="index">
+                                        <div class="task_img_bg"><img :src="item.tasks.icon" alt=""></div>
                                         <div class="task_info">
-                                            <div class="task_type_title">签到领积分</div>
-                                            <div class="task_type_intr">签到一次，最少可得10积分</div>
-                                            <div class="task_money"><i></i>+100</div>
+                                            <div class="task_type_title">{{item.tasks.name}}</div>
+                                            <div class="task_type_intr">{{item.tasks.dec}}</div>
+                                            <div class="task_money"><i></i>+{{item.tasks.award_integral}}</div>
                                         </div>
-                                        <div class="task_btn task_btn_goon">已完成</div>
-                                        <div class="task_finish_status">1/1</div>
-                                    </div>
-                                    <div class="list">
-                                        <div class="task_img_bg"><img src="../../../../static/images/taskWall/task_store_ads.png" alt=""></div>
-                                        <div class="task_info">
-                                            <div class="task_type_title">签到领积分</div>
-                                            <div class="task_type_intr">签到一次，最少可得10积分</div>
-                                            <div class="task_money"><i></i>+100</div>
-                                        </div>
-                                        <div class="task_btn task_btn_finish">领取奖励</div>
-                                        <div class="task_finish_status">1/1</div>
+                                        <div class="task_btn task_btn_finish" v-if="item.tasks.max_num >0 && item.achieve_num == item.tasks.max_num">已完成</div>
+                                        <div class="task_btn task_btn_goon" v-if="item.tasks.max_num >0 && item.achieve_num < item.tasks.max_num" @click="storeGourl(item)">去完成</div>
+                                        <div class="task_btn task_btn_resive" v-if="item.tasks.max_num >0 && item.achieve_num < item.finish_num" @click="getStorePrize(item)">领取奖励</div>
+                                        <div class="task_finish_status">{{item.finish_num}}/{{item.tasks.max_num}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -88,40 +64,16 @@
                             <div class="every_task_box">
                                 <div class="task_list_top">
                                     <img src="../../../../static/images/taskWall/every_task_icon.png" alt="" class="every_task_icon">    
-                                    <div class="refresh"></div>
+                                    <div class="refresh" @click="handleRefresh(2)"></div>
                                 </div>
                                 <div class="task_content_list every_sigin">
-                                    <div class="list">
-                                        <div class="task_img_bg"><img src="../../../../static/images/taskWall/sigin.png" alt=""></div>
+                                    <div class="list" v-for="(item, index) in dayList" :key="index">
+                                        <div class="task_img_bg"><img :src="item.tasks.icon" alt=""></div>
                                         <div class="task_info">
-                                            <div class="task_type_title">签到领积分</div>
-                                            <div class="task_type_intr">签到一次，最少可得10积分</div>
+                                            <div class="task_type_title">{{item.tasks.name}}</div>
+                                            <div class="task_type_intr">{{item.tasks.dec}}</div>
                                         </div>
-                                        <div class="task_btn task_btn_goon">去签到</div>
-                                    </div>
-                                    <div class="list">
-                                        <div class="task_img_bg"><img src="../../../../static/images/taskWall/sigin.png" alt=""></div>
-                                        <div class="task_info">
-                                            <div class="task_type_title">阅读有赏</div>
-                                            <div class="task_type_intr">每阅读一篇文章，最少得10积分</div>
-                                        </div>
-                                        <div class="task_btn task_btn_goon">去阅读</div>
-                                    </div>
-                                    <div class="list">
-                                        <div class="task_img_bg"><img src="../../../../static/images/taskWall/sigin.png" alt=""></div>
-                                        <div class="task_info">
-                                            <div class="task_type_title">兑换商品返积分</div>
-                                            <div class="task_type_intr">每兑换1.00元可获得10积分</div>
-                                        </div>
-                                        <div class="task_btn task_btn_finish">领取奖励</div>
-                                    </div>
-                                    <div class="list">
-                                        <div class="task_img_bg"><img src="../../../../static/images/taskWall/sigin.png" alt=""></div>
-                                        <div class="task_info">
-                                            <div class="task_type_title">喊好友签到</div>
-                                            <div class="task_type_intr">每邀请一位好友签到得100积分</div>
-                                        </div>
-                                        <div class="task_btn task_btn_resive">已完成</div>
+                                        <div class="task_btn task_btn_goon" @click="goDayUrl(item)">去完成</div>
                                     </div>
                                 </div>
                             </div>
@@ -131,29 +83,22 @@
                                 <div class="task_list_top">
                                     <div class="new_people_icon">
                                         <img src="../../../../static/images/taskWall/new_people_icon.png" alt="">
-                                        <span>已完成0/1</span>
+                                        <!-- <span>已完成0/1</span> -->
                                     </div>
                                     
-                                    <div class="refresh"></div>
+                                    <div class="refresh" @click="handleRefresh(3)"></div>
                                 </div>
                                 <div class="task_content_list">
-                                    <div class="list">
-                                        <div class="task_img_bg"><img src="../../../../static/images/taskWall/sxm.png" alt=""></div>
+                                    <div class="list" v-for="(item,index) in newUserList" :key="index">
+                                        <div class="task_img_bg"><img :src="item.tasks.icon" alt=""></div>
                                         <div class="task_info">
-                                            <div class="task_type_title">签到领积分</div>
-                                            <div class="task_type_intr">喜欢公众号？去菜单栏签到吧~</div>
-                                            <div class="task_money"><i></i>+100</div>
+                                            <div class="task_type_title">{{item.tasks.name}}</div>
+                                            <div class="task_type_intr">{{item.tasks.dec}}</div>
+                                            <div class="task_money"><i></i>+{{item.tasks.award_integral}}</div>
                                         </div>
-                                        <div class="task_btn task_btn_goon">去完成</div>
-                                    </div>
-                                    <div class="list">
-                                        <div class="task_img_bg"><img src="../../../../static/images/taskWall/sxm.png" alt=""></div>
-                                        <div class="task_info">
-                                            <div class="task_type_title">签到领积分</div>
-                                            <div class="task_type_intr">喜欢公众号？去菜单栏签到吧~</div>
-                                            <div class="task_money"><i></i>+100</div>
-                                        </div>
-                                        <div class="task_btn task_btn_goon">去完成</div>
+                                        <div class="task_btn task_btn_goon" v-if="item.progress == 0" @click="goNewUser(item)">去完成</div>
+                                        <div class="task_btn task_btn_resive" v-if="item.progress == 1" @click="newUserPrize(item)">领取奖励</div>
+                                        <div class="task_btn task_btn_finish" v-if="item.progress == 2">已完成</div>
                                     </div>
                                 </div>
                             </div>
@@ -208,12 +153,244 @@ export default {
             open_id:'',
             userInfoData:{},
             activity_list:[],
+            storeList:[], //获取任务集市
+            dayList:[], //获取任务集市
+            newUserList:[], //新人奖励
         }
     },
     methods: {
         handleTab(index){
             var _this = this;
             _this.tabIndex = index;
+        },
+        //任务集市
+        getStoreData(){
+            var _this = this;
+            var openid = _this.userInfoData.open_id;
+            var formData = {
+                'store_id': 1001,
+                "open_id":openid, //oaWxEv2NUHC4q04-i3IRgFLZTBoU
+            };
+            
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            };
+            _this.$axios.post(allget+"/mission/get_market_tasks",formData,headerConfig).then((res) => {
+                if(res.data.error_code == 0){
+                    _this.storeList = res.data.data;
+                }else{
+                    config.layerMsg(res.data.msg, 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+        },
+        //去完成任务集市
+        storeGourl(item){
+            var _this = this;
+            var openid = _this.userInfoData.open_id;
+            var formData = {
+                'store_id': 1001,
+                "open_id":openid,
+                "data": {
+                    "missionId":item.tasks.id
+                }
+            };
+            
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            };
+            _this.$axios.post(allget+"/mission/finish_market_task",formData,headerConfig).then((res) => {
+                if(res.data.error_code == 0){
+                    window.location.href = item.tasks.jump_link;
+                }else{
+                    config.layerMsg(res.data.msg, 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+        },
+        //领取任务集市
+        getStorePrize(item){
+            var _this = this;
+            var openid = _this.userInfoData.open_id;
+            var formData = {
+                'store_id': 1001,
+                "open_id":openid,
+                "data": {
+                    "missionId":item.tasks.id
+                }
+            };
+            
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            };
+            _this.$axios.post(allget+"/mission/achieve_market_task",formData,headerConfig).then((res) => {
+                if(res.data.error_code == 0){
+                    config.layerMsg(res.data.msg, 2);
+                    _this.getStoreData();
+                    _this.getUserInfoMy();
+                }else{
+                    config.layerMsg(res.data.msg, 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+        },
+        //每日任务
+        getDayData(){
+            var _this = this;
+            var openid = _this.userInfoData.open_id;
+            var formData = {
+                'store_id': 1001,
+                "open_id":openid,
+            };
+            
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            };
+            _this.$axios.post(allget+"/mission/get_daily_tasks",formData,headerConfig).then((res) => {
+                if(res.data.error_code == 0){
+                    _this.dayList = res.data.data;
+                }else{
+                    config.layerMsg(res.data.msg, 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+        },
+        //每日任务得跳转
+        goDayUrl(item){
+            var type = item.tasks.jump_page;
+            if(type == 1){  //签到
+                this.$router.replace({path:'signIn',query: {recordPage:'taskWall'}});
+            }else if(type == 2){ //阅读
+                this.$router.replace({path:'read',query: {recordPage:'taskWall'}});
+            }else if(type == 3){  //商城首页
+                this.$router.replace({path:'/',query: {recordPage:'taskWall'}});
+            }else if(type == 4){ //邀请链接
+                this.$router.replace({path:'extension',query: {recordPage:'taskWall'}});
+            }else{
+                config.layerMsg('未配置~', 2);
+            }
+        },
+        //新人任务
+        getNewUserData(){
+            var _this = this;
+            var openid = _this.userInfoData.open_id;
+            var formData = {
+                'store_id': 1001,
+                "open_id":openid,
+            };
+            
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            };
+            _this.$axios.post(allget+"/mission/get_new_user_tasks",formData,headerConfig).then((res) => {
+                if(res.data.error_code == 0){
+                    _this.newUserList = res.data.data;
+                }else{
+                    config.layerMsg(res.data.msg, 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+        },
+        //去完成新人任务
+        goNewUser(item){
+            var _this = this;
+            var openid = _this.userInfoData.open_id;
+            var formData = {
+                'store_id': 1001,
+                "open_id":openid,
+                "data": {
+                    "missionId":item.tasks.id
+                }
+            };
+            
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            };
+            _this.$axios.post(allget+"/mission/finish_new_user_task",formData,headerConfig).then((res) => {
+                if(res.data.error_code == 0){
+                    window.location.href = item.tasks.jump_link;
+                }else{
+                    config.layerMsg(res.data.msg, 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+        },
+        //领取新人
+        newUserPrize(item){
+            var _this = this;
+            var openid = _this.userInfoData.open_id;
+            var formData = {
+                'store_id': 1001,
+                "open_id":openid,
+                "data": {
+                    "missionId":item.tasks.id
+                }
+            };
+            
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            };
+            _this.$axios.post(allget+"/mission/achieve_new_user_task",formData,headerConfig).then((res) => {
+                if(res.data.error_code == 0){
+                    _this.getNewUserData();
+                    _this.getUserInfoMy();
+                }else{
+                    config.layerMsg(res.data.msg, 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+        },
+        //获取用户信息和金币
+        getUserInfoMy(){
+            var _this = this;
+            var formData = {
+                "open_id":_this.userInfoData.open_id,
+                "store_id":1001,
+                "data":{
+                    "avatar_url":_this.userInfoData.avatar_url,
+                    "nick_name":_this.userInfoData.nick_name,
+                }
+            };
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            _this.$axios.post(allget+"/c_account/get_user_info",formData,headerConfig).then((res) => {
+                if(res.data.error_code == 0){
+                    _this.userInfoData = res.data.user_data;
+                    config.setCookie(
+                        'userInfoData', 
+                        JSON.stringify(_this.userInfoData), 
+                        7
+                    );
+                }else{
+                    config.layerMsg(res.data.msg, 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
         },
         //积分说明  integralExplain
         integralRecordIntru(){  
@@ -264,25 +441,33 @@ export default {
            this.$router.replace({path: '/integralRecord',query: {recordPage:pervePage}});
        },
        forbidBack(){
-            var _this = this;
+           var _this = this;
             var prveUrl = localStorage.getItem('backName');
-            var pervePage = this.$route.query.recordPage;
-            // if(prveUrl == '/'){
-            //     if(config.thirdParty().isWechat == true){
-            //          WeixinJSBridge.call('closeWindow');
-            //     }else{
-            //         window.opener=null;
-            //         window.open('','_self');
-            //         window.location.href="about:blank";
-            //         window.close(); 
-            //     };
-            //     return false
-            // };
-            if(prveUrl == '/' || pervePage == 1 || !pervePage){
-                _this.$router.replace({path:'/'});
+            var pervePage = config.getHashVReq('recordPage');
+            var ishome = config.getHashVReq('ishome');
+            if(pervePage == 'index'){
+                 _this.$router.replace({path:'/'});
+            }else if(pervePage != '/' && pervePage){
+               _this.$router.replace({path:'/'+pervePage+'?ishome='+ishome});
+            }else{
+                if(config.thirdParty().isWechat == true){
+                     WeixinJSBridge.call('closeWindow');
+                }else{
+                    window.opener=null;
+                    window.open('','_self');
+                    window.location.href="about:blank";
+                    window.close(); 
+                };
             }
-            else{
-                _this.$router.replace({path:'/'+pervePage});
+        },
+        //刷新
+        handleRefresh(index){
+            if(index == 1){
+                this.getStoreData();
+            }else if(index == 2){
+                this.getDayData();
+            }else if(index == 3){
+                this.getNewUserData();
             }
         },
     },
@@ -297,8 +482,12 @@ export default {
                 _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
             };
            _this.getActivityList();
+           
+           _this.getDayData();
+           _this.getNewUserData();
+           _this.getStoreData();
         });
-       // config.isGoBack(_this.forbidBack);
+        config.isGoBack(_this.forbidBack);
     }
 }
 </script>
