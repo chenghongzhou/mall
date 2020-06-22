@@ -179,7 +179,7 @@ export default {
             if(t_data){
                 _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
             }else{ //去授权
-                window.location.replace('http://v8homepage.youwoxing.net/?position=extension&appid='+t_p)
+                window.location.replace('http://v8homepage.youwoxing.net/?position=read&appid='+t_p)
             };
            
         }

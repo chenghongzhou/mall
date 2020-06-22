@@ -148,7 +148,7 @@ export default {
                 // else{
                 //     _this.open_id = JSON.parse(config.getCookie('openid')).open_id;
                 // };
-                if(_this.position == ''){  //如果等于0则不跳
+                if(_this.position == ''){  //如果等于''则不跳
                     _this.getActivityList();
                     _this.getStoreGroups();
                     _this.getStoreItems(-1);
