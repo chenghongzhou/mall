@@ -83,7 +83,7 @@
                     </div>
                 </div>
             </div>
-            <footer-view></footer-view>
+            <footer-view :userInfo = 'appid'></footer-view>
             <div class="login_bg" v-if="login_bg"></div>
     </div>
 </template>
