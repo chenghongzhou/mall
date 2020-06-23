@@ -24,6 +24,7 @@
 <script>
 import vueQr from 'vue-qr';
 import html2canvas from 'html2canvas';
+import { allget } from '../../../api/api.js';
 export default {
     components: {
         vueQr
@@ -39,6 +40,41 @@ export default {
         }
     },
       methods: {
+          //获取抽奖奖品
+        getData(){
+            var _this = this;
+            var openid = _this.userInfoData.open_id;
+            var formData = {
+                'store_id': 1001,
+                "open_id":openid
+            };
+            
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            };
+            _this.$axios.post(allget+"/lottery/get_sets",formData,headerConfig).then((res) => {
+                if(res.data){
+                    _this.reallAwards = res.data.bonus_sets;
+                    var list = res.data.bonus_sets;
+                    var awardsList = [];
+                    var len = list.length;
+                    _this.getData = res.data;
+                    for(var i = len;i<9-len;i++){
+                        var ele = {'icon_url':'','name':''}
+                        awardsList.push(ele);
+                    }
+                    _this.awards = list.concat(awardsList);
+                    _this.getAds();
+                    
+                }else{
+                    config.layerMsg('出错了~', 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+        },
           setHeight(){
               var {main, edit, pic, myimg} = this.$refs;
               var mainHight = main.clientHeight;
@@ -82,8 +118,25 @@ export default {
                 let imgUrl = canvas.toDataURL('image/png')
                 this.imgUrl = imgUrl
                 this.isImg = true
+                console.log(dataURLtoFile(_this.imgUrl))
                 console.log('生成海报')
-            })
+            });
+            function dataURLtoFile(dataurl, filename = 'file') {
+                let arr = dataurl.split(',')
+                
+                let mime = arr[0].match(/:(.*?);/)[1]
+                let suffix = mime.split('/')[1]
+                let bstr = atob(arr[1])
+                let n = bstr.length
+                let u8arr = new Uint8Array(n)
+                while (n--) {
+                    u8arr[n] = bstr.charCodeAt(n)
+                }
+                return new File([u8arr], `${filename}.${suffix}`, {
+                    type: mime
+                })
+            };
+            
         }
     },
     mounted(){
