@@ -2,7 +2,7 @@
     <div class="main" ref="main">
         <!-- 要生成海报的-->
       <div id="posterHtml"  ref="creatGivePoster">
-          <img src="../../../../static/images/luckDraw/bg.png" alt="" srcset="" class="pic" ref="pic">
+          <img :src="imgBg" alt="" srcset="" class="pic" ref="pic">
          <div class="edit" ref="edit">
             <div style="position:relative;width:100%;height:100%">
                 <img src="../../../../static/images/home/my_img.png" alt="" class="my_img" ref="myimg">
@@ -36,38 +36,21 @@ export default {
                 logo: require('../../../../static/images/home/logo.png') //中间logo的地址
             },
              imgUrl: '', //最后转化出来的图片base64地址
-             isImg: false
+             isImg: false,
+             imgBg:'',
         }
     },
       methods: {
-          //获取抽奖奖品
+         
         getData(){
             var _this = this;
-            var openid = _this.userInfoData.open_id;
-            var formData = {
-                'store_id': 1001,
-                "open_id":openid
+            var params = {
+                'storeId': 4,
             };
-            
-            var headerConfig = {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                }
-            };
-            _this.$axios.post(allget+"/lottery/get_sets",formData,headerConfig).then((res) => {
+            _this.$axios.get("http://v8.python.youwoxing.net:9001/GetShareBackgroundPic/",{params:params}).then((res) => {
                 if(res.data){
-                    _this.reallAwards = res.data.bonus_sets;
-                    var list = res.data.bonus_sets;
-                    var awardsList = [];
-                    var len = list.length;
-                    _this.getData = res.data;
-                    for(var i = len;i<9-len;i++){
-                        var ele = {'icon_url':'','name':''}
-                        awardsList.push(ele);
-                    }
-                    _this.awards = list.concat(awardsList);
-                    _this.getAds();
-                    
+                   
+                    _this.imgBg=res.data.background_pic;
                 }else{
                     config.layerMsg('出错了~', 2);
                 };
@@ -142,6 +125,7 @@ export default {
     mounted(){
         this.setHeight();
         setTimeout(_ => { this.getPoster() }, 500)
+        this.getData();
     }
 }
 </script>
