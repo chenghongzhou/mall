@@ -23,9 +23,10 @@
                 感谢你的支持和陪伴，欢迎推荐新朋友加入我们。每成功推荐一位小伙伴可获得<span>100</span>积分。<br />
                 每天最多推荐<span>20</span>位。
             </div>
-            <div class="btn">马上推荐</div>
+            <div class="btn" @click="mask = true">马上推荐</div>
         </div>
         <footer-view></footer-view>
+        <div class="mask" v-if="mask" @click="mask = false">点击右上角按钮分享~</div>
     </div>
 </template>
 
@@ -33,7 +34,8 @@
 export default {
     data(){
         return {
-            userInfoData: {}
+            userInfoData: {},
+            mask:false,
         }
     },
     methods:{
@@ -259,5 +261,20 @@ export default {
     color: #ffffff;
     border-radius: 0.6rem;
     padding: 0.34rem 0;
+}
+.mask{
+    width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.6);
+	position: fixed;
+	left: 0;
+	top: 0;
+	bottom: 0;
+    z-index: 1010;
+    font-size: 0.24rem;
+    text-align: center;
+    padding-top: 0.4rem;
+    box-sizing: border-box;
+    color: #ffffff;
 }
 </style>
