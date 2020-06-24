@@ -62,7 +62,7 @@ export default {
             var rech = '&myImg='+myImg+'&myName='+myName+'&gImg='+gImg+'&gName='+gName;
             _this.$axios.get("http://v8.python.youwoxing.net:9001/GetShareSignature/",{params:params}).then((res) => {
                 if(res.data){
-                    config.layerMsg(454, 2);
+                    config.layerMsg(JSON.stringify(res.data), 2);
                      wx.config({
                         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                         appId: 'wx91c0cbe98956a703',
