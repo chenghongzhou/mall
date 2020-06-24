@@ -25,14 +25,15 @@ export default {
         //获取公众号信息
         getAuthInfo(){
             var _this = this;
-            if(_this.authInfo){
-                return false;
-            };
+            // if(_this.authInfo){
+            //     return false;
+            // };
             var params = {
                 'storeId': 4,
             };
             _this.$axios.get("http://v8.python.youwoxing.net:9001/GetAuthorizerInfoByStoreId/",{params:params}).then((res) => {
                 if(res.data){
+                    _this.authInfo = res.data;
                    config.setCookie(
                         'authorizerInfo', 
                         JSON.stringify(res.data), 
@@ -54,8 +55,14 @@ export default {
                 'appId': _this.authInfo.authorization_info.authorizer_appid,
                 "url":shareUrlLink
             };
+            var myImg = _this.userInfoData.avatar_url || 0;
+            var myName = _this.userInfoData.nick_name || 0;
+            var gImg = _this.authInfo.authorizer_info.head_img;
+            var gName = _this.authInfo.authorizer_info.nick_name;
+            var rech = '&myImg='+myImg+'&myName='+myName+'&gImg='+gImg+'&gName='+gName;
             _this.$axios.get("http://v8.python.youwoxing.net:9001/GetShareSignature/",{params:params}).then((res) => {
                 if(res.data){
+                    config.layerMsg(454, 2);
                      wx.config({
                         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                         appId: 'wx91c0cbe98956a703',
@@ -67,14 +74,14 @@ export default {
                     wx.ready(function(){
                         var wxconfig = {
                             title: _this.authInfo.authorizer_info.nick_name+'0元兑好礼',  //标题
-                            link: 'http://v8homepage.youwoxing.net/#/friendRecommend?appid='+_this.appid,  //分享之后的页面链接
+                            link: 'http://v8homepage.youwoxing.net/#/friendRecommend?appid='+_this.appid+rech,  //分享之后的页面链接
                             desc: _this.userInfoData.nick_name+'邀请你免费参与活动，兑换0元商品',  
                             imgUrl: 'http://v8homepage.youwoxing.net/static/images/home/logo.png'  //图片
                         };
                         //微信朋友圈的分享定义
                         var wxconfigcircles = {
                             title: _this.userInfoData.authorizer_info.nick_name+'0元兑好礼',  //标题
-                            link: 'http://v8homepage.youwoxing.net/#/friendRecommend?appid='+_this.appid,  //分享之后的页面链接
+                            link: 'http://v8homepage.youwoxing.net/#/friendRecommend?appid='+_this.appid+rech,  //分享之后的页面链接
                             desc: _this.userInfoData.nick_name+'邀请你免费参与活动，兑换0元商品',  
                             imgUrl: 'http://v8homepage.youwoxing.net/static/images/home/logo.png'  //图片
                         };

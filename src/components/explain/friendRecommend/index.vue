@@ -7,11 +7,11 @@
 
         <div class="content">
             <div class="info_box">
-                <div class="my_img"><img src="../../../../static/images/home/my_img.png" alt=""></div> 
-                <p class="name">中国移动</p>  
+                <div class="my_img"><img :src="myImg" alt=""></div> 
+                <p class="name">{{myName}}</p>  
                 <p class="info_mg">给你推荐了一个有趣的公众号</p>
-                <img src="../../../../static/images/home/my_img.png" alt="" class="info_logo">
-                <p class="info_logo_name">米家APP</p>
+                <img :src="gImg" alt="" class="info_logo">
+                <p class="info_logo_name">{{gName}}</p>
             </div>
             <div class="btn" @click="wx_code = true">关注</div>
         </div> 
@@ -34,7 +34,30 @@ export default {
     data(){
         return {
             wx_code: false,
+            myImg:'',
+            myName:'',
+            gImg:'',
+            gName:'',
         }
+    },
+    methods:{
+        getParams(){
+            var _this = this;
+            var myImg = config.getHashVReq('myImg');
+            var myName = config.getHashVReq('myName');
+            var gImg = config.getHashVReq('gImg');
+            var gName = config.getHashVReq('gName');
+            if(gName){
+                if(gName.indexOf('#/') == '-1'){
+                    _this.gName = gName;
+                }else{
+                    _this.gName = gName.substring(0,gName.length-2);
+                };
+            }
+        }
+    },
+    mounted(){
+
     }
 }
 </script>
