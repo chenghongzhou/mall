@@ -107,7 +107,7 @@
                 </div>
             </div> 
         </div>
-        <footer-view></footer-view>  
+        <footer-view style="position:relative"></footer-view>  
          <div class="mask" v-if="signMask">
 			<div class="mask_main">
 				<div class="box tanchuscale">

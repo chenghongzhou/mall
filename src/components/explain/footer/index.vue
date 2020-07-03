@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="footer_box">
         <div class="bottom">
            <div class="go_link" @click="goLink()"></div>
        </div>
@@ -219,6 +219,13 @@ export default {
 </script>
 
 <style scoped>
+.footer_box{
+    width: 100%;
+    height: 1rem;
+    position: absolute;
+    bottom: -0.5rem;
+    left: 0;
+}
 .bottom{
     width: 100%;
     height: 1rem;

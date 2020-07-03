@@ -16,7 +16,7 @@
                 </div>
             </div>
         </div>
-       <div class="content">
+       <div class="content" style="margin-bottom:0.2rem">
            <div style="height:1.04rem;width:100%"></div>
             <div class="banner_box swiper-container swiper-container1">
                 <div class="swiper-wrapper" style="width:100%;">

@@ -40,6 +40,7 @@ export default {
     },
     methods:{
         exchangeRecord(){
+            var ishome = config.getHashVReq('ishome');
             this.$router.replace({path:'/exchangeRecord?recordPage=extension&ishome='+ishome});
         },
         taskWall(){
