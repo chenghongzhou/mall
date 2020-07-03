@@ -115,7 +115,9 @@ export default {
     },
     methods:{
         goLink(item){
-            window.location.replace(item.url);
+            if(item.url != ''){
+                window.location.href=item.url;
+            }
         },
         handleGoodsTypeTab(rows,index){
             var _this = this;

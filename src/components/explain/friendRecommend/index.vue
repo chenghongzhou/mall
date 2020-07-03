@@ -11,7 +11,7 @@
                 <p class="name">{{myName}}</p>  
                 <p class="info_mg">给你推荐了一个有趣的公众号</p>
                 <img :src="gImg" alt="" class="info_logo">
-                <p class="info_logo_name">{{gName}}</p>
+                <p class="info_logo_name" style="margin-top:10px">{{gName}}</p>
             </div>
             <div class="btn" @click="wx_code = true">关注</div>
         </div> 
@@ -43,9 +43,9 @@ export default {
     methods:{
         getParams(){
             var _this = this;
-            var myImg = config.getHashVReq('myImg');
-            var myName = config.getHashVReq('myName');
-            var gImg = config.getHashVReq('gImg');
+            _this.myImg = config.getHashVReq('myImg');
+            _this.myName = config.getHashVReq('myName');
+            _this.gImg = config.getHashVReq('gImg');
             var gName = config.getHashVReq('gName');
             if(gName){
                 if(gName.indexOf('#/') == '-1'){
@@ -57,7 +57,7 @@ export default {
         }
     },
     mounted(){
-
+        this.getParams();
     }
 }
 </script>

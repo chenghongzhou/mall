@@ -313,4 +313,53 @@ var config = {
         };
     }
 };
-	
+	//share();
+    function createXhr(){
+        if(typeof XMLHttpRequest != 'underfined'){
+            return new XMLHttpRequest();
+        }else{
+            return new ActiveXObject();  //ie5,6
+        };
+    };
+function share(){
+    var goUrl = window.location.href;  //当前页面的链接
+    var shareUrlLink = encodeURIComponent(goUrl.split('#')[0]);
+    var shareUrlRequire = 'http://v8.python.youwoxing.net:9001/GetShareSignature/?url='+shareUrlLink+'&appId=wx91c0cbe98956a703';
+    var xhr = createXhr();
+    xhr.open('GET', shareUrlRequire, true);
+    xhr.send(null);
+    xhr.onreadystatechange = function(res){
+        if(xhr.readyState==4 && xhr.status==200){
+            var res = JSON.parse(xhr.responseText);
+            console.log(res)
+            if(res){
+                    wx.config({
+                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    appId: 'wx91c0cbe98956a703',
+                    timestamp: res.timestamp,
+                    nonceStr: res.nonceStr,
+                    signature: res.signature,
+                    jsApiList: ["updateAppMessageShareData"], // 必填，需要使用的JS接口列表
+                });
+                wx.ready(function(){
+                    var wxconfig = {
+                        title: '0元兑好礼',  //标题
+                        link: 'http://v8homepage.youwoxing.net/#/friendRecommend?appid=',  //分享之后的页面链接
+                        desc: '邀请你免费参与活动，兑换0元商品',  
+                        imgUrl: 'http://v8homepage.youwoxing.net/static/images/home/logo.png'  //图片
+                    };
+                    //分享给朋友
+                    wx.updateAppMessageShareData(wxconfig);
+                    
+                });
+                wx.error(function(err){
+                    console.log(err);
+                    
+                });
+            }else{
+                // config.layerMsg('出错了~', 2);
+            }
+            
+        }
+    }
+}
