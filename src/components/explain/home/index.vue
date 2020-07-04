@@ -5,9 +5,9 @@
                     微吧商城
                 </div> -->
             <div class="header">
-                <div class="my_img"><img :src="userInfo.headimgurl" alt=""></div>
+                <div class="my_img"><img :src="userInfoData.avatar_url" alt=""></div>
                 <div class="my_info">
-                    <div class="my_name">{{userInfo.nickname}}</div>
+                    <div class="my_name">{{userInfoData.nick_name}}</div>
                     <div class="my_money">{{userInfoData.score || 0}}<i class="money_icon"></i></div>
                 </div>
                 <div class="my_info_right">
@@ -139,6 +139,7 @@ export default {
                 }
             };
             _this.$axios.post(allgetLogin+"/GetOpenID/",formData,headerConfig).then((res) => {
+                config.layerMsg(JSON.stringify(res.data), 2);
                 if(res.data.open_id != ""){
                      _this.open_id = res.data.open_id;
                      config.setCookie(
@@ -175,7 +176,7 @@ export default {
             };
             _this.$axios.post(allgetLogin+"/GetUserInfo/",formData,headerConfig).then((res) => {
                 //config.layerMsg(JSON.stringify(res.data), 1);
-                if(res.data && res.data.nickname && res.data.nickname != ''){
+                if(res.data && res.data.nickname){
                     _this.userInfo = res.data;
                     config.setCookie(
                         'userInfo', 
@@ -183,11 +184,12 @@ export default {
                         7
                     );
                 }else if(res.data.code == 1){
-                    _this.userInfo = JSON.parse(config.getCookie('userInfo'));
+                    if(config.getCookie('userInfo')){
+                        _this.userInfo = JSON.parse(config.getCookie('userInfo'));
+                    }
                 };
-                _this.getUserInfoMy();
                 _this.updateUserInfo();
-                
+                _this.getUserInfoMy();
                 
             }).catch(() => {
                 console.log('error');
@@ -239,7 +241,7 @@ export default {
                         JSON.stringify(_this.userInfoData), 
                         7
                     );
-                    if(_this.position&& _this.tcode){  //跳推荐
+                    if(_this.position !='' && _this.tcode){  //跳推荐
                         _this.login_bg = false;
                         _this.$router.replace({path:'/'+_this.position});
                     };
@@ -421,6 +423,25 @@ export default {
             var appid = _this.appid;//'wx91c0cbe98956a703';
             var url = 'http%3a%2f%2fv8homepage.youwoxing.net';
             var data = config.getCookie('openid');
+            var get_url_appid = config.getHashVReq('appid');
+            var cookie_appid = config.getCookie('appid');
+            var login_appid = '';
+            
+            if(get_url_appid){
+                if(get_url_appid.indexOf('#/') == '-1'){
+                    login_appid = get_url_appid;
+                }else{
+                    login_appid = get_url_appid.substring(0,get_url_appid.length-2);
+                };
+                if(cookie_appid){
+                    //如果这次进来获取的url中的appid和保存在cookie中的appid不同，说明公众号不同，需要重新授权
+                    if(cookie_appid != login_appid && config.thirdParty().isWechat == true && _this.tcode == ''){
+                        window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+login_appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
+                        return false;
+                    };
+                }
+            }
+            //从其他页面直接进去后，没有cookie是到首页授权后在跳到最开始打开的页面
             if(_this.position && _this.tcode){
                  _this.getOpenId();
                 return false;

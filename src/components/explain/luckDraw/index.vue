@@ -17,7 +17,7 @@
                 </div>
             </div>
         </div>    
-       <div class="content" ref="content">
+       <div class="content" ref="content" style="margin-bottom:0.2rem">
            <div class="content_title">{{getData.title}}</div>
            <div class="content_vice_title">大奖抽不停</div>
            <div class="notice_box">

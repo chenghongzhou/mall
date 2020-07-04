@@ -17,10 +17,10 @@
                     </div>
             </div>
         </div>
-        <div class="content">
+        <div class="content" style="margin-bottom:0.2rem">
             <div class="sign_box">
                 <div class="my_sign">
-                    <img :src="userInfoData.avatar_url" alt="" class="my_icon" v-if="rank<3">
+                    <img :src="userInfoData.avatar_url" alt="" class="my_icon" v-if="rank<=3">
                     <img src="../../../../static/images/sign/top_no1.png" alt="" class="my_rank" v-if="rank == 1">
                     
                     <img src="../../../../static/images/sign/top_no2.png" alt="" class="my_rank" v-else-if="rank == 2">

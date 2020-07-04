@@ -266,13 +266,13 @@ export default {
 .mask{
     width: 100%;
 	height: 100%;
-	background-color: rgba(0,0,0,0.6);
+	background-color: rgba(0,0,0,0.8);
 	position: fixed;
 	left: 0;
 	top: 0;
 	bottom: 0;
     z-index: 1010;
-    font-size: 0.24rem;
+    font-size: 0.3rem;
     text-align: center;
     padding-top: 0.4rem;
     box-sizing: border-box;

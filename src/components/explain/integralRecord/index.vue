@@ -57,7 +57,7 @@ export default {
     },
     methods:{
         goHome(){
-            this.$router.replace({path:'/'});
+            this.$router.replace({path:'/?position='});
         },
         getData(){
             var _this = this;
