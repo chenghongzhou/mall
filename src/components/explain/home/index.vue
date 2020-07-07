@@ -40,7 +40,7 @@
                     <!-- </div> -->
                 </div>
                 </div>
-                <!-- <div style="font-size:0.2rem;color:#333">{{open_id}}</div> -->
+                <!-- <div style="font-size:0.2rem;color:#333">{{gt}}</div> -->
                 <div class="activity_entra_box swiper-container swiper-container2">
                     <div class="swiper-wrapper" style="width:100%;">
                         <div class="activity_entra swiper-slide">
@@ -111,6 +111,7 @@ export default {
             tcode:'',
             login_bg:true,
             position: '',  //跳转定位
+            gt:''
         }
     },
     methods:{
@@ -129,17 +130,20 @@ export default {
         //获取openid
         getOpenId(){
             var _this = this;
+            var _this = this;
             var formData = {
-                "appid":_this.appid,
-                "code":_this.tcode
+                 "appid":_this.appid,
+                  "code":_this.tcode 
             };
             var headerConfig = {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'application/json;charset=UTF-8'
                 }
             };
-            _this.$axios.post(allgetLogin+"/GetOpenID/",formData,headerConfig).then((res) => {
-                config.layerMsg(JSON.stringify(res.data), 2);
+            _this.$axios.get(allgetLogin+"/GetOpenId/",{params:formData}).then((res) => {
+                // config.layerMsg(JSON.stringify(res.data), 2);
+                // var ty = JSON.stringify(res.data)
+                // _this.gt = ty;
                 if(res.data.open_id != ""){
                      _this.open_id = res.data.open_id;
                      config.setCookie(
@@ -174,7 +178,7 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             };
-            _this.$axios.post(allgetLogin+"/GetUserInfo/",formData,headerConfig).then((res) => {
+            _this.$axios.get(allgetLogin+"/GetUserInfo/",{params:formData}).then((res) => {
                 //config.layerMsg(JSON.stringify(res.data), 1);
                 if(res.data && res.data.nickname){
                     _this.userInfo = res.data;
