@@ -10,8 +10,8 @@
         </div>
         <div class="good_info_box">
             <div class="good_price_part">
-                <div class="price">原价：{{params.normal_price}}元</div>
-                <div class="price_result"><i></i><span>{{params.is_give_integral}}</span>积分 + <span>{{params.current_price}}</span>元</div>
+                <div class="price" v-if="params.source == 0">原价：{{params.normal_price}}元</div>
+                <div class="price_result" :class="{'good_source':params.source == 1}"><i></i><span>{{params.is_give_integral}}</span>积分 <span v-if="params.source == 0">+{{params.current_price}}元</span></div>
             </div>
             <div class="ex_people_nums">
                 <div>{{params.is_buy_nums}}人已兑</div>

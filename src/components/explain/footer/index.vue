@@ -48,7 +48,7 @@ export default {
             //     return false;
             // };
             var params = {
-                'storeId': 4,
+                'storeId': 1001,
             };
             _this.$axios.get("http://v8.python.youwoxing.net:9001/GetAuthorizerInfoByStoreId/",{params:params}).then((res) => {
                 console.log(res.data)

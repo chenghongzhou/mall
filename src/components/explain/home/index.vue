@@ -75,9 +75,9 @@
                             <div class="goods">
                                 <img :src="item.pic" alt="">
                             </div>
-                            <div class="goods_name">{{item.name}}</div>
-                            <div class="goods_old_price">原价{{item.normal_price}}元</div>
-                            <div class="goods_now_price"><span>{{item.is_give_integral}}</span>积分+<span>{{item.current_price}}</span>元</div>
+                            <div class="goods_name" :class="{'good_source':item.source == 1}">{{item.name}}</div>
+                            <div class="goods_old_price" v-if="item.source == 0">原价{{item.normal_price}}元</div>
+                            <div class="goods_now_price"><span>{{item.is_give_integral}}</span>积分<span v-if="item.source == 0">+{{item.current_price}}元</span></div>
                             <div class="buy_btn">立即兑</div>
                         </div>
                     </div>
