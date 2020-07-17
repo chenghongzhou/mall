@@ -355,6 +355,20 @@ export default {
                 console.log('error');
             });
         },
+        //加埋点
+        handleRecord(){
+            var _this = this;
+            var formData = {
+                "open_id":_this.open_id,
+                "store_id":4,
+                "webPage":"index"
+            };
+            _this.$axios.post("http://v8track.youwoxing.net/track/pv",formData).then((res) => {
+                
+            }).catch(() => {
+                console.log('error');
+            });
+        },
         //左右滑动宽度设置
         setWidth(){
             var {activityBoxMain, activityChild} = this.$refs;
@@ -510,6 +524,7 @@ export default {
                  _this.getOpenId();
             };
             _this.banner2();
+            _this.handleRecord();
         });
          config.isGoBack(_this.forbidBack);
     }
