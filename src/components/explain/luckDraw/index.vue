@@ -166,6 +166,7 @@ export default {
             reallAwards:[],  //正真的奖品信息
             myChange:'0', //我的抽奖次数
             getPrizeInfo:{},  //获取中奖后的结果
+            storeId:''
         }
     },
      methods: {
@@ -199,7 +200,7 @@ export default {
             var _this = this;
             var openid = _this.userInfoData.open_id;
             var formData = {
-                'store_id': 1001,
+                'store_id': _this.storeId,
                 "open_id":openid
             };
             
@@ -234,7 +235,7 @@ export default {
              var _this = this;
             var openid = _this.userInfoData.open_id;
             var formData = {
-                'store_id': 1001,
+                'store_id': _this.storeId,
                 "open_id":openid
             };
             
@@ -273,7 +274,7 @@ export default {
             var _this = this;
             var openid = _this.userInfoData.open_id;
             var formData = {
-                'store_id': 1001,
+                'store_id': _this.storeId,
                 "open_id":openid
             };
             
@@ -396,6 +397,10 @@ export default {
                     window.location.replace('http://v8homepage.youwoxing.net/?position=luckDraw&appid='+t_p)
                 }
             };
+            var t_store = config.getCookie('userInfo');
+            if(t_store){
+                 _this.storeId = Number(JSON.parse(config.getCookie('userInfo')).storeId);
+            }
            
         }
     },

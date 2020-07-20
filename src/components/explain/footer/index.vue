@@ -17,6 +17,7 @@ export default {
             userInfoData:{},
             appid:'',
             authInfo: {},
+            storeId:''
         }
     },
     methods: {
@@ -48,7 +49,7 @@ export default {
             //     return false;
             // };
             var params = {
-                'storeId': 1001,
+                'storeId': _this.storeId,
             };
             _this.$axios.get("http://v8.python.youwoxing.net:9001/GetAuthorizerInfoByStoreId/",{params:params}).then((res) => {
                 console.log(res.data)
@@ -180,6 +181,10 @@ export default {
             }else{
                 t_p = config.getCookie('appid') || '';
             };
+            var t_store = config.getCookie('userInfo');
+            if(t_store){
+                    _this.storeId = Number(JSON.parse(config.getCookie('userInfo')).storeId);
+            }
         }
     },
     created(){

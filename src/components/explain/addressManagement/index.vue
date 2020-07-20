@@ -49,6 +49,7 @@ export default {
         return {
             userInfoData: {},
             list:[],
+            storeId:''
         }
     },
     methods: {
@@ -68,7 +69,7 @@ export default {
         var _this = this;
         var openid = _this.userInfoData.open_id;
         var formData = {
-            'store_id': 1001,
+            'store_id': _this.storeId,
             "open_id":openid
         };
         
@@ -92,7 +93,7 @@ export default {
         var _this = this;
         var openid = _this.userInfoData.open_id;
         var formData = {
-            'store_id': 1001,
+            'store_id': _this.storeId,
             "open_id":openid
         };
         
@@ -116,7 +117,7 @@ export default {
         var _this = this;
         var openid = _this.userInfoData.open_id;
         var formData = {
-            'store_id': 1001,
+            'store_id': _this.storeId,
             "open_id":openid,
             "data":{
                 "id":rows.id
@@ -144,7 +145,7 @@ export default {
         var _this = this;
         var openid = _this.userInfoData.open_id;
         var formData = {
-            'store_id': 1001,
+            'store_id': _this.storeId,
             "open_id":openid,
             "data":{
                 "id":rows.id
@@ -181,6 +182,10 @@ export default {
             if(t_data){
                 _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
             };
+            var t_store = config.getCookie('userInfo');
+            if(t_store){
+                 _this.storeId = Number(JSON.parse(config.getCookie('userInfo')).storeId);
+            }
             _this.getAddress();
         })
     }

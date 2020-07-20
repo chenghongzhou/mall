@@ -156,6 +156,7 @@ export default {
             storeList:[], //获取任务集市
             dayList:[], //获取任务集市
             newUserList:[], //新人奖励
+            storeId:''
         }
     },
     methods: {
@@ -168,7 +169,7 @@ export default {
             var _this = this;
             var openid = _this.userInfoData.open_id;
             var formData = {
-                'store_id': 1001,
+                'store_id': _this.storeId,
                 "open_id":openid, //oaWxEv2NUHC4q04-i3IRgFLZTBoU
             };
             
@@ -192,7 +193,7 @@ export default {
             var _this = this;
             var openid = _this.userInfoData.open_id;
             var formData = {
-                'store_id': 1001,
+                'store_id': _this.storeId,
                 "open_id":openid,
                 "data": {
                     "missionId":item.tasks.id
@@ -219,7 +220,7 @@ export default {
             var _this = this;
             var openid = _this.userInfoData.open_id;
             var formData = {
-                'store_id': 1001,
+                'store_id': _this.storeId,
                 "open_id":openid,
                 "data": {
                     "missionId":item.tasks.id
@@ -248,7 +249,7 @@ export default {
             var _this = this;
             var openid = _this.userInfoData.open_id;
             var formData = {
-                'store_id': 1001,
+                'store_id': _this.storeId,
                 "open_id":openid,
             };
             
@@ -287,7 +288,7 @@ export default {
             var _this = this;
             var openid = _this.userInfoData.open_id;
             var formData = {
-                'store_id': 1001,
+                'store_id': _this.storeId,
                 "open_id":openid,
             };
             
@@ -311,7 +312,7 @@ export default {
             var _this = this;
             var openid = _this.userInfoData.open_id;
             var formData = {
-                'store_id': 1001,
+                'store_id': _this.storeId,
                 "open_id":openid,
                 "data": {
                     "missionId":item.tasks.id
@@ -338,7 +339,7 @@ export default {
             var _this = this;
             var openid = _this.userInfoData.open_id;
             var formData = {
-                'store_id': 1001,
+                'store_id': _this.storeId,
                 "open_id":openid,
                 "data": {
                     "missionId":item.tasks.id
@@ -366,7 +367,7 @@ export default {
             var _this = this;
             var formData = {
                 "open_id":_this.userInfoData.open_id,
-                "store_id":1001,
+                "store_id":_this.storeId,
                 "data":{
                     "avatar_url":_this.userInfoData.avatar_url,
                     "nick_name":_this.userInfoData.nick_name,
@@ -408,7 +409,7 @@ export default {
             var openid = _this.userInfoData.open_id;
             var formData = {
                 "open_id":openid,
-                "store_id":1,
+                "store_id":_this.storeId,
             };
             var headerConfig = {
                 headers: {
@@ -488,7 +489,10 @@ export default {
                     window.location.replace('http://v8homepage.youwoxing.net/?position=taskWall&appid='+t_p)
                 };
             };
-           
+           var t_store = config.getCookie('userInfo');
+            if(t_store){
+                _this.storeId = Number(JSON.parse(config.getCookie('userInfo')).storeId);
+            }
         }
     },
     destroyed(){

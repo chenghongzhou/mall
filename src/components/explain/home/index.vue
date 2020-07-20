@@ -40,7 +40,6 @@
                     <!-- </div> -->
                 </div>
                 </div>
-                <!-- <div style="font-size:0.2rem;color:#333">{{gt}}</div> -->
                 <div class="activity_entra_box swiper-container swiper-container2">
                     <div class="swiper-wrapper" style="width:100%;">
                         <div class="activity_entra swiper-slide">
@@ -111,7 +110,8 @@ export default {
             tcode:'',
             login_bg:true,
             position: '',  //跳转定位
-            gt:''
+            gt:'',
+            storeId:'',
         }
     },
     methods:{
@@ -155,13 +155,9 @@ export default {
                 // else{
                 //     _this.open_id = JSON.parse(config.getCookie('openid')).open_id;
                 // };
-                if(_this.position == ''){  //如果等于''则不跳
-                    _this.getActivityList();
-                    _this.getStoreGroups();
-                    _this.getStoreItems(-1);
-                    _this.getBanner();
-                };
+                
                 _this.getUserInfo();
+               
             }).catch(() => {
                 console.log('error');
             });
@@ -179,21 +175,28 @@ export default {
                 }
             };
             _this.$axios.get(allgetLogin+"/GetUserInfo/",{params:formData}).then((res) => {
-                //config.layerMsg(JSON.stringify(res.data), 1);
+                _this.storeId = Number(res.data.storeId);
                 if(res.data && res.data.nickname){
                     _this.userInfo = res.data;
-                    config.setCookie(
-                        'userInfo', 
-                        JSON.stringify(_this.userInfo), 
-                        7
-                    );
-                }else if(res.data.code == 1){
+                    
+                }else{
                     if(config.getCookie('userInfo')){
                         _this.userInfo = JSON.parse(config.getCookie('userInfo'));
                     }
                 };
+                config.setCookie(
+                    'userInfo', 
+                    JSON.stringify(res.data), 
+                    7
+                );
                 _this.updateUserInfo();
                 _this.getUserInfoMy();
+                 if(_this.position == ''){  //如果等于''则不跳
+                    _this.getActivityList();
+                    _this.getStoreGroups();
+                    _this.getStoreItems(-1);
+                    _this.getBanner();
+                };
                 
             }).catch(() => {
                 console.log('error');
@@ -204,7 +207,7 @@ export default {
             var _this = this;
             var formData = {
                 "open_id":_this.open_id,
-                "store_id":1001,
+                "store_id":_this.storeId,
                 "data":{
                     "avatar_url":_this.userInfo.headimgurl,
                     "nick_name":_this.userInfo.nickname,
@@ -226,7 +229,7 @@ export default {
             var _this = this;
             var formData = {
                 "open_id":_this.open_id,
-                "store_id":1001,
+                "store_id":_this.storeId,
                 "data":{
                     "avatar_url":_this.userInfo.headimgurl,
                     "nick_name":_this.userInfo.nickname,
@@ -261,7 +264,7 @@ export default {
              var _this = this;
             var formData = {
                 "open_id":_this.open_id,
-                "store_id":1,
+                "store_id":_this.storeId,
             };
             var headerConfig = {
                 headers: {
@@ -284,7 +287,7 @@ export default {
              var _this = this;
             var formData = {
                 "open_id":_this.open_id,
-                "store_id":1,
+                "store_id":_this.storeId,
             };
             var headerConfig = {
                 headers: {
@@ -307,7 +310,7 @@ export default {
             var _this = this;
             var formData = {
                 "open_id":_this.open_id,
-                "store_id":1002,
+                "store_id":_this.storeId,
             };
             var headerConfig = {
                 headers: {
@@ -330,7 +333,7 @@ export default {
             var _this = this;
             var formData = {
                 "open_id":_this.open_id,
-                "store_id":1002,
+                "store_id":_this.storeId,
                 "data": {
                     "group":group
                 }
@@ -360,7 +363,7 @@ export default {
             var _this = this;
             var formData = {
                 "open_id":_this.open_id,
-                "store_id":4,
+                "store_id":_this.storeId,
                 "webPage":"index"
             };
             _this.$axios.post("http://v8track.youwoxing.net/track/pv",formData).then((res) => {
@@ -510,6 +513,7 @@ export default {
                 };
                 _this.position = config.getHashVReq('state');
             };
+            
         }
     },
     destroyed(){

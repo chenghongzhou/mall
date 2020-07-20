@@ -54,10 +54,11 @@ export default {
                 "tel":'',
                 "name":'',
                 "is_defautl": false,
-                "id":''
+                "id":'',
             },
             isEdit:'',
-            isshow:true
+            isshow:true,
+            storeId:''
         }
     },
     methods: {
@@ -93,7 +94,7 @@ export default {
             };
             if(this.isEdit && this.isEdit == 1){
                 var formData = {
-                    'store_id': 1001,
+                    'store_id': _this.storeId,
                     "open_id":openid,
                     "data":{
                         "id":_this.addInfo.id,
@@ -115,7 +116,7 @@ export default {
                 });
             }else{
                 var formData = {
-                    'store_id': 1001,
+                    'store_id': _this.storeId,
                     "open_id":openid,
                     "data":{
                         "address":_this.addInfo.address,
@@ -185,8 +186,12 @@ export default {
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
             var t_data = config.getCookie('userInfoData');
+            var t_store = config.getCookie('userInfo');
             if(t_data){
                 _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+            };
+            if(t_store){
+                 _this.storeId = Number(JSON.parse(config.getCookie('userInfo')).storeId);
             };
             _this.getEditAddress();
             _this.onSelected();

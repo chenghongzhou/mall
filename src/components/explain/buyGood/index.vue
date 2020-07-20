@@ -83,6 +83,7 @@ export default {
             userInfoData:{},
             list:[],
             defaultDate:{},
+            storeId:''
         }
     },
     methods: {
@@ -101,7 +102,7 @@ export default {
             var _this = this;
             var openid = _this.userInfoData.open_id;
             var addressInfo = {
-                'store_id': 1001,
+                'store_id': _this.storeId,
                 "open_id":openid
             };
             store.dispatch('GetAddress', addressInfo)
@@ -147,6 +148,10 @@ export default {
             if(t_data){
                 _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
             };
+            var t_store = config.getCookie('userInfo');
+            if(t_store){
+                 _this.storeId = Number(JSON.parse(config.getCookie('userInfo')).storeId);
+            }
              _this.goodInfo = _this.$store.state.goodInfo;
              _this.total_integral = _this.goodInfo.is_give_integral;
              _this.total_price = _this.goodInfo.current_price;

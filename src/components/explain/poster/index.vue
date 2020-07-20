@@ -38,6 +38,7 @@ export default {
              imgUrl: '', //最后转化出来的图片base64地址
              isImg: false,
              imgBg:'',
+             storeId:''
         }
     },
       methods: {
@@ -45,7 +46,7 @@ export default {
         getData(){
             var _this = this;
             var params = {
-                'storeId': 4,
+                'storeId': _this.storeId,
             };
             _this.$axios.get("http://v8.python.youwoxing.net:9001/GetShareBackgroundPic/",{params:params}).then((res) => {
                 if(res.data){
@@ -124,6 +125,10 @@ export default {
     },
     mounted(){
         this.setHeight();
+        var t_store = config.getCookie('userInfo');
+        if(t_store){
+            _this.storeId = Number(JSON.parse(config.getCookie('userInfo')).storeId);
+        }
         setTimeout(_ => { this.getPoster() }, 500)
         this.getData();
     }

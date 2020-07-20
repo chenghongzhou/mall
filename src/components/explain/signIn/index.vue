@@ -95,6 +95,7 @@ export default {
             continue_sign_count:'',  //连续签到
             total_sign_count: '', //累计签到
             rank:1,  //今日，本月，总排行 
+            storeId:''
         }
     },
     methods: {
@@ -126,7 +127,7 @@ export default {
             var _this = this;
             var openid = _this.userInfoData.open_id;
             var formData = {
-                'store_id': 1001,
+                'store_id': _this.storeId,
                 "open_id":openid
             };
             
@@ -161,7 +162,7 @@ export default {
             var _this = this;
             var formData = {
                 "open_id":_this.open_id,//oaWxEv2NUHC4q04-i3IRgFLZTBoU
-                "store_id":1001,
+                "store_id":_this.storeId,
                 "data":{
                     "avatar_url":_this.userInfoData.avatar_url,
                     "nick_name":_this.userInfoData.nick_name,
@@ -227,7 +228,10 @@ export default {
                     window.location.replace('http://v8homepage.youwoxing.net/?position=signIn&appid='+t_p)
                 }
             };
-           
+           var t_store = config.getCookie('userInfo');
+            if(t_store){
+                _this.storeId = Number(JSON.parse(config.getCookie('userInfo')).storeId);
+            }
         }
     },
     destroyed(){

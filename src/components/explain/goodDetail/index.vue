@@ -45,6 +45,7 @@ export default {
     },
     mounted(){
         var _this = this;
+        
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
             _this.params = _this.$store.state.goodInfo;
