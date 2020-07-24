@@ -49,7 +49,7 @@
                 <div :class="{'tab_active':tabIndex == 3}" @click="handTab(3)" ><span>总排行<i v-if="tabIndex == 3"></i></span></div>
             </div>
             <div style="width:100%;height:0.2rem"></div>
-            <div class="nodata" v-if="siginList.length == 0">暂无数据</div>
+            <div class="nodata" v-if="!siginList || siginList.length == 0">暂无数据</div>
             <div class="list_box">
                 <div class="list_main">
                     <ul>

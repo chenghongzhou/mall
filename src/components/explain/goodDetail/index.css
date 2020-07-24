@@ -131,6 +131,9 @@
     color: #8e8e8e;
     margin-top: 0.15rem;
     margin-left: 0.3rem;
+    margin-right: 0.3rem;
+    height: auto;
+    box-sizing: border-box;
 }
 .btn{
     width: 5.8rem;

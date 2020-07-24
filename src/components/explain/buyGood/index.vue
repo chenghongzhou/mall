@@ -7,7 +7,7 @@
         <!-- <div class="header">
             <div class="go_back" @click="forbidBack()"></div>
         </div> -->
-        <div class="address_box">
+        <!-- <div class="address_box">
             <div class="address_icon" v-if="list.length >0"></div>
             <div class="address_info" v-if="list.length >0">
                 <div class="address_info_name">{{defaultDate.name}}  {{defaultDate.tel}}</div>
@@ -19,7 +19,7 @@
             </div>
             <div class="address_list" @click="goAddress()"></div>
             <div class="go_edit_address"></div>
-        </div>
+        </div> -->
 
         <div class="buy_good_box">
             <div class="order_info_box">
@@ -27,7 +27,7 @@
                 <div class="order_info">
                     <div class="order_name">{{goodInfo.name}}</div>
                     <div class="good_intr">{{goodInfo.name_dec}}</div>
-                    <div class="good_price"><i class="money_icon"></i>{{goodInfo.is_give_integral}}<span>+￥{{goodInfo.current_price}}</span></div>
+                    <div class="good_price"><i class="money_icon"></i>{{goodInfo.is_give_integral}}<span v-if="goodInfo.source == 0">+￥{{goodInfo.current_price}}</span></div>
                 </div>
             </div>
             <div class="order_money_box">
@@ -40,8 +40,8 @@
 
         <div class="footer">
             <div class="money_box">
-                <div class="intergral">合计(积分)：<i></i><span>{{total_integral}}</span></div>
-                <div class="money">合计(现金)：<i></i><font>￥</font><span>{{total_price}}</span></div>
+                <div class="intergral" :class="{'is_jf':goodInfo.source != 0}">合计(积分)：<i></i><span>{{total_integral}}</span></div>
+                <div class="money" v-if="goodInfo.source == 0">合计(现金)：<i></i><font>￥</font><span>{{total_price}}</span></div>
             </div>
             <div class="btn" @click="successMask = true">立即兑换</div>
         </div>
@@ -135,15 +135,9 @@ export default {
         },
         forbidBack(){
             this.$router.replace({path:'/goodDetail'});
-        }
-    },
-    destroyed(){
-        window.removeEventListener('popstate', this.forbidBack, false);
-    },
-    mounted(){
-        var _this = this;
-        config.isGoBack(_this.forbidBack);
-        _this.$nextTick(() =>{
+        },
+        getf(){
+            var _this = this;
             var t_data = config.getCookie('userInfoData');
             if(t_data){
                 _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
@@ -155,9 +149,21 @@ export default {
              _this.goodInfo = _this.$store.state.goodInfo;
              _this.total_integral = _this.goodInfo.is_give_integral;
              _this.total_price = _this.goodInfo.current_price;
-             
-             
-            _this.getAddress();
+        }
+    },
+    destroyed(){
+        window.removeEventListener('popstate', this.forbidBack, false);
+    },
+    activated(){
+         this.getf();
+    },
+    mounted(){
+        var _this = this;
+        config.isGoBack(_this.forbidBack);
+        _this.$nextTick(() =>{
+            
+            _this.getf();
+            //_this.getAddress();
         })
     }
 }

@@ -284,7 +284,14 @@ export default {
                 }
             };
             _this.$axios.post(allget+"/lottery/get_lottery",formData,headerConfig).then((res) => {
+               
                 if(res.data){
+                     if(res.data.lottery_id){
+                         _this.move();
+                     }else{
+                         _this.isRuningLucky = false;
+                         config.layerMsg(res.data.msg, 2);
+                     }
                     this.award = {
                         id: res.data.lottery_id
                     };
@@ -303,7 +310,6 @@ export default {
 			// 	};
 			// 	//console.log("返回的抽奖结果是", this.award);
 			// }, 2000);
-			this.move();
 		},
 		move() {
             var _this = this;
