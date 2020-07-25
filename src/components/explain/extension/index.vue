@@ -3,7 +3,7 @@
         <div class="header_part" ref="header" style="height:1.08rem">
             <div class="top">
                 <i class="top_close" @click="forbidBack()"></i>
-                推荐有礼
+                邀请有礼
             </div>
             <div class="header">
            <div class="my_img"><img :src="userInfoData.avatar_url" alt=""></div>

@@ -7,7 +7,7 @@
         <!-- <div class="header">
             <div class="go_back" @click="forbidBack()"></div>
         </div> -->
-        <!-- <div class="address_box">
+        <div class="address_box" v-if="goodInfo.source == 0">
             <div class="address_icon" v-if="list.length >0"></div>
             <div class="address_info" v-if="list.length >0">
                 <div class="address_info_name">{{defaultDate.name}}  {{defaultDate.tel}}</div>
@@ -19,7 +19,7 @@
             </div>
             <div class="address_list" @click="goAddress()"></div>
             <div class="go_edit_address"></div>
-        </div> -->
+        </div>
 
         <div class="buy_good_box">
             <div class="order_info_box">
@@ -43,7 +43,7 @@
                 <div class="intergral" :class="{'is_jf':goodInfo.source != 0}">合计(积分)：<i></i><span>{{total_integral}}</span></div>
                 <div class="money" v-if="goodInfo.source == 0">合计(现金)：<i></i><font>￥</font><span>{{total_price}}</span></div>
             </div>
-            <div class="btn" @click="successMask = true">立即兑换</div>
+            <div class="btn" @click="getGood()">立即兑换</div>
         </div>
 
         <div class="mask" v-if="successMask">
@@ -71,6 +71,7 @@
 
 <script>
 import store from '../../../vuex/store';
+import { allget } from '../../../api/api.js';
 export default {
     data(){
         return {
@@ -96,6 +97,61 @@ export default {
             };
             this.total_integral = this.goodInfo.is_give_integral*this.num;
             this.total_price = this.goodInfo.current_price*this.num;
+        },
+        getGood(){
+            var _this = this;
+//@click="successMask = true"
+            if(_this.list.length == 0 && _this.goodInfo.sourc == 0){
+                config.layerMsg('请添加收获地址~', 2);
+                return false;
+            };
+            var openid = _this.userInfoData.open_id;
+            var formData = {
+                "ids":_this.goodInfo.goods_id
+            };
+            _this.$axios.get("http://v8tob.youwoxing.net/store/product_library/pdd_detail?ids="+_this.goodInfo.goods_id).then((res) => {
+                if(res.data){
+                    var q_num = res.data.mall_coupon_remain_quantity;
+                    if(q_num && q_num>0 && res.data.mall_coupon_remain_quantity>=_this.num){
+                        _this.handleEx();
+                    }else{
+                        _this.handleEx();
+                        config.layerMsg('库存不足~', 2);
+                    }
+                }else{
+                    config.layerMsg('出错了~', 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+        },
+        //兑换扣积分
+        handleEx(){
+            var _this = this;
+            var openid = _this.userInfoData.open_id;
+            var formData = {
+                'store_id': _this.storeId,
+                "open_id":openid,
+                "data":{
+                    "score": _this.goodInfo.is_give_integral,
+                    "useType": _this.goodInfo.goods_id,
+                    "count":_this.num
+                }
+            };
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            _this.$axios.post(allget+"/c_account/use_score",formData,headerConfig).then((res) => {
+                if(res.data){
+                   
+                }else{
+                    config.layerMsg('出错了~', 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
         },
         //获取地址
         getAddress(){
@@ -163,7 +219,7 @@ export default {
         _this.$nextTick(() =>{
             
             _this.getf();
-            //_this.getAddress();
+            _this.getAddress();
         })
     }
 }

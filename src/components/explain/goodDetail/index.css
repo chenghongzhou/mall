@@ -144,4 +144,84 @@
     color: #ffffff;
     border-radius: 0.6rem;
     padding: 0.34rem 0; 
+    position: fixed;
+    bottom: 0.5rem;
+    left: 50%;
+    margin-left: -2.9rem;
+}
+.no_bg{
+    background-image: none;
+    
+}
+.no_bg div{
+    font-size: 0.3rem;
+}
+.p_q{
+    color: #ffac1c;
+    font-size: 0.44rem;
+    font-weight: bold;
+    text-indent: 0.2rem;
+}
+.p_q span{
+    font-size: 0.26rem;
+    margin-left: 0.1rem;
+}
+.p_q font{
+    text-decoration: line-through;
+    font-size: 0.26rem;
+    color: #8e8e8e;
+    margin-left: 0.1rem;
+}
+.get_q{
+    font-size: 0.3rem;
+    color: #ff4532;
+    text-indent: 0.3rem;
+    margin-top: 0.1rem;
+}
+.mask .mask_main{
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.8);
+	position: fixed;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 1010;
+}
+.mask .success .box{
+	width: 5.2rem;
+	height: 5.18rem;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -2.6rem;
+	margin-top: -2.59rem;
+    background: #ffffff;
+    border-radius: 0.2rem;
+    padding-top: 2.5rem;
+    box-sizing: border-box;
+    background: url("../../../../static/images/buyGood/success_bg.png") center no-repeat;
+    background-size: contain;
+}
+.success_title{
+    font-size: 0.36rem;
+    color: #ff4532;
+    text-align: center;
+    font-weight: bold;
+}
+.success_msg{
+    font-size: 0.24rem;
+    color: #8e8e8e;
+    text-align: center;
+    margin-top: 0.2rem;
+}
+.success_btn{
+    width: 3rem;
+    background:#ff4532;
+    text-align: center;
+    border-radius: 0.5rem;
+    margin: 0.6rem auto 0;
+    font-size: 0.28rem;
+    color: #ffffff;
+    padding: 0.26rem 0;
 }
