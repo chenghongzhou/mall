@@ -203,7 +203,7 @@ export default {
             }
             var t_open_id = config.getCookie('openid');
             if(t_open_id){
-                _this.openid = JSON.parse(t_open_id);
+                _this.openid = JSON.parse(t_open_id).open_id;
             };
              _this.goodInfo = _this.$store.state.goodInfo;
              _this.total_integral = _this.goodInfo.is_give_integral;

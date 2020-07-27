@@ -189,7 +189,7 @@ export default {
             var t_store = config.getCookie('userInfo');
             var t_open_id = config.getCookie('openid');
             if(t_open_id){
-                _this.openid = JSON.parse(t_open_id);
+                _this.openid = JSON.parse(t_open_id).open_id;
             };
             if(t_data){
                 _this.userInfoData = JSON.parse(t_data);

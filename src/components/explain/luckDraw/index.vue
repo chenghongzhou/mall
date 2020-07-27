@@ -235,7 +235,7 @@ export default {
              var _this = this;
             var formData = {
                 'store_id': _this.storeId,
-                "open_id":ope_this.openidnid
+                "open_id":_this.openid
             };
             
             var headerConfig = {
@@ -407,7 +407,7 @@ export default {
             };
             var t_open_id = config.getCookie('openid');
             if(t_open_id){
-                _this.openid = JSON.parse(t_open_id);
+                _this.openid = JSON.parse(t_open_id).open_id;
             };
            
         }

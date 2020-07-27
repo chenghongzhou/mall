@@ -122,7 +122,7 @@ export default {
             };
             var t_open_id = config.getCookie('openid');
             if(t_open_id){
-                _this.openid = JSON.parse(t_open_id);
+                _this.openid = JSON.parse(t_open_id).open_id;
             };
         },
         forbidBack(){
