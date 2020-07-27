@@ -84,7 +84,8 @@ export default {
             userInfoData:{},
             list:[],
             defaultDate:{},
-            storeId:''
+            storeId:'',
+            openid:''
         }
     },
     methods: {
@@ -105,7 +106,7 @@ export default {
                 config.layerMsg('请添加收获地址~', 2);
                 return false;
             };
-            var openid = _this.userInfoData.open_id;
+            var openid =_this.openid;
             var formData = {
                 "ids":_this.goodInfo.goods_id
             };
@@ -128,10 +129,9 @@ export default {
         //兑换扣积分
         handleEx(){
             var _this = this;
-            var openid = _this.userInfoData.open_id;
             var formData = {
                 'store_id': _this.storeId,
-                "open_id":openid,
+                "open_id":_this.openid,
                 "data":{
                     "score": _this.goodInfo.is_give_integral,
                     "useType": _this.goodInfo.goods_id,
@@ -156,10 +156,9 @@ export default {
         //获取地址
         getAddress(){
             var _this = this;
-            var openid = _this.userInfoData.open_id;
             var addressInfo = {
                 'store_id': _this.storeId,
-                "open_id":openid
+                "open_id":_this.openid
             };
             store.dispatch('GetAddress', addressInfo)
                 .then((res) => {
@@ -196,12 +195,16 @@ export default {
             var _this = this;
             var t_data = config.getCookie('userInfoData');
             if(t_data){
-                _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+                _this.userInfoData = JSON.parse(t_data);
             };
             var t_store = config.getCookie('userInfo');
             if(t_store){
-                 _this.storeId = Number(JSON.parse(config.getCookie('userInfo')).storeId);
+                 _this.storeId = Number(JSON.parse(t_store).storeId);
             }
+            var t_open_id = config.getCookie('openid');
+            if(t_open_id){
+                _this.openid = JSON.parse(t_open_id);
+            };
              _this.goodInfo = _this.$store.state.goodInfo;
              _this.total_integral = _this.goodInfo.is_give_integral;
              _this.total_price = _this.goodInfo.current_price;

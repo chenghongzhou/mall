@@ -49,7 +49,8 @@ export default {
         return {
             userInfoData: {},
             list:[],
-            storeId:''
+            storeId:'',
+            openid:''
         }
     },
     methods: {
@@ -67,10 +68,9 @@ export default {
       //获取收获地址
       getAddress(){
         var _this = this;
-        var openid = _this.userInfoData.open_id;
         var formData = {
             'store_id': _this.storeId,
-            "open_id":openid
+            "open_id":_this.openid
         };
         
         var headerConfig = {
@@ -91,10 +91,9 @@ export default {
       //添加收获地址
       getData(){
         var _this = this;
-        var openid = _this.userInfoData.open_id;
         var formData = {
             'store_id': _this.storeId,
-            "open_id":openid
+            "open_id":_this.openid
         };
         
         var headerConfig = {
@@ -115,10 +114,9 @@ export default {
     //删除地址
     handleDel(rows,index){
         var _this = this;
-        var openid = _this.userInfoData.open_id;
         var formData = {
             'store_id': _this.storeId,
-            "open_id":openid,
+            "open_id":_this.openid,
             "data":{
                 "id":rows.id
             }
@@ -143,10 +141,9 @@ export default {
     //设置默认地址
     handleDefault(rows,index){
         var _this = this;
-        var openid = _this.userInfoData.open_id;
         var formData = {
             'store_id': _this.storeId,
-            "open_id":openid,
+            "open_id":_this.openid,
             "data":{
                 "id":rows.id
             }
@@ -180,12 +177,16 @@ export default {
         _this.$nextTick(() =>{
             var t_data = config.getCookie('userInfoData');
             if(t_data){
-                _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+                _this.userInfoData = JSON.parse(t_data);
             };
             var t_store = config.getCookie('userInfo');
             if(t_store){
-                 _this.storeId = Number(JSON.parse(config.getCookie('userInfo')).storeId);
+                 _this.storeId = Number(JSON.parse(t_store).storeId);
             }
+            var t_open_id = config.getCookie('openid');
+            if(t_open_id){
+                _this.openid = JSON.parse(t_open_id);
+            };
             _this.getAddress();
         })
     }

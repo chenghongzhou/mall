@@ -45,7 +45,8 @@ export default {
             userInfoData:{},
             list:[],
             perv:'',
-            storeId:''
+            storeId:'',
+            openid:''
         }
     },
     methods: {
@@ -57,7 +58,7 @@ export default {
         //领取奖励
         getPrize(item){
             var _this = this;
-            var openid = _this.userInfoData.open_id;
+            var openid = _this.openid;
             var formData = {
                 'store_id': _this.storeId,
                 "open_id":openid,
@@ -86,7 +87,7 @@ export default {
         getUserInfoMy(){
             var _this = this;
             var formData = {
-                "open_id":_this.userInfoData.open_id,//oaWxEv2NUHC4q04-i3IRgFLZTBoU
+                "open_id":_this.openid,//oaWxEv2NUHC4q04-i3IRgFLZTBoU
                 "store_id":_this.storeId,
                 "data":{
                     "avatar_url":_this.userInfoData.avatar_url,
@@ -118,7 +119,7 @@ export default {
             var _this = this;
             var formData = {
                 'store_id': _this.storeId,
-                "open_id":_this.userInfoData.open_id
+                "open_id":_this.openid
             };
             
             var headerConfig = {
@@ -178,7 +179,7 @@ export default {
                 };
             };
             if(t_data){
-                _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+                _this.userInfoData = JSON.parse(t_data);
             }else{ //去授权
                 if(config.thirdParty().isWechat == true){
                     window.location.replace('http://v8homepage.youwoxing.net/?position=read&appid='+t_p)
@@ -186,8 +187,12 @@ export default {
             };
            var t_store = config.getCookie('userInfo');
             if(t_store){
-                _this.storeId = Number(JSON.parse(config.getCookie('userInfo')).storeId);
-            }
+                _this.storeId = Number(JSON.parse(t_store).storeId);
+            };
+            var t_open_id = config.getCookie('openid');
+            if(t_open_id){
+                _this.openid = JSON.parse(t_open_id);
+            };
         }
     },
     destroyed(){

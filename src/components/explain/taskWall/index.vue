@@ -156,7 +156,8 @@ export default {
             storeList:[], //获取任务集市
             dayList:[], //获取任务集市
             newUserList:[], //新人奖励
-            storeId:''
+            storeId:'',
+            openid:''
         }
     },
     methods: {
@@ -167,7 +168,7 @@ export default {
         //任务集市
         getStoreData(){
             var _this = this;
-            var openid = _this.userInfoData.open_id;
+            var openid = _this.openid;
             var formData = {
                 'store_id': _this.storeId,
                 "open_id":openid, //oaWxEv2NUHC4q04-i3IRgFLZTBoU
@@ -191,7 +192,7 @@ export default {
         //去完成任务集市
         storeGourl(item){
             var _this = this;
-            var openid = _this.userInfoData.open_id;
+            var openid = _this.openid;
             var formData = {
                 'store_id': _this.storeId,
                 "open_id":openid,
@@ -218,7 +219,7 @@ export default {
         //领取任务集市
         getStorePrize(item){
             var _this = this;
-            var openid = _this.userInfoData.open_id;
+            var openid = _this.openid;
             var formData = {
                 'store_id': _this.storeId,
                 "open_id":openid,
@@ -247,7 +248,7 @@ export default {
         //每日任务
         getDayData(){
             var _this = this;
-            var openid = _this.userInfoData.open_id;
+            var openid = _this.openid;
             var formData = {
                 'store_id': _this.storeId,
                 "open_id":openid,
@@ -286,7 +287,7 @@ export default {
         //新人任务
         getNewUserData(){
             var _this = this;
-            var openid = _this.userInfoData.open_id;
+            var openid = _this.openid;
             var formData = {
                 'store_id': _this.storeId,
                 "open_id":openid,
@@ -310,7 +311,7 @@ export default {
         //去完成新人任务
         goNewUser(item){
             var _this = this;
-            var openid = _this.userInfoData.open_id;
+            var openid = _this.openid;
             var formData = {
                 'store_id': _this.storeId,
                 "open_id":openid,
@@ -337,7 +338,7 @@ export default {
         //领取新人
         newUserPrize(item){
             var _this = this;
-            var openid = _this.userInfoData.open_id;
+            var openid = _this.openid;
             var formData = {
                 'store_id': _this.storeId,
                 "open_id":openid,
@@ -366,7 +367,7 @@ export default {
         getUserInfoMy(){
             var _this = this;
             var formData = {
-                "open_id":_this.userInfoData.open_id,
+                "open_id":_this.openid,
                 "store_id":_this.storeId,
                 "data":{
                     "avatar_url":_this.userInfoData.avatar_url,
@@ -406,9 +407,8 @@ export default {
         //获取活动列表
         getActivityList(){
             var _this = this;
-            var openid = _this.userInfoData.open_id;
             var formData = {
-                "open_id":openid,
+                "open_id":_this.openid,
                 "store_id":_this.storeId,
             };
             var headerConfig = {
@@ -483,7 +483,7 @@ export default {
                 };
             };
             if(t_data){
-                _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+                _this.userInfoData = JSON.parse(t_data);
             }else{ //去授权
                 if(config.thirdParty().isWechat == true){
                     window.location.replace('http://v8homepage.youwoxing.net/?position=taskWall&appid='+t_p)
@@ -491,8 +491,12 @@ export default {
             };
            var t_store = config.getCookie('userInfo');
             if(t_store){
-                _this.storeId = Number(JSON.parse(config.getCookie('userInfo')).storeId);
-            }
+                _this.storeId = Number(JSON.parse(t_store).storeId);
+            };
+            var t_open_id = config.getCookie('openid');
+            if(t_open_id){
+                _this.openid = JSON.parse(t_open_id);
+            };
         }
     },
     destroyed(){

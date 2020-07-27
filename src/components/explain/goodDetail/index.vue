@@ -49,6 +49,7 @@ export default {
             userInfoData:{},
             storeId:'',
             successMask: false,
+            openid:''
         }
     },
     methods: {
@@ -65,7 +66,7 @@ export default {
         getGood(){
             var _this = this;
            // _this.successMask = true
-            var openid = _this.userInfoData.open_id;
+            var openid = _this.openid;
             _this.$axios.get("http://v8tob.youwoxing.net/store/product_library/pdd_detail?ids="+_this.params.goods_id).then((res) => {
                 if(res.data){
                     var q_num = res.data.mall_coupon_remain_quantity;
@@ -85,10 +86,9 @@ export default {
           //兑换扣积分
         handleEx(){
             var _this = this;
-            var openid = _this.userInfoData.open_id;
             var formData = {
                 'store_id': _this.storeId,
-                "open_id":openid,
+                "open_id":_this.openid,
                 "data":{
                     "score": _this.params.is_give_integral,
                     "useType": _this.params.goods_id,
@@ -114,12 +114,16 @@ export default {
             var _this = this;
             var t_data = config.getCookie('userInfoData');
             if(t_data){
-                _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+                _this.userInfoData = JSON.parse(t_data);
             };
             var t_store = config.getCookie('userInfo');
             if(t_store){
-                 _this.storeId = Number(JSON.parse(config.getCookie('userInfo')).storeId);
-            }
+                 _this.storeId = Number(JSON.parse(t_store).storeId);
+            };
+            var t_open_id = config.getCookie('openid');
+            if(t_open_id){
+                _this.openid = JSON.parse(t_open_id);
+            };
         },
         forbidBack(){
             this.$router.replace({path:'/'});

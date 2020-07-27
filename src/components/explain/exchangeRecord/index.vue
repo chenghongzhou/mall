@@ -48,7 +48,8 @@ export default {
         return {
             tabIndex: 1,
             dataList:[],
-            storeId:''
+            storeId:'',
+            openid:''
         }
     },
     methods: {
@@ -64,10 +65,9 @@ export default {
         //获取数据
         getData(){
              var _this = this;
-            var openid = JSON.parse(config.getCookie('userInfo')).openid;
             var formData = {
                 'store_id': _this.storeId,
-                "open_id":openid
+                "open_id":_this.openid
             };
             
             var headerConfig = {
@@ -113,8 +113,12 @@ export default {
         var _this = this;
         var t_store = config.getCookie('userInfo');
         if(t_store){
-                _this.storeId = Number(JSON.parse(config.getCookie('userInfo')).storeId);
-        }
+            _this.storeId = Number(JSON.parse(t_store).storeId);
+        };
+        var t_open_id = config.getCookie('openid');
+        if(t_open_id){
+            _this.openid = JSON.parse(t_open_id);
+        };
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() => {
             _this.getData();

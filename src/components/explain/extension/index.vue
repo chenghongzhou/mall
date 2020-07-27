@@ -20,8 +20,8 @@
         <div class="content">
             <img src="../../../../static/images/home/extension_sc.png" alt="" class="extension_sc">
             <div class="c_part">亲爱哒，<br />
-                感谢你的支持和陪伴，欢迎推荐新朋友加入我们。每成功推荐一位小伙伴可获得<span>100</span>积分。<br />
-                每天最多推荐<span>20</span>位。
+                感谢你的支持和陪伴，欢迎推荐新朋友加入我们。每成功推荐一位小伙伴可获得<span>{{give_score}}</span>积分。<br />
+                每天最多推荐<span>{{day_max_invite}}</span>位。
             </div>
             <div class="btn" @click="mask = true">马上推荐</div>
         </div>
@@ -31,11 +31,15 @@
 </template>
 
 <script>
+import { allget } from '../../../api/api.js';
 export default {
     data(){
         return {
             userInfoData: {},
             mask:false,
+            storeId:'',
+            day_max_invite:'',
+            give_score:''
         }
     },
     methods:{
@@ -46,6 +50,28 @@ export default {
         taskWall(){
             var ishome = config.getHashVReq('ishome');
             this.$router.replace({path:'/taskWall?recordPage=extension&ishome='+ishome});
+        },
+        //获取店铺商品
+        getData(){
+            var _this = this;
+            var formData = {
+                "store_id":_this.storeId,
+            };
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            _this.$axios.post(allget+"/cus_config/share_config",formData,headerConfig).then((res) => {
+                if(res.data){
+                   _this.day_max_invite = res.data.day_max_invite;
+                   _this.give_score = res.data.give_score;
+                }else{
+                    config.layerMsg(res.data.msg, 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
         },
         forbidBack(){
             var _this = this;
@@ -87,6 +113,10 @@ export default {
                     window.location.replace('http://v8homepage.youwoxing.net/?position=extension&appid='+t_p)
                 }
             };
+            var t_store = config.getCookie('userInfo');
+            if(t_store){
+                _this.storeId = Number(JSON.parse(t_store).storeId);
+            }
            
         }
     },
@@ -98,7 +128,7 @@ export default {
         _this.isLg();
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
-            
+            _this.getData();
         })
     }
 }

@@ -58,7 +58,8 @@ export default {
             },
             isEdit:'',
             isshow:true,
-            storeId:''
+            storeId:'',
+            openid:''
         }
     },
     methods: {
@@ -82,7 +83,6 @@ export default {
         },
         addAddress(){
             var _this = this;
-            var openid = _this.userInfoData.open_id;
             if(_this.addInfo.address == "" || _this.addInfo.AddressDetail == "" || _this.addInfo.tel == "" || _this.addInfo.name == ""){
                 config.layerMsg('所提交得信息不能为空~', 2);
                 return false;
@@ -95,7 +95,7 @@ export default {
             if(this.isEdit && this.isEdit == 1){
                 var formData = {
                     'store_id': _this.storeId,
-                    "open_id":openid,
+                    "open_id":_this.openid,
                     "data":{
                         "id":_this.addInfo.id,
                         "address":_this.addInfo.address,
@@ -117,7 +117,7 @@ export default {
             }else{
                 var formData = {
                     'store_id': _this.storeId,
-                    "open_id":openid,
+                    "open_id":_this.openid,
                     "data":{
                         "address":_this.addInfo.address,
                         "AddressDetail":_this.addInfo.AddressDetail,
@@ -187,11 +187,15 @@ export default {
         _this.$nextTick(() =>{
             var t_data = config.getCookie('userInfoData');
             var t_store = config.getCookie('userInfo');
+            var t_open_id = config.getCookie('openid');
+            if(t_open_id){
+                _this.openid = JSON.parse(t_open_id);
+            };
             if(t_data){
-                _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+                _this.userInfoData = JSON.parse(t_data);
             };
             if(t_store){
-                 _this.storeId = Number(JSON.parse(config.getCookie('userInfo')).storeId);
+                 _this.storeId = Number(JSON.parse(t_store).storeId);
             };
             _this.getEditAddress();
             _this.onSelected();

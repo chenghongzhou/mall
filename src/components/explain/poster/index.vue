@@ -38,7 +38,8 @@ export default {
              imgUrl: '', //最后转化出来的图片base64地址
              isImg: false,
              imgBg:'',
-             storeId:''
+             storeId:'',
+            openid:''
         }
     },
       methods: {
@@ -127,8 +128,12 @@ export default {
         this.setHeight();
         var t_store = config.getCookie('userInfo');
         if(t_store){
-            _this.storeId = Number(JSON.parse(config.getCookie('userInfo')).storeId);
-        }
+            _this.storeId = Number(JSON.parse(t_store).storeId);
+        };
+        var t_open_id = config.getCookie('openid');
+        if(t_open_id){
+            _this.openid = JSON.parse(t_open_id);
+        };
         setTimeout(_ => { this.getPoster() }, 500)
         this.getData();
     }

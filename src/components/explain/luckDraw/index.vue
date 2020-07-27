@@ -166,7 +166,8 @@ export default {
             reallAwards:[],  //正真的奖品信息
             myChange:'0', //我的抽奖次数
             getPrizeInfo:{},  //获取中奖后的结果
-            storeId:''
+            storeId:'',
+            openid:''
         }
     },
      methods: {
@@ -198,10 +199,9 @@ export default {
         //获取抽奖奖品
         getLotteryPrize(){
             var _this = this;
-            var openid = _this.userInfoData.open_id;
             var formData = {
                 'store_id': _this.storeId,
-                "open_id":openid
+                "open_id":_this.openid
             };
             
             var headerConfig = {
@@ -233,10 +233,9 @@ export default {
         //获取我的剩余抽奖次数
         getMyChange(){
              var _this = this;
-            var openid = _this.userInfoData.open_id;
             var formData = {
                 'store_id': _this.storeId,
-                "open_id":openid
+                "open_id":ope_this.openidnid
             };
             
             var headerConfig = {
@@ -272,10 +271,9 @@ export default {
 		},
 		drawAward() {
             var _this = this;
-            var openid = _this.userInfoData.open_id;
             var formData = {
                 'store_id': _this.storeId,
-                "open_id":openid
+                "open_id":_this.openid
             };
             
             var headerConfig = {
@@ -285,20 +283,20 @@ export default {
             };
             _this.$axios.post(allget+"/lottery/get_lottery",formData,headerConfig).then((res) => {
                
-                if(res.data){
-                     if(res.data.lottery_id){
+                if(res.data.code == 200){
+                     if(res.data.bonus_result.lottery_id){
                          _this.move();
                      }else{
-                         _this.isRuningLucky = false;
                          config.layerMsg(res.data.msg, 2);
                      }
+                     _this.isRuningLucky = false;
                     this.award = {
-                        id: res.data.lottery_id
+                        id: res.data.bonus_result.lottery_id
                     };
-                    _this.getPrizeInfo = res.data;
+                    _this.getPrizeInfo = res.data.bonus_result;
                     _this.getMyChange();
                 }else{
-                    config.layerMsg('出错了~', 2);
+                    config.layerMsg(res.data.msg, 2);
                 };
             }).catch(() => {
                 console.log('error');
@@ -397,7 +395,7 @@ export default {
                 };
             };
             if(t_data){
-                _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+                _this.userInfoData = JSON.parse(t_data);
             }else{ //去授权
                 if(config.thirdParty().isWechat == true){
                     window.location.replace('http://v8homepage.youwoxing.net/?position=luckDraw&appid='+t_p)
@@ -405,8 +403,12 @@ export default {
             };
             var t_store = config.getCookie('userInfo');
             if(t_store){
-                 _this.storeId = Number(JSON.parse(config.getCookie('userInfo')).storeId);
-            }
+                 _this.storeId = Number(JSON.parse(t_store).storeId);
+            };
+            var t_open_id = config.getCookie('openid');
+            if(t_open_id){
+                _this.openid = JSON.parse(t_open_id);
+            };
            
         }
     },
