@@ -17,7 +17,8 @@ export default {
             userInfoData:{},
             appid:'',
             authInfo: {},
-            storeId:''
+            storeId:'',
+            openid:''
         }
     },
     methods: {
@@ -73,7 +74,8 @@ export default {
             var _this = this;
             var goUrl = window.location.href;  //当前页面的链接
             var shareUrlLink = encodeURIComponent(goUrl.split('#')[0]);
-            var xhr = ''
+            var xhr = '';
+            var openid = _this.openid;
             if(typeof XMLHttpRequest != 'underfined'){
                 xhr = new XMLHttpRequest();
             }else{
@@ -102,7 +104,7 @@ export default {
                         wx.ready(function(){
                             var wxconfig = {
                                 title: gName+'0元兑好礼',  //标题
-                                link: 'http://v8homepage.youwoxing.net/#/friendRecommend?appid='+_this.appid+rech,  //分享之后的页面链接
+                                link: 'http://v8homepage.youwoxing.net/#/friendRecommend?appid='+_this.appid+rech+'&openid='+openid,  //分享之后的页面链接
                                 desc: _this.userInfoData.nick_name+'邀请你免费参与活动，兑换0元商品',  
                                 imgUrl: 'http://v8homepage.youwoxing.net/static/images/home/logo.png'  //图片
                             };
@@ -183,8 +185,12 @@ export default {
             };
             var t_store = config.getCookie('userInfo');
             if(t_store){
-                    _this.storeId = Number(JSON.parse(config.getCookie('userInfo')).storeId);
-            }
+                _this.storeId = Number(JSON.parse(t_store).storeId);
+            };
+            var t_open_id = config.getCookie('openid');
+            if(t_open_id){
+                _this.openid = JSON.parse(t_open_id);
+            };
         }
     },
     created(){

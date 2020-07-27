@@ -20,7 +20,7 @@
         <div class="mask" v-if="wx_code">
 			<div class="mask_main">
 				<div class="box tanchuscale">
-                    <img src="../../../../static/images/home/wx_code.jpg" alt="" class="mask_wx_code">
+                    <img :src="codeImg" alt="" class="mask_wx_code">
                     <div class="godo_get_info">长按识别二维码，进入公众号</div>
 				</div>
 			</div>
@@ -30,6 +30,7 @@
 
 
 <script>
+import { allgetLogin } from '../../../api/api.js';
 export default {
     data(){
         return {
@@ -38,26 +39,55 @@ export default {
             myName:'',
             gImg:'',
             gName:'',
+            codeImg:'',
+            openid:''
         }
     },
     methods:{
+        getData(){
+            var _this = this;
+            var formData = {
+                "openId":_this.openid,//'oaWxEvzF-BVMebKc6vDC8q2P4x6Y',
+            };
+            _this.$axios.get(allgetLogin+"/queryShareQrCodeUrl",{params:formData}).then((res) => {
+                if(res.data){
+                  _this.codeImg = res.data;
+                }else{
+                    config.layerMsg(res.data.msg, 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+        },
         getParams(){
             var _this = this;
             _this.myImg = config.getHashVReq('myImg');
             _this.myName = config.getHashVReq('myName');
             _this.gImg = config.getHashVReq('gImg');
             var gName = config.getHashVReq('gName');
+            var openid = config.getHashVReq('openid');
             if(gName){
                 if(gName.indexOf('#/') == '-1'){
                     _this.gName = gName;
                 }else{
                     _this.gName = gName.substring(0,gName.length-2);
                 };
+            };
+            if(openid){
+                if(gName.indexOf('#/') == '-1'){
+                    _this.openid = openid;
+                }else{
+                    _this.openid = openid.substring(0,openid.length-2);
+                };
             }
         }
     },
     mounted(){
-        this.getParams();
+        var _this = this;
+        _this.getParams();
+         _this.$nextTick(() =>{
+            _this.getData();
+        })
     }
 }
 </script>
