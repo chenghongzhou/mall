@@ -87,18 +87,50 @@
             </div>
         </div>
        <!--中奖是物品-->
+        <!--中奖是神秘礼物-->
+        <div class="mask" v-if="maskNoknowPrize">
+            <div class="mask_main tanchuscale">
+                <div class="light"></div>
+                <div class="box prize_things">
+                    <div class="mask_title">恭喜中奖</div>
+                    <div class="mask_prize_name">恭喜您抽中神秘礼包</div>
+                    <div class="prize_things_box">
+                        <img :src="maskNoknowPrizeSrc" alt="" class="mask_integral">
+                    </div>
+                    <div class="mask_btn" @click="handleMaskIntegral()">立即打开</div>
+                    <div class="mask_close" @click="maskNoknowPrize = false"></div>
+                </div>
+            </div>
+        </div>
+       <!--中奖是神秘礼物-->
+       <!--中奖是,,跳链接-->
+        <div class="mask" v-if="maskLink">
+            <div class="mask_main tanchuscale">
+                <div class="light"></div>
+                <div class="box prize_things">
+                    <div class="mask_title">恭喜中奖</div>
+                    <div class="mask_prize_name">恭喜您抽中</div>
+                    <div class="prize_things_box">
+                        <img :src="maskNoknowPrizeSrc" alt="" class="mask_integral">
+                    </div>
+                    <div class="mask_btn" @click="handleMaskIntegral()">立即打开</div>
+                    <div class="mask_close" @click="maskLink = false"></div>
+                </div>
+            </div>
+        </div>
+       <!--跳链接-->
        <!--中奖是积分-->
         <div class="mask" v-if="maskIntegral">
             <div class="mask_main tanchuscale">
                 <div class="light"></div>
                 <div class="box prize_things">
                     <div class="mask_title">恭喜中奖</div>
-                    <div class="mask_prize_name">恭喜您获得{{getPrizeInfo.num}}积分</div>
+                    <div class="mask_prize_name">恭喜您获得{{getPrizeInfo.integral}}积分</div>
                     <div class="prize_things_box">
                         <img src="../../../../static/images/luckDraw/integral.png" alt="" class="mask_integral">
                         <div class="prize_integral_num">X1</div>
                     </div>
-                    <div class="mask_btn" @click="maskIntegral = false">立即使用</div>
+                    <div class="mask_btn" @click="handleUse()">立即使用</div>
                     <div class="mask_close" @click="maskIntegral = false"></div>
                 </div>
             </div>
@@ -111,7 +143,7 @@
                 <div class="box prize_redpackets">
                     <div class="mask_title">恭喜中奖</div>
                     <div class="mask_prize_name">恭喜您获得拼多多现金红包</div>
-                    <div class="prize_redpackets_num">￥<span>{{getPrizeInfo.num}}</span></div>
+                    <div class="prize_redpackets_num">￥<span>{{getPrizeInfo.integral}}</span></div>
                     <div class="mask_btn" @click="handleUse()">立即使用</div>
                     <div class="mask_close" @click="maskRedpackets = false"></div>
                 </div>
@@ -134,6 +166,16 @@
             </div>
         </div>
        <!--没中奖-->
+       <!--没中奖-->
+        <div class="mask" v-if="maskNoTime" @click="maskNoTime = false">
+            <div class="mask_main tanchuscale">
+                <div class="box" style="background:#fff;border-radius:0.3rem;padding-top:2rem;box-sizing:border-box">
+                   <p style="font-size:0.26rem;text-align:center;">次数用光了</p>
+                   <div style="width:3rem;padding:0.2rem 0rem;font-size:0.26rem;border:1px solid #333;border-radius:0.5rem;text-align:center;margin:1rem auto;" @click="handldGetTimes()">更多抽奖</div>
+                </div>
+            </div>
+        </div>
+       <!--没中奖-->
     </div>
 </template>
 
@@ -143,10 +185,13 @@ import { userName } from './name.js';
 export default {
     data(){
         return {
+            maskNoTime:false,  //积分不足
             maskCoupon: false,  //中奖的是现金券
             maskIntegral: false,  //中奖的是积分
             maskRedpackets: false,  //中奖的是红包
-            maskNoPrize: false,  //中奖的是红包
+            maskNoPrize: false,  //没中奖
+            maskNoknowPrize:false,  //神秘礼物
+            maskLink:false,
             animate: false,
 			initSpeed: 200,  // 初始速度
 			speed: null,  // 变化速度
@@ -167,7 +212,8 @@ export default {
             myChange:'0', //我的抽奖次数
             getPrizeInfo:{},  //获取中奖后的结果
             storeId:'',
-            openid:''
+            openid:'',
+            maskNoknowPrizeSrc:'',
         }
     },
      methods: {
@@ -178,6 +224,10 @@ export default {
         taskWall(){
             var ishome = config.getHashVReq('ishome');
             this.$router.replace({path:'/taskWall?recordPage=luckDraw&ishome='+ishome});
+        },
+        handldGetTimes(){
+            this.maskNoTime = false;
+            window.location.href= 'https://engine.lvehaisen.com/index/activity?appKey=2bth4yjGAyC3THKSxa2y3cFEohhV&adslotId=347771';
         },
         //跑马灯
         getAds(){
@@ -286,6 +336,9 @@ export default {
                 if(res.data.code == 200){
                      if(res.data.bonus_result.lottery_id){
                          _this.move();
+                         _this.getUserInfoMy();
+                     }else if(res.data.msg.indexOf('积分不足') == 0){
+                         _this.maskNoTime = true;
                      }else{
                          config.layerMsg(res.data.msg, 2);
                      }
@@ -309,6 +362,9 @@ export default {
 			// 	//console.log("返回的抽奖结果是", this.award);
 			// }, 2000);
 		},
+        handleMaskIntegral(){
+            window.location.href = _this.getPrizeInfo.link_url;
+        },
 		move() {
             var _this = this;
 			var timer = setTimeout(() => {
@@ -330,13 +386,17 @@ export default {
 
 				        setTimeout(() => {
                             this.isRuningLucky = false;
-                                // 这里写停下来要执行的操作（弹出奖品框）
+                                // 这里写停下来要执行的操作（弹出奖品框）  //1神秘礼包 2积分 3链接 4未中奖 ...
                                 if(_this.getPrizeInfo.type == 1){
-                                    _this.maskCoupon = true;
+                                    _this.maskNoknowPrize = true;
+                                    _this.maskNoknowPrizeSrc = _this.getPrizeInfo.icon_url;
                                 }else if(_this.getPrizeInfo.type == 2){
-                                    _this.maskRedpackets = true;
-                                }else{
                                     _this.maskIntegral = true;
+                                }else if(_this.getPrizeInfo.type == 3){
+                                    _this.maskLink = true;
+                                    _this.maskNoknowPrizeSrc = _this.getPrizeInfo.icon_url;
+                                }else{
+                                    _this.maskNoPrize = true;
                                 };
                             }, 400);
 						return;
@@ -352,6 +412,37 @@ export default {
 				this.move();
 			}, this.speed);
 		},
+        //获取用户信息和金币
+        getUserInfoMy(){
+            var _this = this;
+            var formData = {
+                "open_id":_this.openid,
+                "store_id":_this.storeId,
+                "data":{
+                    "avatar_url":_this.userInfoData.headimgurl,
+                    "nick_name":_this.userInfoData.nickname,
+                }
+            };
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            _this.$axios.post(allget+"/c_account/get_user_info",formData,headerConfig).then((res) => {
+                if(res.data.error_code == 0){
+                    _this.userInfoData = res.data.user_data;
+                    config.setCookie(
+                        'userInfoData', 
+                        JSON.stringify(_this.userInfoData), 
+                        7
+                    );
+                }else{
+                    config.layerMsg(res.data.msg, 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+        },
         // 中奖名单滚动
 		scroll() {
 			this.animate = true;

@@ -70,10 +70,12 @@ export default {
             _this.$axios.get("http://v8tob.youwoxing.net/store/product_library/pdd_detail?ids="+_this.params.goods_id).then((res) => {
                 if(res.data){
                     var q_num = res.data.mall_coupon_remain_quantity;
-                    if(q_num && q_num>0 && res.data.mall_coupon_remain_quantity>=_this.num){
-                        _this.handleEx();
+                    if(q_num>0){
+                       // _this.handleEx();
+                       //window.locati
+                       config.layerMsg('敬请期待！~', 2);
                     }else{
-                        _this.handleEx();
+                       // _this.handleEx();
                         config.layerMsg('库存不足~', 2);
                     }
                 }else{
