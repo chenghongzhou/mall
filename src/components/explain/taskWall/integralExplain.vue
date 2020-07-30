@@ -38,7 +38,7 @@
             <div class="i_explain" >在积分商城使用积分兑换，订单退款时，不会退回积分 </div>
             <div class="i_explain" ><span>详情可咨询客服</span></div>
         </div>
-        <footer-view></footer-view>  
+        <footer-view style="position:relative"></footer-view>  
     </div>
 </template>
 

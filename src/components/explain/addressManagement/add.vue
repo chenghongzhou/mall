@@ -15,7 +15,7 @@
             </div>
             <div class="list">
                 <div class="label_left">手机号</div>
-                <div class="label_right"><input type="number" name="" id="" v-model="addInfo.tel" class="address_detail" @focus="handBlur()" placeholder="收货人手机号"></div>
+                <div class="label_right"><input type="number" name="" id="" v-model="addInfo.tel" class="address_detail" @focus="handBlur()" @keyup="handleLength()" placeholder="收货人手机号"></div>
             </div>
             <div class="list" id="demo">
                 <div class="label_left">所在地区</div>
@@ -24,7 +24,7 @@
             <div class="list">
                 <div class="label_left">详细地址</div>
                 <div class="label_right">
-                    <input type="text" name="" id="" class="address_detail" v-model="addInfo.AddressDetail" @focus="handBlur()" placeholder="详细地址">
+                    <input type="text" name="" id="" class="address_detail" v-model="addInfo.address_detail" @focus="handBlur()" placeholder="详细地址">
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@ export default {
             userInfoData:{},
             addInfo:{
                 "address":'请选择所在地区',
-                "AddressDetail":'',
+                "address_detail":'',
                 "tel":'',
                 "name":'',
                 "is_defautl": false,
@@ -66,13 +66,19 @@ export default {
         handleSet(){
             this.addInfo.is_defautl?this.addInfo.is_defautl=false:this.addInfo.is_defautl=true;
         },
+        handleLength(){
+            var _this = this;
+            if(_this.addInfo.tel.length > 0){
+                _this.addInfo.tel = _this.addInfo.tel.substring(0,11);
+            }
+        },
         getEditAddress(){
             this.isEdit = this.$route.query.edit;
             if(this.isEdit && this.isEdit == 1){
                 var isEditData = JSON.parse(config.getCookie('editAddress'));
                 this.addInfo = {
                     "address":isEditData.address,
-                    "AddressDetail":isEditData.address_detail,
+                    "address_detail":isEditData.address_detail,
                     "tel":isEditData.tel,
                     "name":isEditData.name,
                     "is_defautl": isEditData.if_default,
@@ -83,7 +89,7 @@ export default {
         },
         addAddress(){
             var _this = this;
-            if(_this.addInfo.address == "" || _this.addInfo.AddressDetail == "" || _this.addInfo.tel == "" || _this.addInfo.name == ""){
+            if(_this.addInfo.address == "" || _this.addInfo.address_detail == "" || _this.addInfo.tel == "" || _this.addInfo.name == ""){
                 config.layerMsg('所提交得信息不能为空~', 2);
                 return false;
             };
@@ -99,7 +105,7 @@ export default {
                     "data":{
                         "id":_this.addInfo.id,
                         "address":_this.addInfo.address,
-                        "AddressDetail":_this.addInfo.AddressDetail,
+                        "address_detail":_this.addInfo.address_detail,
                         "tel":_this.addInfo.tel,
                         "name":_this.addInfo.name,
                         "if_default":_this.addInfo.is_defautl
@@ -108,6 +114,7 @@ export default {
                 _this.$axios.post(allget+"/c_account/alter_user_contact",formData,headerConfig).then((res) => {
                     if(res.data.error_code == 0){
                         config.layerMsg('修改成功~', 2);
+                         _this.$router.replace({path:'/addressManagement/index'});
                     }else{
                         config.layerMsg('出错了~', 2);
                     };
@@ -120,7 +127,7 @@ export default {
                     "open_id":_this.openid,
                     "data":{
                         "address":_this.addInfo.address,
-                        "AddressDetail":_this.addInfo.AddressDetail,
+                        "address_detail":_this.addInfo.address_detail,
                         "tel":_this.addInfo.tel,
                         "name":_this.addInfo.name,
                         "if_default":_this.addInfo.is_defautl
@@ -132,11 +139,12 @@ export default {
                         _this.isAddressCheck = false;
                         _this.addInfo = {
                             "address":'请选择所在地区',
-                            "AddressDetail":'',
+                            "address_detail":'',
                             "tel":'',
                             "name":'',
                             "is_defautl":false
                         };
+                        _this.$router.replace({path:'/addressManagement/index'});
                     }else{
                         config.layerMsg('出错了~', 2);
                     };

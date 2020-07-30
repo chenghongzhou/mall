@@ -132,6 +132,15 @@
 				</div>
 			</div>
 		</div>
+
+        <div class="mask" v-if="wx_code" @click="wx_code = false">
+			<div class="mask_main_good">
+				<div class="box tanchuscale">
+                    <img :src="resultImg" alt="" class="mask_wx_code">
+                    
+				</div>
+			</div>
+		</div>
     </div>
 </template>
 
@@ -157,7 +166,9 @@ export default {
             dayList:[], //获取任务集市
             newUserList:[], //新人奖励
             storeId:'',
-            openid:''
+            openid:'',
+            wx_code:false,
+            resultImg:''
         }
     },
     methods: {
@@ -326,8 +337,12 @@ export default {
                 }
             };
             _this.$axios.post(allget+"/mission/finish_new_user_task",formData,headerConfig).then((res) => {
+                console.log(item)
                 if(res.data.error_code == 0){
-                    window.location.href = item.tasks.jump_link;
+                    console.log(item)
+                    _this.resultImg = item.qr_code;
+                    _this.getNewUserData();
+                   // window.location.href = item.tasks.jump_link;
                 }else{
                     config.layerMsg(res.data.msg, 2);
                 };
@@ -353,7 +368,7 @@ export default {
                 }
             };
             _this.$axios.post(allget+"/mission/achieve_new_user_task",formData,headerConfig).then((res) => {
-                if(res.data.error_code == 0){
+                if(res.data.error_code == 2){
                     _this.getNewUserData();
                     _this.getUserInfoMy();
                 }else{
@@ -451,14 +466,15 @@ export default {
             }else if(pervePage != '/' && pervePage){
                _this.$router.replace({path:'/'+pervePage+'?ishome='+ishome});
             }else{
-                if(config.thirdParty().isWechat == true){
-                     WeixinJSBridge.call('closeWindow');
-                }else{
-                    window.opener=null;
-                    window.open('','_self');
-                    window.location.href="about:blank";
-                    window.close(); 
-                };
+                _this.$router.replace({path:'/'});
+                // if(config.thirdParty().isWechat == true){
+                //      WeixinJSBridge.call('closeWindow');
+                // }else{
+                //     window.opener=null;
+                //     window.open('','_self');
+                //     window.location.href="about:blank";
+                //     window.close(); 
+                // };
             }
         },
         //刷新

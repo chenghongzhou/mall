@@ -90,6 +90,7 @@
     border-radius: 0.2rem;
     position: relative;
     overflow: hidden;
+    margin-bottom: 0.2rem;
 }
 .order_number{
     font-size: 0.24rem;
@@ -118,6 +119,7 @@
 .order_info{
     float: left;
     margin-left: 0.2rem;
+    width: 4rem;
 }
 .order_name{
     font-size: 0.3rem;
@@ -135,7 +137,7 @@
     margin-top: 0.3rem;
     position: absolute;
     left: 1.8rem;
-    bottom: 0.3rem;
+    bottom: 0.2rem;
 }
 .good_nums{
     font-size: 0.24rem;

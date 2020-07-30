@@ -28,7 +28,7 @@
                    </div>
                    <div class="reading_time">+{{item.read_set.score_num}}积分</div>
                    <div class="go_read" @click="goRead(item)" v-if="item.progress == 0">去阅读</div>
-                   <div class="go_readed" v-if="item.progress == 1">已阅读</div>
+                   <div class="go_readed" v-if="item.progress == 1" @click="goReaded(item)">已阅读</div>
                </li>
            </ul>
        </div>
@@ -54,6 +54,9 @@ export default {
             console.log(this.userInfoData)
             this.getPrize(item)
            
+        },
+        goReaded(item){
+            window.location.href = item.read_set.article_url;
         },
         //领取奖励
         getPrize(item){

@@ -7,7 +7,7 @@
         <!-- <div class="header">
             <div class="go_back" @click="forbidBack()"></div>
         </div> -->
-        <div class="address_box" v-if="goodInfo.source == 0">
+        <div class="address_box" v-if="goodInfo.source == 0 && goodInfo.show_type == 2">
             <div class="address_icon" v-if="list.length >0"></div>
             <div class="address_info" v-if="list.length >0">
                 <div class="address_info_name">{{defaultDate.name}}  {{defaultDate.tel}}</div>
@@ -27,21 +27,31 @@
                 <div class="order_info">
                     <div class="order_name">{{goodInfo.name}}</div>
                     <div class="good_intr">{{goodInfo.name_dec}}</div>
-                    <div class="good_price"><i class="money_icon"></i>{{goodInfo.is_give_integral}}<span v-if="goodInfo.source == 0">+￥{{goodInfo.current_price}}</span></div>
+                    <div class="good_price">
+                        <div v-if="goodInfo.buy_type == 0">
+                            <span>￥{{goodInfo.current_price}}</span>
+                        </div>
+                        <div v-if="goodInfo.buy_type == 1">
+                            <i class="money_icon"></i>{{goodInfo.cost}}
+                        </div>
+                        <div v-if="goodInfo.buy_type == 2">
+                            <i class="money_icon"></i>{{goodInfo.cost}}<span v-if="goodInfo.source == 0">+￥{{goodInfo.current_price}}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="order_money_box">
+            <!-- <div class="order_money_box" style="border-top: 1px solid #f1f1f1">
                 <div class="order_money">
                     <div class="order_money_in">兑换数量<div class="nums"><div class="reduce" @click="goodNum(1)"></div><div class="buy_nums">{{num}}</div><div class="add" @click="goodNum(2)"></div></div></div>
                     
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <div class="footer">
             <div class="money_box">
-                <div class="intergral" :class="{'is_jf':goodInfo.source != 0}">合计(积分)：<i></i><span>{{total_integral}}</span></div>
-                <div class="money" v-if="goodInfo.source == 0">合计(现金)：<i></i><font>￥</font><span>{{total_price}}</span></div>
+                <div class="intergral" :class="{'is_jf':goodInfo.buy_type == 1}" v-if="goodInfo.buy_type == 1 || goodInfo.buy_type == 2">合计(积分)：<i></i><span>{{total_integral}}</span></div>
+                <div class="money" v-if="goodInfo.buy_type == 0 || goodInfo.buy_type == 2">合计(现金)：<i></i><font>￥</font><span>{{total_price}}</span></div>
             </div>
             <div class="btn" @click="getGood()">立即兑换</div>
         </div>
@@ -51,18 +61,27 @@
 				<div class="box tanchuscale">
                     <div class="success_title">兑换成功</div>
                     <div class="success_msg">继续赚取积分，兑换更多好礼</div>
-                    <div class="success_btn" @click="successMask = false">确定</div>
+                    <div class="success_btn" @click="handleSuccessMask()">立即查看</div>
+                    <div class="file_close" @click="successMask = false"></div>
 				</div>
 			</div>
 		</div>
         <div class="mask" v-if="fileMask">
 			<div class="mask_main file">
 				<div class="box tanchuscale">
-                    <div class="file_title">兑换成功</div>
-                    <div class="file_need">本次兑换共需999积分</div>
-                    <div class="file_you">当前积分99</div>
+                    <div class="file_title">积分不足</div>
+                    <div class="file_need">本次兑换共需{{goodInfo.score || 0}}积分</div>
+                    <div class="file_you">当前积分{{userInfoData.score}}</div>
                     <div class="file_btn" @click="goTaskWall()">立即赚积分</div>
                     <div class="file_close" @click="fileMask = false"></div>
+				</div>
+			</div>
+		</div>
+        <div class="mask" v-if="wx_code">
+			<div class="mask_main_good">
+				<div class="box tanchuscale">
+                    <img :src="goodImg" alt="" class="mask_wx_code">
+                    
 				</div>
 			</div>
 		</div>
@@ -85,7 +104,9 @@ export default {
             list:[],
             defaultDate:{},
             storeId:'',
-            openid:''
+            openid:'',
+            wx_code:false,
+            goodImg:''
         }
     },
     methods: {
@@ -96,29 +117,74 @@ export default {
             }else{
                 this.num++; 
             };
-            this.total_integral = this.goodInfo.is_give_integral*this.num;
+            this.total_integral = this.goodInfo.cost*this.num;
             this.total_price = this.goodInfo.current_price*this.num;
+        },
+        handleSuccessMask(){
+            var _this = this;
+            if(_this.goodInfo.show_type == 0){
+                if(_this.goodInfo.exchange_jump_url != ""){
+                    window.location.href = _this.goodInfo.exchange_jump_url;
+                }else{
+                    config.layerMsg('为配置链接！', 2);
+                }
+            }
+            if(_this.goodInfo.show_type == 1){
+                _this.goodImg = _this.goodInfo.exchange_show_pic;
+                _this.wx_code = true;
+            }
+            if(_this.goodInfo.show_type == 2){
+                _this.successMask = false;
+            }
         },
         getGood(){
             var _this = this;
-//@click="successMask = true"
-            if(_this.list.length == 0 && _this.goodInfo.sourc == 0){
-                config.layerMsg('请添加收获地址~', 2);
+            var good_intergral = _this.goodInfo.score || 0
+            if(_this.userInfoData.score<good_intergral){
+                _this.fileMask = false;
                 return false;
             };
-            var openid =_this.openid;
-            var formData = {
-                "ids":_this.goodInfo.goods_id
+            if(_this.goodInfo.show_type == 2){
+                 _this.getAddress();
+                if(_this.list.length == 0){
+                    config.layerMsg('请添加收获地址~', 2);
+                    return false;
+                };
             };
-            _this.$axios.get("http://v8tob.youwoxing.net/store/product_library/pdd_detail?ids="+_this.goodInfo.goods_id).then((res) => {
-                if(res.data){
-                    var q_num = res.data.mall_coupon_remain_quantity;
-                    if(q_num && q_num>0 && res.data.mall_coupon_remain_quantity>=_this.num){
-                        _this.handleEx();
-                    }else{
-                        _this.handleEx();
-                        config.layerMsg('库存不足~', 2);
-                    }
+           
+            
+            var formData = {
+                'store_id': _this.storeId,
+                "open_id":_this.openid,
+                "data":{
+                    "score": _this.goodInfo.cost || 0,
+                    "useType": _this.goodInfo.goods_id,
+                    "num":1,
+                     "pay_money": _this.goodInfo.current_price,
+                    "address":'',
+                     "name":'',
+                    "tel":"",
+                    "product_id":_this.goodInfo.id,
+                    "pay_type":1
+                }
+            };
+            if(_this.goodInfo.show_type == 2){
+                formData.data.address = _this.defaultDate.address+_this.defaultDate.address_detail;
+                formData.data.name = _this.defaultDate.name;
+                formData.data.tel = _this.defaultDate.tel;
+            }
+            if(_this.goodInfo.buy_type == 0){
+                formData.data.pay_type = 2;
+            }
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            _this.$axios.post(allget+"/items/give_item",formData,headerConfig).then((res) => {
+                if(res.data.code == 200){
+                    
+                   _this.successMask = true;
                 }else{
                     config.layerMsg('出错了~', 2);
                 };
@@ -153,18 +219,22 @@ export default {
                 console.log('error');
             });
         },
-        //获取地址
         getAddress(){
             var _this = this;
-            var addressInfo = {
+            var formData = {
                 'store_id': _this.storeId,
                 "open_id":_this.openid
             };
-            store.dispatch('GetAddress', addressInfo)
-                .then((res) => {
-                    if(res) {
-                        _this.list = res.data;
-                        if(_this.list.length > 0){
+            
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            };
+            _this.$axios.post(allget+"/c_account/get_user_contacts",formData,headerConfig).then((res) => {
+                if(res.data){
+                    _this.list = res.data;
+                     if(_this.list.length > 0){
                           _this.list.forEach((item,index) => {
                              if(item.if_default){
                                  _this.defaultDate = item;
@@ -174,14 +244,42 @@ export default {
                             _this.defaultDate=_this.list[0];
                           };
                         }
-                    } else {
+                }else{
+                    config.layerMsg('出错了~', 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+      },
+        //获取地址
+        // getAddress(){
+        //     var _this = this;
+        //     var addressInfo = {
+        //         'store_id': _this.storeId,
+        //         "open_id":_this.openid
+        //     };
+        //     store.dispatch('GetAddress', addressInfo)
+        //         .then((res) => {
+        //             if(res) {
+        //                 _this.list = res.data;
+        //                 // if(_this.list.length > 0){
+        //                 //   _this.list.forEach((item,index) => {
+        //                 //      if(item.if_default){
+        //                 //          _this.defaultDate = item;
+        //                 //      }
+        //                 //   });
+        //                 //   if(!_this.defaultDate.if_default){
+        //                 //     _this.defaultDate=_this.list[0];
+        //                 //   };
+        //                 // }
+        //             } else {
                         
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        },
+        //             }
+        //         })
+        //         .catch((err) => {
+        //             console.log(err);
+        //         });
+        // },
         goAddress(){
             this.$router.replace({path:'/addressManagement/index'});
         },
@@ -206,7 +304,7 @@ export default {
                 _this.openid = JSON.parse(t_open_id).open_id;
             };
              _this.goodInfo = _this.$store.state.goodInfo;
-             _this.total_integral = _this.goodInfo.is_give_integral;
+             _this.total_integral = _this.goodInfo.cost;
              _this.total_price = _this.goodInfo.current_price;
         }
     },

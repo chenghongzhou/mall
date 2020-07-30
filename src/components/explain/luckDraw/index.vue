@@ -109,11 +109,11 @@
                 <div class="light"></div>
                 <div class="box prize_things">
                     <div class="mask_title">恭喜中奖</div>
-                    <div class="mask_prize_name">恭喜您抽中</div>
+                    <div class="mask_prize_name">恭喜您抽中{{getPrizeInfo.name}}</div>
                     <div class="prize_things_box">
                         <img :src="maskNoknowPrizeSrc" alt="" class="mask_integral">
                     </div>
-                    <div class="mask_btn" @click="handleMaskIntegral()">立即打开</div>
+                    <div class="mask_btn" @click="handleMaskIntegral()">立即查看</div>
                     <div class="mask_close" @click="maskLink = false"></div>
                 </div>
             </div>
@@ -160,7 +160,7 @@
                     <div class="prize_things_box">
                         <img src="../../../../static/images/luckDraw/no_prize.png" alt="" class="no_prize">
                     </div>
-                    <div class="mask_btn">再抽一次</div>
+                    <div class="mask_btn" @click="maskNoPrize = false">再抽一次</div>
                     <div class="mask_close" @click="maskNoPrize = false"></div>
                 </div>
             </div>
@@ -244,7 +244,7 @@ export default {
             this.noticeList = arrList;
         },
         handleUse(){
-            window.location.href = this.getPrizeInfo.value;
+            this.$router.replace({path:'/'});
         },
         //获取抽奖奖品
         getLotteryPrize(){
@@ -321,6 +321,10 @@ export default {
 		},
 		drawAward() {
             var _this = this;
+            if(_this.getData.limit_count-_this.myChange <= 0){
+                _this.maskNoTime = true;
+                return false;
+            };
             var formData = {
                 'store_id': _this.storeId,
                 "open_id":_this.openid
@@ -339,9 +343,10 @@ export default {
                          _this.getUserInfoMy();
                      }else if(res.data.msg.indexOf('积分不足') == 0){
                          _this.maskNoTime = true;
+                          return false;
                      }else{
                          config.layerMsg(res.data.msg, 2);
-                     }
+                     };
                      _this.isRuningLucky = false;
                     this.award = {
                         id: res.data.bonus_result.lottery_id
@@ -363,6 +368,11 @@ export default {
 			// }, 2000);
 		},
         handleMaskIntegral(){
+            var _this = this;
+            if(_this.getPrizeInfo.link_url == ""){
+                config.layerMsg("未配置链接~", 2);
+                return false;
+            }
             window.location.href = _this.getPrizeInfo.link_url;
         },
 		move() {
