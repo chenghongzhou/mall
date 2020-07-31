@@ -198,10 +198,6 @@ export default {
         },
          getf(){
             var _this = this;
-            var t_good_info = config.getCookie('goodInfos');
-            if(t_good_info){
-                _this.params = JSON.parse(t_good_info);
-            };
             var t_data = config.getCookie('userInfoData');
             if(t_data){
                 _this.userInfoData = JSON.parse(t_data);
