@@ -81,7 +81,8 @@
 			<div class="mask_main_good">
 				<div class="box tanchuscale">
                     <img :src="goodImg" alt="" class="mask_wx_code">
-                    
+                    <div class="exchange_show_text">{{goodText}}</div>
+                    <div class="file_close" @click="wx_code = false"></div>
 				</div>
 			</div>
 		</div>
@@ -106,7 +107,8 @@ export default {
             storeId:'',
             openid:'',
             wx_code:false,
-            goodImg:''
+            goodImg:'',
+            goodText:''
         }
     },
     methods: {
@@ -124,6 +126,7 @@ export default {
             var _this = this;
             if(_this.goodInfo.show_type == 0){
                 if(_this.goodInfo.exchange_jump_url != ""){
+                    _this.successMask = false;
                     window.location.href = _this.goodInfo.exchange_jump_url;
                 }else{
                     config.layerMsg('为配置链接！', 2);
@@ -131,6 +134,8 @@ export default {
             }
             if(_this.goodInfo.show_type == 1){
                 _this.goodImg = _this.goodInfo.exchange_show_pic;
+                _this.goodText = _this.goodInfo.exchange_show_text;
+                _this.successMask = false;
                 _this.wx_code = true;
             }
             if(_this.goodInfo.show_type == 2){

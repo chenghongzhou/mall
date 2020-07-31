@@ -370,7 +370,7 @@
 .mask .mask_main_good{
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0,0,0,0.8);
+	background-color: rgba(0,0,0,0.6);
 	position: fixed;
 	left: 0;
 	top: 0;
@@ -395,4 +395,10 @@
     height: 2.9rem;
     display: block;
     margin: 0rem auto 0;
+}
+.exchange_show_text{
+    font-size: 0.24rem;
+    color: #333333;
+    text-align: center;
+    margin-top: 0.25rem;
 }

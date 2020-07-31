@@ -37,7 +37,7 @@
             <div class="p_q" v-if="params.source == 1"><span>￥</span>{{(params.coupon_discount/100).toFixed(2)}}<span>券后价</span><font>￥{{(params.normal_price/100).toFixed(2)}}</font></div>
             <div class="get_q" v-if="params.source == 1">兑换后立得{{params.coupon_discount/100}}元抵用券</div>
             <div class="good_detail_tl">商品详情</div>
-            <div class="good_detail" v-html="params.dec"></div>
+            <div class="good_detail" v-html="params.dec" ref="detailBox"></div>
             <div class="btn" @click="buyGood()">立即兑换</div>
         </div>
          <div class="mask" v-if="successMask">
@@ -155,6 +155,16 @@ export default {
                 console.log('error');
             });
         },
+        detailBox(){
+            var _this = this;
+            var detailBox = _this.$refs.detailBox;
+            var childImg = detailBox.getElementsByTagName('img');
+            if(childImg.length > 0){
+                for(var i = 0;i<childImg.length;i++){
+                    childImg[i].style.width = "100%";
+                }
+            }
+        },
         //获取用户信息和金币
         getUserInfoMy(){
             var _this = this;
@@ -188,6 +198,10 @@ export default {
         },
          getf(){
             var _this = this;
+            var t_good_info = config.getCookie('goodInfos');
+            if(t_good_info){
+                _this.params = JSON.parse(t_good_info);
+            };
             var t_data = config.getCookie('userInfoData');
             if(t_data){
                 _this.userInfoData = JSON.parse(t_data);
@@ -210,6 +224,10 @@ export default {
     },
     activated(){
          this.params = this.$store.state.goodInfo;
+         
+         setTimeout(() => {
+             this.detailBox();
+         },0)
          window.scrollTo(0,0);
          this.getf();
     },

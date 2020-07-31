@@ -32,11 +32,11 @@
                    <img src="../../../../static/images/luckDraw/active.png" alt="" class="play_active" :class="['play_active_' + current]">
                    <li v-for="(item, index) in awards.slice(0,3)" :key="index">
                         <img :src="item.icon_url" alt="" class="prize" v-if="item.icon_url">
-                        <div class="prize_name">{{item.name}}</div>
+                        <div class="prize_name">{{item.reward_name}}</div>
                    </li>
                    <li>
-                        <img :src="awards[7].icon_url" alt="" class="prize" v-if="awards[7].icon_url">
-                        <div class="prize_name">{{awards[7].name}}</div>
+                        <img :src="awards[7].icon_url" alt="" class="prize" v-if="awards[7].icon_url" :class="{'no_remal_name':!awards[7].reward_name}">
+                        <div class="prize_name">{{awards[7].reward_name}}</div>
                    </li>
                    <li @click="handleStart()">
                        <img src="../../../../static/images/luckDraw/begain.png" alt="" class="begain">
@@ -44,19 +44,19 @@
                    </li>
                    <li>
                         <img :src="awards[3].icon_url" alt="" class="prize" v-if="awards[3].icon_url">
-                        <div class="prize_name">{{awards[3].name}}</div>
+                        <div class="prize_name">{{awards[3].reward_name}}</div>
                    </li>
                    <li>
                         <img :src="awards[6].icon_url" alt="" class="prize" v-if="awards[6].icon_url">
-                        <div class="prize_name">{{awards[6].name}}</div>
+                        <div class="prize_name">{{awards[6].reward_name}}</div>
                    </li>
                    <li>
                         <img :src="awards[5].icon_url" alt="" class="prize" v-if="awards[5].icon_url">
-                        <div class="prize_name">{{awards[5].name}}</div>
+                        <div class="prize_name">{{awards[5].reward_name}}</div>
                    </li>
                    <li>
                         <img :src="awards[4].icon_url" alt="" class="prize" v-if="awards[4].icon_url">
-                        <div class="prize_name">{{awards[4].name}}</div>
+                        <div class="prize_name">{{awards[4].reward_name}}</div>
                    </li>
                </ul>
                <div class="play_remmid" v-if="getData.limit_count-myChange && getData.limit_count-myChange>0">我的抽奖机会：<span>{{getData.limit_count-myChange}}</span>次</div>
@@ -323,6 +323,7 @@ export default {
             var _this = this;
             if(_this.getData.limit_count-_this.myChange <= 0){
                 _this.maskNoTime = true;
+                _this.isRuningLucky = false;
                 return false;
             };
             var formData = {
@@ -342,12 +343,11 @@ export default {
                          _this.move();
                          _this.getUserInfoMy();
                      }else if(res.data.msg.indexOf('积分不足') == 0){
-                         _this.maskNoTime = true;
-                          return false;
+                         config.layerMsg('积分不足', 2);
                      }else{
                          config.layerMsg(res.data.msg, 2);
                      };
-                     _this.isRuningLucky = false;
+                     
                     this.award = {
                         id: res.data.bonus_result.lottery_id
                     };
@@ -356,6 +356,7 @@ export default {
                 }else{
                     config.layerMsg(res.data.msg, 2);
                 };
+                _this.isRuningLucky = false;
             }).catch(() => {
                 console.log('error');
             });

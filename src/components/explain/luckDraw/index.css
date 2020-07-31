@@ -222,7 +222,7 @@
     width: 1.7rem;
     text-align: center;
     position: absolute;
-    bottom: 0.2rem;
+    bottom: 0.15rem;
     left: 0.06rem;
     color: #c26d4c;
     font-size: 0.24rem;
@@ -486,4 +486,7 @@
 .anim {
     transition: all 0.5s linear;
     margin-top: -0.34rem;
+}
+.no_remal_name{
+    margin-top: 0.25rem;
 }

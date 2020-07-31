@@ -448,11 +448,6 @@ export default {
         },
         goodDetail(rows){
             this.$store.state.goodInfo = rows;
-            config.setCookie(
-                'goodInfo', 
-                JSON.stringify(rows), 
-                7
-            );
             this.$router.replace({path:'/goodDetail?recordPage=index&ishome=1'});
         },
         login(){
