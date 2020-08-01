@@ -343,7 +343,7 @@ export default {
         getStoreItems(group){
             var _this = this;
             var formData = {
-                "open_id":'oaWxEv2NUHC4q04-i3IRgFLZTBoU',//_this.open_id,
+                "open_id":_this.open_id,
                 "store_id":_this.storeId,
                 "data": {
                     "group":group
