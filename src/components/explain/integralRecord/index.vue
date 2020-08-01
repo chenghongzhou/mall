@@ -9,7 +9,7 @@
                 <div class="my_intergal_box">
                     <img src="../../../../static/images/intergral/intergral_icon.png" alt="" class="intergral_icon">
                     <div class="intergal_my_box">
-                        <div class="intergal_nums">6564</div>
+                        <div class="intergal_nums">{{total}}</div>
                         <div class="intergal_msg">累计领取</div>
                     </div>
                 </div>
@@ -28,8 +28,8 @@
                 <div class="list" v-for="(item,index) in list" :key="index">
                     <div class="list_left">
                         <div class="list_msg">{{item.info}}</div>
-                        <div class="time">{{item.info}}</div>
-                        <div class="nums">{{item.get_time}}</div>
+                        <div class="time">{{item.get_time}}</div>
+                        <div class="nums">{{item.num}}</div>
                         <div class="list_intergral_icon"></div>
                     </div>
                 </div>
@@ -54,7 +54,8 @@ export default {
             userInfoData:{},
             list:[],
             storeId:'',
-            openid:''
+            openid:'',
+            total:''
         }
     },
     methods:{
@@ -67,7 +68,7 @@ export default {
                 'store_id': _this.storeId,
                 "open_id":_this.openid
             };
-            
+            _this.$loading.show();
             var headerConfig = {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -76,10 +77,13 @@ export default {
             _this.$axios.post(allget+"/c_account/get_score_records",formData,headerConfig).then((res) => {
                 if(res.data.error_code == 0){
                     _this.list = res.data.data;
+                    _this.total = res.data.sum_count;
                 }else{
                     config.layerMsg('出错了~', 2);
                 };
+                _this.$loading.close();
             }).catch(() => {
+                _this.$loading.close();
                 console.log('error');
             });
         },

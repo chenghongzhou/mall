@@ -115,7 +115,7 @@ export default {
                 if(res.data){
                    _this.params = res.data;
                    setTimeout(() => {
-                        this.detailBox();
+                        _this.detailBox();
                     },0)
                 }else{
                     config.layerMsg(res.data.msg, 2);
@@ -130,7 +130,6 @@ export default {
             var _this = this;
             var openid = _this.openid;
             var good_intergral = _this.params.score;
-             config.layerMsg('_this.userInfoData.score', 2);
             if(_this.userInfoData.score<good_intergral){
                 _this.fileMask = false;
                 return false;
@@ -152,7 +151,6 @@ export default {
         },
         handleSuccessMask(){
             var _this = this;
-            this.$router.replace({path:'/'});
             window.location.href = _this.params.pdd_url;
         },
           //兑换扣积分
@@ -182,7 +180,9 @@ export default {
                 if(res.data.code == 200){
                     _this.getUserInfoMy();
                    _this.successMask = true;
-                }else{
+                }else if(res.data.code == 201){
+                    _this.fileMask = false;
+                }{
                     config.layerMsg('出错了~', 2);
                 };
             }).catch(() => {
@@ -254,17 +254,20 @@ export default {
         window.removeEventListener('popstate', this.forbidBack, false);
     },
     activated(){
+         this.getf();
+        window.scrollTo(0,0);
         if(this.$store.state.goodInfo.id){
             this.params = this.$store.state.goodInfo;
+            setTimeout(() => {
+                this.detailBox();
+            },0)
         }else{
             this.getData();
         };
-         window.scrollTo(0,0);
-         this.getf();
+        
     },
     mounted(){
         var _this = this;
-        _this.getf();
         
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{

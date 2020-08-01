@@ -3,7 +3,7 @@
         <div class="header_part" ref="header">
             <div class="top">
                 <i class="top_close" @click="forbidBack()"></i>
-                转盘抽奖
+                {{title}}
             </div>
             <div class="header">
                 <div class="my_img"><img :src="userInfoData.avatar_url" alt=""></div>
@@ -214,6 +214,7 @@ export default {
             storeId:'',
             openid:'',
             maskNoknowPrizeSrc:'',
+            title:''
         }
     },
      methods: {
@@ -227,7 +228,7 @@ export default {
         },
         handldGetTimes(){
             this.maskNoTime = false;
-            window.location.href= 'https://engine.lvehaisen.com/index/activity?appKey=2bth4yjGAyC3THKSxa2y3cFEohhV&adslotId=347771';
+            window.location.href= 'https://engine.huacuiu.cn/index/activity?appKey=2bth4yjGAyC3THKSxa2y3cFEohhV&adslotId=353822';
         },
         //跑马灯
         getAds(){
@@ -244,6 +245,7 @@ export default {
             this.noticeList = arrList;
         },
         handleUse(){
+            this.maskIntegral=false;
             this.$router.replace({path:'/'});
         },
         //获取抽奖奖品
@@ -265,6 +267,8 @@ export default {
                     var list = res.data.bonus_sets;
                     var awardsList = [];
                     var len = list.length;
+                    _this.title = res.data.title
+                    document.title = _this.title;
                     _this.getData = res.data;
                     for(var i = len;i<9-len;i++){
                         var ele = {'icon_url':'','name':''}

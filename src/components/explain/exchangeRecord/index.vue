@@ -68,6 +68,7 @@ export default {
         //获取数据
         getData(){
              var _this = this;
+             _this.$loading.show();
             var formData = {
                 'store_id': _this.storeId,
                 "open_id":_this.openid
@@ -84,7 +85,9 @@ export default {
                 }else{
                     config.layerMsg('出错了~', 2);
                 };
+                _this.$loading.close();
             }).catch(() => {
+                _this.$loading.close();
                 console.log('error');
             });
         },

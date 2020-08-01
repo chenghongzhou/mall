@@ -146,10 +146,6 @@ export default {
         getGood(){
             var _this = this;
             var good_intergral = _this.goodInfo.score;
-            if(_this.userInfoData.score<good_intergral){
-                _this.fileMask = false;
-                return false;
-            };
             if(_this.goodInfo.show_type == 2){
                  _this.getAddress();
                 if(_this.list.length == 0){
@@ -189,8 +185,9 @@ export default {
             };
             _this.$axios.post(allget+"/items/give_item",formData,headerConfig).then((res) => {
                 if(res.data.code == 200){
-                    
                    _this.successMask = true;
+                }else if(res.data.code == 201){
+                    _this.fileMask = false;
                 }else{
                     config.layerMsg('出错了~', 2);
                 };
@@ -216,7 +213,7 @@ export default {
             };
             _this.$axios.post(allget+"/items/get_item",formData,headerConfig).then((res) => {
                 if(res.data){
-                    _this.goodInfo = _res.data;
+                    _this.goodInfo = res.data;
                     _this.total_integral = _this.goodInfo.cost;
                     _this.total_price = _this.goodInfo.current_price;
                 }else{
@@ -356,15 +353,13 @@ export default {
         }else{
             _this.getData();
         };
-        
+        _this.getAddress();
     },
     mounted(){
         var _this = this;
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
-            
-            _this.getf();
-            _this.getAddress();
+           
         })
     }
 }

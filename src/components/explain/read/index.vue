@@ -18,7 +18,7 @@
             </div>
        </div>
        <div class="content">
-           <div class="intru" v-if="list.length > 0">阅读一篇文章获得<span>{{list[0].read_set.score_num}}</span>积分，每日做多获得<span>5</span>积分。</div>
+           <!-- <div class="intru" v-if="list.length > 0">阅读一篇文章获得<span>{{list[0].read_set.score_num}}</span>积分，每日做多获得<span>5</span>积分。</div> -->
            <ul>
                <li v-for="(item, index) in list" :key="index">
                    <img :src="item.read_set.icon" alt="" class="read_img">
@@ -120,11 +120,11 @@ export default {
         //
         getData(){
             var _this = this;
+            _this.$loading.show();
             var formData = {
                 'store_id': _this.storeId,
                 "open_id":_this.openid
             };
-            
             var headerConfig = {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -136,7 +136,9 @@ export default {
                 }else{
                     config.layerMsg(res.data.msg, 2);
                 };
+                _this.$loading.close();
             }).catch(() => {
+                _this.$loading.close();
                 console.log('error');
             });
         },
