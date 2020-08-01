@@ -77,6 +77,7 @@ export default {
             successMask: false,
             openid:'',
             fileMask:false,
+            id:''
         }
     },
     methods: {
@@ -86,17 +87,50 @@ export default {
                 _this.getGood();
                 
             }else{
-                this.$router.replace({path:'/buyGood'}); 
+                this.$router.replace({path:'/buyGood?id='+_this.id}); 
             }
            
         },
         goTaskWall(){
             this.$router.replace({path:'/taskWall'});
         },
+        getData(){
+            var _this = this;
+            var id = _this.id;
+            _this.$loading.show();
+            var formData = {
+                'store_id': _this.storeId,
+                "open_id":_this.openid,
+                "data":{
+                     "productId":Number(id)
+                }
+            };
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            
+            _this.$axios.post(allget+"/items/get_item",formData,headerConfig).then((res) => {
+                if(res.data){
+                   _this.params = res.data;
+                   setTimeout(() => {
+                        this.detailBox();
+                    },0)
+                }else{
+                    config.layerMsg(res.data.msg, 2);
+                };
+                _this.$loading.close();
+            }).catch(() => {
+                _this.$loading.close();
+                console.log('error');
+            });
+        },
         getGood(){
             var _this = this;
             var openid = _this.openid;
-            var good_intergral = _this.params.score || 0
+            var good_intergral = _this.params.score;
+             config.layerMsg('_this.userInfoData.score', 2);
             if(_this.userInfoData.score<good_intergral){
                 _this.fileMask = false;
                 return false;
@@ -199,6 +233,7 @@ export default {
          getf(){
             var _this = this;
             var t_data = config.getCookie('userInfoData');
+            _this.id = config.getHashVReq('id');
             if(t_data){
                 _this.userInfoData = JSON.parse(t_data);
             };
@@ -219,21 +254,21 @@ export default {
         window.removeEventListener('popstate', this.forbidBack, false);
     },
     activated(){
-         this.params = this.$store.state.goodInfo;
-         
-         setTimeout(() => {
-             this.detailBox();
-         },0)
+        if(this.$store.state.goodInfo.id){
+            this.params = this.$store.state.goodInfo;
+        }else{
+            this.getData();
+        };
          window.scrollTo(0,0);
          this.getf();
     },
     mounted(){
         var _this = this;
         _this.getf();
+        
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
             
-            console.log(_this.params)
         })
     }
 }

@@ -354,11 +354,13 @@ export default {
                     _this.getPrizeInfo = res.data.bonus_result;
                     _this.getMyChange();
                 }else{
+                    _this.isRuningLucky = false;
                     config.layerMsg(res.data.msg, 2);
                 };
-                _this.isRuningLucky = false;
+                
             }).catch(() => {
                 console.log('error');
+                _this.isRuningLucky = false;
             });
 			// 请求接口，模拟一个抽奖数据(假设请求时间为2s)
 			// setTimeout(() => {

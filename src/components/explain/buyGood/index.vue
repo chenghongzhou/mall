@@ -108,7 +108,8 @@ export default {
             openid:'',
             wx_code:false,
             goodImg:'',
-            goodText:''
+            goodText:'',
+            id:''
         }
     },
     methods: {
@@ -144,7 +145,7 @@ export default {
         },
         getGood(){
             var _this = this;
-            var good_intergral = _this.goodInfo.score || 0
+            var good_intergral = _this.goodInfo.score;
             if(_this.userInfoData.score<good_intergral){
                 _this.fileMask = false;
                 return false;
@@ -194,6 +195,36 @@ export default {
                     config.layerMsg('出错了~', 2);
                 };
             }).catch(() => {
+                console.log('error');
+            });
+        },
+        getData(){
+            var _this = this;
+            var id = _this.id;
+            _this.$loading.show();
+            var formData = {
+                'store_id': _this.storeId,
+                "open_id":_this.openid,
+                "data":{
+                     "productId":Number(id)
+                }
+            };
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            _this.$axios.post(allget+"/items/get_item",formData,headerConfig).then((res) => {
+                if(res.data){
+                    _this.goodInfo = _res.data;
+                    _this.total_integral = _this.goodInfo.cost;
+                    _this.total_price = _this.goodInfo.current_price;
+                }else{
+                    config.layerMsg(res.data.msg, 2);
+                };
+                _this.$loading.close();
+            }).catch(() => {
+                _this.$loading.close();
                 console.log('error');
             });
         },
@@ -292,11 +323,12 @@ export default {
             this.$router.replace({path:'/taskWall'});
         },
         forbidBack(){
-            this.$router.replace({path:'/goodDetail'});
+            this.$router.replace({path:'/goodDetail?id='+this.id});
         },
         getf(){
             var _this = this;
             var t_data = config.getCookie('userInfoData');
+            _this.id = config.getHashVReq('id');
             if(t_data){
                 _this.userInfoData = JSON.parse(t_data);
             };
@@ -308,16 +340,23 @@ export default {
             if(t_open_id){
                 _this.openid = JSON.parse(t_open_id).open_id;
             };
-             _this.goodInfo = _this.$store.state.goodInfo;
-             _this.total_integral = _this.goodInfo.cost;
-             _this.total_price = _this.goodInfo.current_price;
+            
         }
     },
     destroyed(){
         window.removeEventListener('popstate', this.forbidBack, false);
     },
     activated(){
-         this.getf();
+        var _this = this;
+         _this.getf();
+         if(_this.$store.state.goodInfo.id){
+             _this.goodInfo = _this.$store.state.goodInfo;
+             _this.total_integral = _this.goodInfo.cost;
+             _this.total_price = _this.goodInfo.current_price;
+        }else{
+            _this.getData();
+        };
+        
     },
     mounted(){
         var _this = this;

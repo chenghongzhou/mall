@@ -264,7 +264,7 @@ export default {
                         _this.$router.replace({path:'/'+_this.position});
                     };
                 }else{
-                    config.layerMsg(res.data.msg, 2);
+                   // config.layerMsg(res.data.msg, 2);
                 };
             }).catch(() => {
                 console.log('error');
@@ -287,7 +287,7 @@ export default {
                    _this.activity_list = res.data.activity_list;
                    setTimeout(() => {_this.setActivity();},0)
                 }else{
-                    config.layerMsg(res.data.msg, 2);
+                   // config.layerMsg(res.data.msg, 2);
                 };
             }).catch(() => {
                 console.log('error');
@@ -310,7 +310,7 @@ export default {
                    _this.banner_list = res.data.data;
                    setTimeout(() => {_this.banner1();},300)
                 }else{
-                    config.layerMsg(res.data.msg, 2);
+                    //config.layerMsg(res.data.msg, 2);
                 };
             }).catch(() => {
                 console.log('error');
@@ -333,7 +333,7 @@ export default {
                    _this.getStoreGroupList = res.data.group_list;
                    setTimeout(() => {_this.setStoreGroups();}, 0)
                 }else{
-                    config.layerMsg(res.data.msg, 2);
+                    //config.layerMsg(res.data.msg, 2);
                 };
             }).catch(() => {
                 console.log('error');
@@ -363,7 +363,7 @@ export default {
                     });
                    _this.goodList = params;
                 }else{
-                    config.layerMsg(res.data.msg, 2);
+                 //   config.layerMsg(res.data.msg, 2);
                 };
             }).catch(() => {
                 console.log('error');
@@ -448,7 +448,7 @@ export default {
         },
         goodDetail(rows){
             this.$store.state.goodInfo = rows;
-            this.$router.replace({path:'/goodDetail?recordPage=index&ishome=1'});
+            this.$router.replace({path:'/goodDetail?recordPage=index&id='+rows.id+'&ishome=1'});
         },
         login(){
             var _this = this;
@@ -466,8 +466,9 @@ export default {
                     login_appid = get_url_appid.substring(0,get_url_appid.length-2);
                 };
                 if(cookie_appid){
+                   var cookie_appid_d = JSON.parse(cookie_appid)
                     //如果这次进来获取的url中的appid和保存在cookie中的appid不同，说明公众号不同，需要重新授权
-                    if(cookie_appid != login_appid && config.thirdParty().isWechat == true && _this.tcode == ''){
+                    if(cookie_appid_d != login_appid && config.thirdParty().isWechat == true && _this.tcode == ''){
                         window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+login_appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
                         return false;
                     };
@@ -510,11 +511,14 @@ export default {
                 };
                 config.setCookie(
                     'appid', 
-                    t_p, 
+                    JSON.stringify(t_p), 
                     7
                 );
             }else{
-                t_p = config.getCookie('appid') || '';
+                if(config.getCookie('appid')){
+                    t_p = config.getCookie('appid') || '';
+                }
+                
             };
             if(t_code){
                 if(t_code.indexOf('#/') == '-1'){

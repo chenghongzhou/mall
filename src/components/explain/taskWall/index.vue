@@ -1,11 +1,12 @@
 <template>
     <div class="main">
-        <div class="top">
+        <div class="top" style="position: fixed; top: 0px; left: 0px; z-index: 10; height: 1.04rem;">
             <i class="top_close" @click="forbidBack()"></i>
             赚积分
         </div>
         
         <div class="content">
+            <div style="height: 1.04rem; width: 100%;"></div>
             <div class="header_bg"></div>
             <div class="content_info">
                 <div class="header">
@@ -133,11 +134,11 @@
 			</div>
 		</div>
 
-        <div class="mask" v-if="wx_code" @click="wx_code = false">
+        <div class="mask" v-if="wx_code">
 			<div class="mask_main_good">
 				<div class="box tanchuscale">
                     <img :src="resultImg" alt="" class="mask_wx_code">
-                    
+                    <div class="godo_close" @click="wx_code = false"></div>
 				</div>
 			</div>
 		</div>
@@ -340,9 +341,15 @@ export default {
                 console.log(item)
                 if(res.data.error_code == 0){
                     console.log(item)
-                    _this.resultImg = item.qr_code;
+                    _this.resultImg = item.tasks.qr_code;
+                    if(item.qr_code&&item.qr_code!=''){
+                        _this.wx_code = true;
+                    }else if(item.tasks.jump_link&&item.tasks.jump_link != ''){
+                        window.location.href = item.tasks.jump_link;
+                    }else{
+                        config.layerMsg('未配置', 2);
+                    };
                     _this.getNewUserData();
-                   // window.location.href = item.tasks.jump_link;
                 }else{
                     config.layerMsg(res.data.msg, 2);
                 };
@@ -369,6 +376,7 @@ export default {
             };
             _this.$axios.post(allget+"/mission/achieve_new_user_task",formData,headerConfig).then((res) => {
                 if(res.data.error_code == 2){
+                    config.layerMsg('领取成功~', 2);
                     _this.getNewUserData();
                     _this.getUserInfoMy();
                 }else{

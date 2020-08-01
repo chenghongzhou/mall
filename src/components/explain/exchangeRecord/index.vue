@@ -61,9 +61,9 @@ export default {
             _this.tabIndex = index;
         },
         orderDetail(){
-             var ishome = config.getHashVReq('ishome');
-             var pervePage = config.getHashVReq('pervePage');
-            this.$router.replace({path:'/orderDetail?recordPage='+pervePage+'&ishome='+ishome});
+            //  var ishome = config.getHashVReq('ishome');
+            //  var pervePage = config.getHashVReq('pervePage');
+            // this.$router.replace({path:'/orderDetail?recordPage='+pervePage+'&ishome='+ishome});
         },
         //获取数据
         getData(){
