@@ -7,7 +7,7 @@
         <!-- <div class="header">
             <div class="go_back" @click="forbidBack()"></div>
         </div> -->
-        <div class="address_box" v-if="goodInfo.source == 0 && goodInfo.show_type == 2">
+        <div class="address_box" v-if="goodInfo.source == 0 && goodInfo.show_type == 2" @click="goAddress()">
             <div class="address_icon" v-if="list.length >0"></div>
             <div class="address_info" v-if="list.length >0">
                 <div class="address_info_name">{{defaultDate.name}}  {{defaultDate.tel}}</div>
@@ -17,7 +17,7 @@
                
                 <div class="address_info_name" style="margin-top:0.4rem;color:#cccccc"> 您还没有收获地址，去添加</div>
             </div>
-            <div class="address_list" @click="goAddress()"></div>
+            <div class="address_list"></div>
             <div class="go_edit_address"></div>
         </div>
 

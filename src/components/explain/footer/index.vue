@@ -23,7 +23,7 @@ export default {
     },
     methods: {
          goLink(){
-            window.location.href = 'http://v8tob.youwoxing.net/user/login.html';
+            window.location.href = 'http://v8keji.cn/';
         },
         getAuth(){
             var _this = this;
@@ -81,7 +81,7 @@ export default {
             }else{
                 xhr = new ActiveXObject();  //ie5,6
             };
-            var shareUrlRequire = 'http://v8.python.youwoxing.net:9001/GetShareSignature/?url='+shareUrlLink+'&appId='+_this.appid;
+            var shareUrlRequire = allgetLogin+'/GetShareSignature/?url='+shareUrlLink+'&appId='+_this.appid;
              var myImg = _this.userInfoData.avatar_url || 0;
             var myName = _this.userInfoData.nick_name || 0;
             var gImg = _this.authInfo.authorizer_info.head_img;

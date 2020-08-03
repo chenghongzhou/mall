@@ -24,7 +24,7 @@
                    <img :src="item.read_set.icon" alt="" class="read_img">
                    <div class="reading">
                        <div class="reading_content">{{item.read_set.title}}</div>
-                       <div class="reading_content" style="margin-top:0.08rem">{{item.read_set.dec}}</div>
+                       <!-- <div class="reading_content" style="margin-top:0.08rem">{{item.read_set.dec}}</div> -->
                    </div>
                    <div class="reading_time">+{{item.read_set.score_num}}积分</div>
                    <div class="go_read" @click="goRead(item)" v-if="item.progress == 0">去阅读</div>

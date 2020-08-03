@@ -20,9 +20,9 @@
            <div style="height:1.04rem;width:100%"></div>
             <div class="banner_box swiper-container swiper-container1">
                 <div class="swiper-wrapper" style="width:100%;">
-                        <div class="banner swiper-slide" v-for="(item,index) in banner_list" :key="index" @click="goLink(item)">
-                            <img :src="item.icon" alt="">
-                        </div>
+                    <div class="banner swiper-slide" v-for="(item,index) in banner_list1" :key="index" @click="goLink(item)">
+                        <img :src="item.icon" alt="">
+                    </div>
                 </div>
                 <div class="swiper-pagination swiper-p1" slot="pagination"></div>
             </div>
@@ -42,11 +42,8 @@
                 </div>
                 <div class="activity_entra_box swiper-container swiper-container2">
                     <div class="swiper-wrapper" style="width:100%;">
-                        <div class="activity_entra swiper-slide">
-                            <img src="../../../../static/images/home/activity_entra.png" alt="">
-                        </div>
-                        <div class="activity_entra swiper-slide">
-                            <img src="../../../../static/images/home/activity_entra.png" alt="">
+                        <div class="activity_entra swiper-slide" v-for="(item,index) in banner_list2" :key="index" @click="goLink(item)">
+                            <img :src="item.icon" alt="">
                         </div>
                     </div>
                     <div class="swiper-pagination swiper-p2" slot="pagination"></div>
@@ -117,7 +114,8 @@ export default {
             activity_list:[],  //活动列表
             getStoreGroupList:[],  //获取店铺列表
             goodList: [],  //商品列表
-            banner_list: [],  //banner
+            banner_list1: [],  //banner
+            banner_list2: [],  //banner
             tcode:'',
             login_bg:true,
             position: '',  //跳转定位
@@ -307,8 +305,20 @@ export default {
             };
             _this.$axios.post(allget+"/items/get_banners",formData,headerConfig).then((res) => {
                 if(res.data.error_code == 0){
-                   _this.banner_list = res.data.data;
-                   setTimeout(() => {_this.banner1();},300)
+                   var list = res.data.data;
+                   if(list.length > 0){
+                       list.forEach((item,index) => {
+                           if(item.type == 0){
+                               _this.banner_list1.push(item);
+                           }else if(item.type == 1){
+                               _this.banner_list2.push(item);
+                           }
+                       })
+                   }
+                   setTimeout(() => {
+                       _this.banner1();
+                       _this.banner2();
+                    },300)
                 }else{
                     //config.layerMsg(res.data.msg, 2);
                 };
