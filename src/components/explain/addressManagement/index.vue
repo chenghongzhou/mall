@@ -9,7 +9,7 @@
             <div class="go_back" @click="forbidBack()"></div>
         </div> -->
         <div class="address_box">
-            <div class="address_list" v-for="(item,index) in list" :key="index">
+            <div class="address_list" v-for="(item,index) in list" :key="index" @click="handldCheckAddress(item,index)" :class="{'check_address':index == itemIndex}">
                 <div class="address_xl">
                     <div class="name">{{item.name}}</div>
                     <div class="tel">{{item.tel}}</div>
@@ -50,12 +50,18 @@ export default {
             userInfoData: {},
             list:[],
             storeId:'',
-            openid:''
+            openid:'',
+            itemIndex:'-1'
         }
     },
     methods: {
       handleAdd(){
           this.$router.replace({path:'/addressManagement/add'});
+      },
+      handldCheckAddress(item,index){
+          this.itemIndex = index;
+          var params = '?name='+item.name+'&tel='+item.tel+'&address='+item.address+'&address_detail='+item.address;
+          this.$router.replace({path:'/buyGood'+params});
       },
       handleEdit(rows){
           config.setCookie(

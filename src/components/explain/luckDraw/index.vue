@@ -17,7 +17,8 @@
                 </div>
             </div>
         </div>    
-       <div class="content" ref="content" style="margin-bottom:0.2rem">
+       <div class="content" ref="content" style="margin-bottom:0.2rem;position:relative">
+           <div class="integral_record_intru" @click="handlePrizeList()"></div>
            <div class="content_title">{{getData.title}}</div>
            <div class="content_vice_title">大奖抽不停</div>
            <div class="notice_box">
@@ -176,6 +177,15 @@
             </div>
         </div>
        <!--没中奖-->
+       <div class="mask" v-if="kserver">
+			<div class="mask_main_good">
+				<div class="box tanchuscale">
+                    <img :src="kserverCode" alt="" class="mask_wx_code">
+                    
+                    <div class="success_btn" style="margin-top:0.4rem" @click="kserver = false">我已添加客服</div>
+				</div>
+			</div>
+		</div>
     </div>
 </template>
 
@@ -214,7 +224,9 @@ export default {
             storeId:'',
             openid:'',
             maskNoknowPrizeSrc:'',
-            title:''
+            title:'',
+            kserver:true,
+            kserverCode:''
         }
     },
      methods: {
@@ -229,6 +241,10 @@ export default {
         handldGetTimes(){
             this.maskNoTime = false;
             window.location.href= 'https://engine.huacuiu.cn/index/activity?appKey=2bth4yjGAyC3THKSxa2y3cFEohhV&adslotId=353822';
+        },
+        handlePrizeList(){
+            var ishome = config.getHashVReq('ishome');
+            this.$router.replace({path:'/prizeList?recordPage=luckDraw&ishome='+ishome});
         },
         //跑马灯
         getAds(){
@@ -253,7 +269,7 @@ export default {
             var _this = this;
             var formData = {
                 'store_id': _this.storeId,
-                "open_id":_this.openid
+                "open_id":'oaWxEv2NUHC4q04-i3IRgFLZTBoU'//_this.openid
             };
             
             var headerConfig = {
@@ -376,11 +392,8 @@ export default {
 		},
         handleMaskIntegral(){
             var _this = this;
-            if(_this.getPrizeInfo.link_url == ""){
-                config.layerMsg("未配置链接~", 2);
-                return false;
-            }
-            window.location.href = _this.getPrizeInfo.link_url;
+            _this.kserver = true;
+            _this.kserverCode = _this.getPrizeInfo.qrcode;
         },
 		move() {
             var _this = this;

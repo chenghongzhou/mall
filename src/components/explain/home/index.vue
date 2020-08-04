@@ -1,9 +1,6 @@
 <template>
     <div class="main">
         <div class="header_part" style="position:fixed;top:0;left:0;z-index:10;height:1.04rem">
-            <!-- <div class="top">
-                    微吧商城
-                </div> -->
             <div class="header">
                 <div class="my_img"><img :src="userInfoData.avatar_url" alt=""></div>
                 <div class="my_info">
@@ -11,8 +8,8 @@
                     <div class="my_money">{{userInfoData.score || 0}}<i class="money_icon"></i></div>
                 </div>
                 <div class="my_info_right">
-                        <div class="get_integral" @click="taskWall()"><i></i></div>
-                        <div class="change_in_record" @click="exchangeRecord()"></div>
+                    <div class="get_integral" @click="taskWall()"><i></i></div>
+                    <div class="change_in_record" @click="exchangeRecord()"></div>
                 </div>
             </div>
         </div>
@@ -28,7 +25,6 @@
             </div>
             <div style="width:0.48rem" ref="activityjz"></div>
             <div class="activity_box">
-                <!-- <div class="activity_center"> -->
                     <div class="activity_scoll">
                         <div class="activity_box_main" ref="activityBoxMain">
                             <div class="activity_list" v-for="(item, index) in activity_list" :key="index" @click="goTo(item)" ref="activityChild">
@@ -37,61 +33,63 @@
                                 <i class="activity_hot" v-if="item.ishot && item.ishot == 1"></i>
                             </div>
                         </div>
-                    <!-- </div> -->
+                     </div>
+            </div>
+            <div class="activity_entra_box swiper-container swiper-container2">
+                <div class="swiper-wrapper" style="width:100%;">
+                    <div class="activity_entra swiper-slide" v-for="(item,index) in banner_list2" :key="index" @click="goLink(item)">
+                        <img :src="item.icon" alt="">
+                    </div>
                 </div>
-                </div>
-                <div class="activity_entra_box swiper-container swiper-container2">
-                    <div class="swiper-wrapper" style="width:100%;">
-                        <div class="activity_entra swiper-slide" v-for="(item,index) in banner_list2" :key="index" @click="goLink(item)">
-                            <img :src="item.icon" alt="">
+                <div class="swiper-pagination swiper-p2" slot="pagination"></div>
+            </div>
+            <div style="width:0.2rem" ref="storeGroupsjz"></div>
+            <div class="contain">
+                <div class="contain_top"><i></i>兑好物</div>
+                <div class="contain_tab_box">
+                    <div class="contain_tab_scroll">
+                        <div class="contain_tab" ref="storeGroupsBox">
+                            <div class="contain_tab_list" :class="{'contain_tab_list_active':goodsTypeTab == -1}" @click="handleGoodsTypeTab(0,-1)" ref="storeGroupsChild">
+                            全部</div>
+                            <div class="contain_tab_list" :class="{'contain_tab_list_active':goodsTypeTab == index}" @click="handleGoodsTypeTab(item,index)"
+                            v-for="(item,index) in getStoreGroupList" :key="index">
+                            {{item.name}}</div>
+                            
                         </div>
                     </div>
-                    <div class="swiper-pagination swiper-p2" slot="pagination"></div>
                 </div>
-                <div style="width:0.2rem" ref="storeGroupsjz"></div>
-                <div class="contain">
-                    <div class="contain_top"><i></i>兑好物</div>
-                    <div class="contain_tab_box">
-                        <div class="contain_tab_scroll">
-                            <div class="contain_tab" ref="storeGroupsBox">
-                                <div class="contain_tab_list" :class="{'contain_tab_list_active':goodsTypeTab == -1}" @click="handleGoodsTypeTab(0,-1)" ref="storeGroupsChild">
-                                全部</div>
-                                <div class="contain_tab_list" :class="{'contain_tab_list_active':goodsTypeTab == index}" @click="handleGoodsTypeTab(item,index)"
-                                v-for="(item,index) in getStoreGroupList" :key="index">
-                                {{item.name}}</div>
-                                
+                <div class="goods_box">
+                    <div class="nodata_good" v-if="goodList.length == 0">暂无数据</div>
+                    <div class="goods_list" @click="goodDetail(item)" v-for="(item,index) in goodList" :key="index">
+                        <div class="goods_free_shipping"></div>
+                        <div class="change_people">{{item.is_buy_nums}}人已兑</div>
+                        <div class="goods">
+                            <img :src="item.pic" alt="">
+                        </div>
+                            <!-- <div class="goods_name" :class="{'good_source':item.source == 1}">{{item.name}}</div> -->
+                            <div class="goods_name good_source">{{item.name}}</div>
+                        <!--<div class="goods_old_price" v-if="item.source == 0">原价{{item.normal_price}}元</div> -->
+                        <div class="goods_now_price">
+                            <div v-if="item.buy_type == 1">
+                                <span>{{item.cost}}</span>积分
+                            </div>
+                            <div v-if="item.buy_type == 0">
+                                <span>{{item.current_price}}元</span>
+                            </div>
+                            <div v-if="item.buy_type == 2">
+                                <span>{{item.cost}}</span>积分<span>+{{item.current_price}}元</span>
                             </div>
                         </div>
-                    </div>
-                    <div class="goods_box">
-                        <div class="nodata_good" v-if="goodList.length == 0">暂无数据</div>
-                        <div class="goods_list" @click="goodDetail(item)" v-for="(item,index) in goodList" :key="index">
-                            <div class="goods_free_shipping"></div>
-                            <div class="change_people">{{item.is_buy_nums}}人已兑</div>
-                            <div class="goods">
-                                <img :src="item.pic" alt="">
-                            </div>
-                             <!-- <div class="goods_name" :class="{'good_source':item.source == 1}">{{item.name}}</div> -->
-                             <div class="goods_name good_source">{{item.name}}</div>
-                            <!--<div class="goods_old_price" v-if="item.source == 0">原价{{item.normal_price}}元</div> -->
-                            <div class="goods_now_price">
-                                <div v-if="item.buy_type == 1">
-                                    <span>{{item.cost}}</span>积分
-                                </div>
-                                <div v-if="item.buy_type == 0">
-                                    <span>{{item.current_price}}元</span>
-                                </div>
-                                <div v-if="item.buy_type == 2">
-                                    <span>{{item.cost}}</span>积分<span>+{{item.current_price}}元</span>
-                                </div>
-                            </div>
-                            <!-- <div class="buy_btn">立即兑</div> -->
-                        </div>
+                        <!-- <div class="buy_btn">立即兑</div> -->
                     </div>
                 </div>
             </div>
-            <footer-view></footer-view>
-            <div class="login_bg" v-if="login_bg"></div>
+            
+        </div>
+        <footer-view style="position:static"></footer-view>  
+        
+
+        <div class="login_bg" v-if="login_bg"></div>
     </div>
 </template>
 
@@ -311,7 +309,7 @@ export default {
                            if(item.type == 0){
                                _this.banner_list1.push(item);
                            }else if(item.type == 1){
-                               _this.banner_list2.push(item);
+                               _this.banner_list2.push(item); 
                            }
                        })
                    }

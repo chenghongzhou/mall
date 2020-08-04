@@ -19,6 +19,7 @@
         </div>
         <div class="content" style="margin-bottom:0.2rem">
             <div class="sign_box">
+                <div class="integral_record_intru" @click="handleSinginDesc()"></div>
                 <div class="my_sign">
                     <img :src="userInfoData.avatar_url" alt="" class="my_icon" v-if="rank<=3">
                     <img src="../../../../static/images/sign/top_no1.png" alt="" class="my_rank" v-if="rank == 1">
@@ -77,8 +78,19 @@
                     </div>
                 </div>
             </div>
+
+            <div class="mask" v-if="siginDescMask">
+                <div class="mask_main">
+                    <div class="sigin_info tanchuscale">
+                        <h6>签到说明</h6>
+                        <div class="sigin_desc">{{siginDesc}}</div>
+                        <div class="file_close" @click="siginDescMask = false"></div>
+                    </div>
+                    
+                </div>
+            </div>
         </div>  
-        <footer-view></footer-view>  
+        <footer-view style="position:static"></footer-view>  
     </div>
 </template>
 
@@ -96,7 +108,9 @@ export default {
             total_sign_count: '', //累计签到
             rank:1,  //今日，本月，总排行 
             storeId:'',
-            openid:''
+            openid:'',
+            siginDescMask:false,
+            siginDesc:''
         }
     },
     methods: {
@@ -157,6 +171,29 @@ export default {
             }).catch(() => {
                 console.log('error');
             });
+        },
+         //签到
+        signInDesc(){
+            var _this = this;
+            var openid = _this.openid;
+            var formData = {
+                'store_id': _this.storeId,
+                "open_id":openid
+            };
+            
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            };
+            _this.$axios.post(allget+"/sign/get_sign_dec",formData,headerConfig).then((res) => {
+                _this.siginDesc = res.data.dec;
+            }).catch(() => {
+                console.log('error');
+            });
+        },
+        handleSinginDesc(){
+            this.siginDescMask = true;
         },
         //获取用户信息和金币
         getUserInfoMy(){
@@ -248,6 +285,7 @@ export default {
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
             _this.signIn();
+            _this.signInDesc();
         })
     }   
 }

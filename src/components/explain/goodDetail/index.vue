@@ -10,35 +10,52 @@
                 <!-- <div class="go_back" @click="forbidBack()"></div> -->
                 <img :src="params.pic" alt="">
             </div>
-            <div class="good_info_box">
-                <div class="good_price_part">
-                    <div class="price" v-if="params.source == 0" style="margin-top:0.35rem">
-                        <!-- 原价：{{params.normal_price}}元 -->
+            <div class="good_info_box" :class="{'good_info_box_self':params.source == 0}">
+                <div style="overflow:hidden">
+                    <div class="good_price_part">
+                        <div class="price" v-if="params.source == 0" style="margin-top:0.35rem">
+                            <!-- 原价：{{params.normal_price}}元 -->
+                        </div>
+                        <div class="price_result" :class="{'good_source':params.source == 1}" v-if="params.source == 0">
+                            <div v-if="params.buy_type == 0">
+                                <span>{{params.current_price}}元</span>
+                            </div>
+                            <div v-if="params.buy_type == 1">
+                                <i></i><span>{{params.cost}}</span>积分
+                            </div>
+                            <div v-if="params.buy_type == 2">
+                                <i></i><span>{{params.cost}}</span>积分 <span v-if="params.source == 0">+{{params.current_price}}元</span>
+                            </div>  
+                        </div>
+                        <div class="price_result" :class="{'good_source':params.source ==1 }" v-if="params.source == 1"><i style="background: url('../../../../static/images/goodDetail/q_icon.png') center no-repeat;background-size:contain"></i><span>{{(params.coupon_discount/100).toFixed(2)}}抵用券</span></div>
                     </div>
-                    <div class="price_result" :class="{'good_source':params.source == 1}" v-if="params.source == 0">
-                        <div v-if="params.buy_type == 0">
-                            <span>{{params.current_price}}元</span>
-                        </div>
-                        <div v-if="params.buy_type == 1">
-                            <i></i><span>{{params.cost}}</span>积分
-                        </div>
-                        <div v-if="params.buy_type == 2">
-                            <i></i><span>{{params.cost}}</span>积分 <span v-if="params.source == 0">+{{params.current_price}}元</span>
-                        </div>
+                    <div class="ex_people_nums">
+                        <div>{{params.cost}}积分</div>
                     </div>
-                    <div class="price_result" :class="{'good_source':params.source == 1}" v-if="params.source == 1"><i style="background: url('../../../../static/images/goodDetail/q_icon.png') center no-repeat;background-size:contain"></i><span>{{(params.coupon_discount/100).toFixed(2)}}抵用券</span></div>
                 </div>
-                <div class="ex_people_nums" :class="{'no_bg':params.source == 1}">
-                    <div>{{params.cost}}积分</div>
+                <div class="good_info_tl" :class="{'good_info_tl_self':params.source == 0}">
+                    <div class="good_name">{{params.name}}</div>
+                    <div class="p_q" v-if="params.source == 1"><span>￥</span>{{(params.coupon_discount/100).toFixed(2)}}<span>券后价</span><font>￥{{(params.normal_price/100).toFixed(2)}}</font></div>
                 </div>
             </div>
-            <div class="good_name">{{params.name}}</div>
-            <div class="good_good">{{params.name_dec}}</div>
-            <div class="p_q" v-if="params.source == 1"><span>￥</span>{{(params.coupon_discount/100).toFixed(2)}}<span>券后价</span><font>￥{{(params.normal_price/100).toFixed(2)}}</font></div>
-            <div class="get_q" v-if="params.source == 1">兑换后立得{{params.coupon_discount/100}}元抵用券</div>
-            <div class="good_detail_tl">商品详情</div>
+            
+            <!-- <div class="good_good">{{params.name_dec}}</div> -->
+            
+            <!-- <div class="get_q" v-if="params.source == 1">兑换后立得{{params.coupon_discount/100}}元抵用券</div>
+            <div class="good_detail_tl">商品详情</div> -->
+            <div class="exchange_info" v-if="params.source == 1">
+                <p>兑换说明</p>
+                <ul>
+                    <li><span></span>兑换成功后，可活动 {{(params.coupon_discount/100).toFixed(2)}} 元抵扣价。</li>
+                    <li><span></span>券后仅需 {{(params.coupon_discount/100).toFixed(2)}} 元即可购买，以购买页实时价格为准。</li>
+                    <li><span></span>请在适用范围内适用，数量有限，兑完即止。</li>
+                </ul>
+            </div>
             <div class="good_detail" v-html="params.dec" ref="detailBox"></div>
-            <div class="btn" @click="buyGood()">立即兑换</div>
+            <div class="good_detail_footer">
+                <div class="btn" @click="buyGood()">立即兑换</div>
+            </div>
+            
         </div>
          <div class="mask" v-if="successMask">
 			<div class="mask_main success">

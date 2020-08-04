@@ -8,14 +8,14 @@
             <div class="go_back" @click="forbidBack()"></div>
         </div> -->
         <div class="address_box" v-if="goodInfo.source == 0 && goodInfo.show_type == 2" @click="goAddress()">
-            <div class="address_icon" v-if="list.length >0"></div>
-            <div class="address_info" v-if="list.length >0">
+            <div class="address_icon" v-if="defaultDate.name"></div>
+            <div class="address_info" v-if="defaultDate.name">
                 <div class="address_info_name">{{defaultDate.name}}  {{defaultDate.tel}}</div>
                 <div class="address_info_address">{{defaultDate.address}} {{defaultDate.address_detail}}</div>
             </div>
-            <div class="address_info" v-if="list.length == 0">
+            <div class="address_info" v-if="!defaultDate.name">
                
-                <div class="address_info_name" style="margin-top:0.4rem;color:#cccccc"> 您还没有收获地址，去添加</div>
+                <div class="address_info_name" style="margin-top:0.4rem;color:#cccccc"> 请选择收货地址</div>
             </div>
             <div class="address_list"></div>
             <div class="go_edit_address"></div>
@@ -82,7 +82,17 @@
 				<div class="box tanchuscale">
                     <img :src="goodImg" alt="" class="mask_wx_code">
                     <div class="exchange_show_text">{{goodText}}</div>
+                    <div class="success_btn" style="margin-top:0.1rem" @click="handleServer()">确定</div>
                     <div class="file_close" @click="wx_code = false"></div>
+				</div>
+			</div>
+		</div>
+        <div class="mask" v-if="kserver">
+			<div class="mask_main_good">
+				<div class="box tanchuscale">
+                    <img :src="kserverCode" alt="" class="mask_wx_code">
+                    
+                    <div class="success_btn" style="margin-top:0.4rem" @click="kserver = false">我已添加客服</div>
 				</div>
 			</div>
 		</div>
@@ -103,13 +113,21 @@ export default {
             total_price:'',    //总共的价格
             userInfoData:{},
             list:[],
-            defaultDate:{},
+            defaultDate:{
+                name:'',
+                tel:'',
+                address_detail:'',
+                address:''
+
+            },
             storeId:'',
             openid:'',
             wx_code:false,
             goodImg:'',
             goodText:'',
-            id:''
+            id:'',
+            kserver:false,
+            kserverCode:'',
         }
     },
     methods: {
@@ -130,25 +148,38 @@ export default {
                     _this.successMask = false;
                     window.location.href = _this.goodInfo.exchange_jump_url;
                 }else{
-                    config.layerMsg('为配置链接！', 2);
+                    config.layerMsg('未配置链接！', 2);
                 }
-            }
-            if(_this.goodInfo.show_type == 1){
+            }else{
                 _this.goodImg = _this.goodInfo.exchange_show_pic;
                 _this.goodText = _this.goodInfo.exchange_show_text;
                 _this.successMask = false;
                 _this.wx_code = true;
             }
-            if(_this.goodInfo.show_type == 2){
-                _this.successMask = false;
-            }
+            // if(_this.goodInfo.show_type == 1){
+            //     _this.goodImg = _this.goodInfo.exchange_show_pic;
+            //     _this.goodText = _this.goodInfo.exchange_show_text;
+            //     _this.successMask = false;
+            //     _this.wx_code = true;
+            // }
+            // if(_this.goodInfo.show_type == 2){
+            //     _this.successMask = false;
+            // }
+        },
+        handleServer(){
+            var _this = this;
+            if(_this.goodInfo.is_need_qrcode == 1){
+                _this.wx_code = false;
+                _this.kserverCode = _this.goodInfo.qrcode;
+                _this.kserver = true;
+            }else{
+                _this.wx_code = false;
+            };
         },
         getGood(){
             var _this = this;
-            var good_intergral = _this.goodInfo.score;
             if(_this.goodInfo.show_type == 2){
-                 _this.getAddress();
-                if(_this.list.length == 0){
+                if(!_this.defaultDate.name){
                     config.layerMsg('请添加收获地址~', 2);
                     return false;
                 };
@@ -157,7 +188,7 @@ export default {
             
             var formData = {
                 'store_id': _this.storeId,
-                "open_id":_this.openid,
+                "open_id":'oaWxEv2NUHC4q04-i3IRgFLZTBoU',//_this.openid,
                 "data":{
                     "score": _this.goodInfo.cost || 0,
                     "useType": _this.goodInfo.goods_id,
@@ -187,7 +218,7 @@ export default {
                 if(res.data.code == 200){
                    _this.successMask = true;
                 }else if(res.data.code == 201){
-                    _this.fileMask = false;
+                    _this.fileMask = true;
                 }else{
                     config.layerMsg('出错了~', 2);
                 };
@@ -337,7 +368,11 @@ export default {
             if(t_open_id){
                 _this.openid = JSON.parse(t_open_id).open_id;
             };
-            
+            _this.defaultDate.name = config.getHashVReq('name');
+            _this.defaultDate.tel = config.getHashVReq('tel');
+            _this.defaultDate.address = config.getHashVReq('address');
+            _this.defaultDate.address_detail = config.getHashVReq('address_detail');
+            console.log(_this.defaultDate)
         }
     },
     destroyed(){
@@ -353,7 +388,7 @@ export default {
         }else{
             _this.getData();
         };
-        _this.getAddress();
+       // _this.getAddress();
     },
     mounted(){
         var _this = this;

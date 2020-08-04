@@ -1,10 +1,11 @@
 <template>
-    <div class="main">
-        <div class="header_part" ref="header" style="height:1.08rem">
-            <div class="top">
+    <div class="main" ref="main">
+        <div class="header_part" ref="header" style="height:1.08rem" >
+            <div class="top" style="position:fixed;top:0;left:0;z-index:10;height:1.04rem">
                 <i class="top_close" @click="forbidBack()"></i>
                 邀请有礼
             </div>
+            <div style="height:1.04rem"></div>
             <div class="header">
            <div class="my_img"><img :src="userInfoData.avatar_url" alt=""></div>
                 <div class="my_info">
@@ -24,14 +25,38 @@
                 每天最多推荐<span>{{day_max_invite}}</span>位。
             </div>
             <div class="btn" @click="mask = true">马上推荐</div>
+            <div class="record_box">
+                <img src="../../../../static/images/home/extension_tl.png" alt="" class="extension_tl">
+                <div class="record_total_box">
+                    <div class="record_total_left">
+                        <div class="record_total"><i></i>成功邀请(人)</div>
+                        <div class="record_total_peoples">{{people}}</div>
+                    </div>
+                    <div class="record_total_right">
+                        <div class="record_total"><i></i>奖励积分</div>
+                        <div class="record_total_i">{{i_num || 0}}</div>
+                    </div>
+                </div>
+                 <ul>
+                    <li v-for="(item,index) in list" :key="index">
+                        <img :src="item.avatarUrl" alt="">
+                        <div class="info">
+                            <div class="name">{{item.nickName}}</div>
+                            <div class="time">{{item.dateTmStr}}</div>
+                        </div>
+                        <div class="num">+{{item.score}}</div>
+                    </li>
+                    <div class="nodata" v-if="list.length == 0">你还未邀请到用户，快点击右上角按钮分享哦~</div>
+                </ul>
+            </div>
         </div>
-        <footer-view></footer-view>
+        <footer-view style="position:static"></footer-view>
         <div class="mask" v-if="mask" @click="mask = false">点击右上角按钮分享~</div>
     </div>
 </template>
 
 <script>
-import { allget } from '../../../api/api.js';
+import { allget,allgetLogin } from '../../../api/api.js';
 export default {
     data(){
         return {
@@ -39,7 +64,12 @@ export default {
             mask:false,
             storeId:'',
             day_max_invite:'',
-            give_score:''
+            give_score:'',
+            openid:'',
+            list:[],
+            people:'0',
+            i_num:'0',
+            page:999999
         }
     },
     methods:{
@@ -73,6 +103,38 @@ export default {
                 console.log('error');
             });
         },
+        getRecord(){
+            var _this = this;
+            var formData = {
+                "openId":_this.openid,
+                "startId":_this.page
+            };
+            _this.$axios.get(allgetLogin+"/shareLog/queryShareLog",{params:formData}).then((res) => {
+                if(res.data){
+                   _this.list = _this.list.concat(res.data);
+                }else{
+                    config.layerMsg(res.data.msg, 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+        },
+        getTotal(){
+            var _this = this;
+            var formData = {
+                "openId":_this.openid,
+            };
+            _this.$axios.get(allgetLogin+"/shareLog/queryShareTotal",{params:formData}).then((res) => {
+                if(res.data){
+                  _this.people = res.data.userCount;
+                  _this.i_num = res.data.scoreSum;
+                }else{
+                    config.layerMsg(res.data.msg, 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+        },
         forbidBack(){
             var _this = this;
             var prveUrl = localStorage.getItem('backName');
@@ -95,6 +157,23 @@ export default {
                 };
             }
         },
+        //翻页
+        handlePages(){
+            var _this = this;
+            _this.$refs.main.addEventListener('scroll',function handler(){
+                console.log(5)
+                var scrollTop = this.scrollTop;  //已经卷进去的高度
+                var srcollHeight = this.clientHeight;  //当前总高度
+                var totleHeight = this.scrollHeight;  //滚动的总高度
+                if(scrollTop + srcollHeight - totleHeight >= 0){
+                    if(_this.list.length>0){
+                        _this.page = _this.list[_this.list.length - 1].id;
+                         _this.getRecord();
+                    }
+                   
+                };
+            },false);
+        },
         isLg(){
             var _this = this;
             var t_p = config.getHashVReq('appid');
@@ -107,7 +186,7 @@ export default {
                 };
             };
             if(t_data){
-                _this.userInfoData = JSON.parse(config.getCookie('userInfoData'));
+                _this.userInfoData = JSON.parse(t_data);
             }else{ //去授权
                 if(config.thirdParty().isWechat == true){
                     window.location.replace('http://v8homepage.youwoxing.net/?position=extension&appid='+t_p)
@@ -116,7 +195,11 @@ export default {
             var t_store = config.getCookie('userInfo');
             if(t_store){
                 _this.storeId = Number(JSON.parse(t_store).storeId);
-            }
+            };
+            var t_open_id = config.getCookie('openid');
+            if(t_open_id){
+                _this.openid = JSON.parse(t_open_id).open_id;
+            };
            
         }
     },
@@ -129,12 +212,123 @@ export default {
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
             _this.getData();
+            _this.getRecord();
+            _this.getTotal();
+            _this.handlePages();
         })
     }
 }
 </script>
 
 <style scoped>
+.extension_tl{
+    width: 2.96rem;
+    height: 0.29rem;
+    display: block;
+    margin: 0 auto;
+}
+.record_total_box{
+    overflow: hidden;
+    margin-top: 0.3rem;
+}
+.record_total_left{
+    float: left;
+    width: 49.9%;
+}
+.record_total{
+    text-align: center;
+    font-size: 0.24rem;
+    color: #8e8e8e;
+}
+.record_total_left .record_total i{
+    width: 0.2rem;
+    height: 0.24rem;
+    background: url("../../../../static/images/home/extension_people.png") center no-repeat;
+    background-size: contain;
+    
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 0.1rem;
+    margin-top: 0.05rem;
+}
+.record_total_peoples{
+    font-size: 0.4rem;
+    color: #2b2b2b;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 0.1rem;
+}
+.record_total_right{
+    float: left;
+    width: 49.9%;
+}
+.record_total_right .record_total i{
+    width: 0.24rem;
+    height: 0.24rem;
+    background: url("../../../../static/images/home/extension_i.png") center no-repeat;
+    background-size: contain;
+    
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 0.1rem;
+    margin-top: 0.05rem;
+}
+.record_total_i{
+    font-size: 0.4rem;
+    color: #ffac1c;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 0.1rem;
+}
+ul{
+    margin-top: 0.35rem;
+    width: 100%;
+}
+ul li{
+    
+    height: 0.8rem;
+    padding: 0.3rem;
+    border-top: 1px solid #f1f1f1;
+    overflow: hidden;
+    position: relative;
+}
+li img{
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 0.2rem;
+    display: block;
+    float: left;
+}
+li .info{
+    float: left;
+}
+li .info .name{
+    font-size: 0.28rem;
+    font-weight: bold;
+    color: #2b2b2b;
+}
+li .info .time{
+    font-size: 0.28rem;
+    font-weight: bold;
+    color: #8e8e8e;
+    margin-top: 0.1rem;
+}
+li .num{
+    font-size: 0.28rem;
+    font-weight: bold;
+    color: #2b2b2b;
+    float: right;
+    margin-top: 0.2rem;
+}
+.nodata{
+    font-size: 0.26rem;
+    color: #cccccc;
+    text-align: center;
+    margin-top: 1rem;
+}
+
 .main{
     width: 100%;
     
@@ -307,5 +501,13 @@ export default {
     padding-top: 0.4rem;
     box-sizing: border-box;
     color: #ffffff;
+}
+.record_box{
+    width: 6.9rem;
+    height: auto;
+    background: #ffffff;
+    border-radius: 0.2rem;
+    padding: 0.4rem 0;
+    margin: 0.2rem auto;
 }
 </style>

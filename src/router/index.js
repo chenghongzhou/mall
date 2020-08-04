@@ -20,12 +20,13 @@ const extension = () => import('../components/explain/extension/index.vue');  //
 const friendRecommend = () => import('../components/explain/friendRecommend/index.vue');  //关注有礼
 const integralExplain = () => import('../components/explain/taskWall/integralExplain.vue');  //积分说明
 const login = () => import('../components/explain/login/index.vue');  //登陆
+const prizeList = () => import('../components/explain/prizeList/index.vue');  //登陆
 Vue.use(Router);
 export default new Router({
   routes: [
     //登录
-    {path: '/index',component: login,name: login,meta:{title: '微吧商城'},},
-    {path: '/',component: home,name: home,meta:{title: '微吧商城'},},
+    {path: '/index',component: login,name: login,meta:{title: '积分商城'},},
+    {path: '/',component: home,name: home,meta:{title: '积分商城'},},
     {path: '/signIn',component: signIn,name: signIn,meta:{title: '每日签到'},},
     {path: '/exchangeRecord',component: exchangeRecord,name: exchangeRecord,meta:{title: '兑换记录'},},
     {path: '/taskWall',component: taskWall,name: taskWall,meta:{title: '赚积分'},},
@@ -40,6 +41,7 @@ export default new Router({
     {path: '/extension',component: extension,name: extension,meta:{title: '邀请有礼'},},
     {path: '/friendRecommend',component: friendRecommend,name: friendRecommend,meta:{title: '关注有礼'},},
     {path: '/integralExplain',component: integralExplain,name: integralExplain,meta:{title: '积分说明'},},
+    {path: '/prizeList',component: prizeList,name: prizeList,meta:{title: '中奖记录'},},
     {
         path: '/addressManagement',component: addressManagement,name: addressManagement,
         children: [
