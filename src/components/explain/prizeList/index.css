@@ -140,13 +140,14 @@
 }
 .list_box{
     width: 6.9rem;
-    height: 78%;
+    height: 76%;
     position: absolute;
     top: 2.6rem;
     left: 0.3rem;
     background: #ffffff;
     padding-left: 0.3rem;
     box-sizing: border-box;
+    overflow-y: scroll;
 }
 ul{
     margin-top: 0.35rem;

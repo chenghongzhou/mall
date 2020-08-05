@@ -114,6 +114,12 @@
     font-size: 0.3rem;
     font-weight: bold;
     color: #2b2b2b;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    box-orient: vertical;
 }
 .good_intr{
     font-size: 0.2rem;

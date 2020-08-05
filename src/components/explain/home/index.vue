@@ -362,7 +362,7 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             };
-            _this.$axios.post(allget+"/items/get_items",formData,headerConfig).then((res) => {
+            _this.$axios.get(allget+"/items/get_items",{params:formData}).then((res) => {
                 if(res.data.error_code == 0){
                     var params = res.data.product_list;
                     params.forEach((element,index) => {
@@ -385,7 +385,12 @@ export default {
                 "store_id":_this.storeId,
                 "webPage":"index"
             };
-            _this.$axios.post("http://v8track.youwoxing.net/track/pv",formData).then((res) => {
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            _this.$axios.post("http://v8track.youwoxing.net/track/pv",formData,headerConfig).then((res) => {
                 
             }).catch(() => {
                 console.log('error');

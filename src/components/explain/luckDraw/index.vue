@@ -65,7 +65,7 @@
            <div class="get_play_change" @click="taskWall()"></div>
            <!-- <div class="play_intru">每人每天{{getData.limit_count}}次，前{{getData.free_chance_per_day}}次抽奖免费，再次抽奖{{getData.cost}}积分/次</div> -->
        </div>
-       <footer-view></footer-view>
+       <footer-view style="position:static"></footer-view>  
        <!--中奖是物品积分-->
         <div class="mask" v-if="maskCoupon">
             <div class="mask_main tanchuscale">
@@ -225,7 +225,7 @@ export default {
             openid:'',
             maskNoknowPrizeSrc:'',
             title:'',
-            kserver:true,
+            kserver:false,
             kserverCode:''
         }
     },

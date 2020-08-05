@@ -103,6 +103,25 @@ export default {
                 console.log('error');
             });
         },
+        //加埋点
+        handleRecord(){
+            var _this = this;
+            var formData = {
+                "open_id":_this.openid,
+                "store_id":_this.storeId,
+                "webPage":'invite_index'
+            };
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            _this.$axios.post("http://v8track.youwoxing.net/track/pv",formData,headerConfig).then((res) => {
+                
+            }).catch(() => {
+                console.log('error');
+            });
+        },
         getRecord(){
             var _this = this;
             var formData = {
@@ -215,6 +234,7 @@ export default {
             _this.getRecord();
             _this.getTotal();
             _this.handlePages();
+            _this.handleRecord();
         })
     }
 }

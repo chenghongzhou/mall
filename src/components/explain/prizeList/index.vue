@@ -22,14 +22,14 @@
            <div class="list_box">
                 <ul>
                     <li v-for="(item,index) in list" :key="index">
-                        <img :src="item.avatarUrl" alt="">
+                        <img :src="item.icon_url" alt="">
                         <div class="info">
-                            <div class="name">{{item.nickName}}</div>
-                            <div class="time">{{item.dateTmStr}}</div>
+                            <div class="name">{{item.bonus_name}}</div>
+                            <div class="time">{{item.create_time}}</div>
                         </div>
                         <div class="tal" @click="handleTal(item,index)">联系客服</div>
                     </li>
-                    <div class="nodata" v-if="list.length == 0">你还未邀请到用户，快点击右上角按钮分享哦~</div>
+                    <div class="nodata" v-if="list.length == 0">暂无数据</div>
                 </ul>
            </div>
        </div>
@@ -38,7 +38,7 @@
         <div class="mask" v-if="wx_code">
 			<div class="mask_main_good">
 				<div class="box tanchuscale">
-                    <img :src="goodImg" alt="" class="mask_wx_code">
+                    <img :src="codeImg" alt="" class="mask_wx_code">
                     <div class="exchange_show_text">客服微信</div>
                     <div class="file_close" @click="wx_code = false"></div>
 				</div>
@@ -55,6 +55,7 @@ export default {
             userInfoData:{},
             storeId:'',
             openid:'',
+            codeImg:'',
             wx_code:false,
             list:[
                 {avatarUrl:'',nickName:'41',dateTmStr:'454'}
@@ -70,13 +71,17 @@ export default {
             var ishome = config.getHashVReq('ishome');
             this.$router.replace({path:'/taskWall?recordPage=luckDraw&ishome='+ishome});
         },
+        handleTal(item,index){
+            this.wx_code = true;
+            this.codeImg = item.qrcode;
+        },
         getData(){
             var _this = this;
             var id = _this.id;
             _this.$loading.show();
             var formData = {
                 'store_id': _this.storeId,
-                "open_id":'oaWxEvzF-BVMebKc6vDC8q2P4x6Y'//_this.openid,
+                "open_id":_this.openid,
             };
             var headerConfig = {
                 headers: {
