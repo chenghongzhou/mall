@@ -27,6 +27,7 @@
                                 <i></i><span>{{params.cost}}</span>积分 <span v-if="params.source == 0">+{{params.current_price}}元</span>
                             </div>  
                         </div>
+                        <div class="q_time" v-if="params.source == 1">{{s_time}}-{{e_time}}</div>
                         <div class="price_result" :class="{'good_source':params.source ==1 }" v-if="params.source == 1"><i style="background: url('../../../../static/images/goodDetail/q_icon.png') center no-repeat;background-size:contain"></i><span>{{(params.coupon_discount/100).toFixed(2)}}抵用券</span></div>
                     </div>
                     <div class="ex_people_nums">
@@ -94,7 +95,10 @@ export default {
             successMask: false,
             openid:'',
             fileMask:false,
-            id:''
+            id:'',
+            q_num:0,
+            s_time:'',
+            e_time:''
         }
     },
     methods: {
@@ -143,6 +147,27 @@ export default {
                 console.log('error');
             });
         },
+        formatTime(data){
+            var time = new Date(data*1000);
+           var year = time.getFullYear();
+           var month = time.getMonth()+1<10?'0'+(time.getMonth()+1):time.getMonth()+1;
+           var day = time.getDate()<10?'0'+time.getDate():time.getDate();
+            return year+'.'+month+'.'+day;
+        },
+        getQInfo(){
+            var _this = this;
+            _this.$axios.get("http://v8tob.youwoxing.net/store/product_library/pdd_detail?ids=156284673098&klk="+_this.params.goods_id).then((res) => {
+                if(res.data){
+                    _this.q_num = res.data.coupon_remain_quantity;
+                    _this.s_time = _this.formatTime(res.data.coupon_start_time);
+                    _this.e_time = _this.formatTime(res.data.coupon_end_time);
+                }else{
+                    config.layerMsg('出错了~', 2);
+                };
+            }).catch(() => {
+                console.log('error');
+            });
+        },
         getGood(){
             var _this = this;
             var openid = _this.openid;
@@ -151,20 +176,11 @@ export default {
                 _this.fileMask = false;
                 return false;
             };
-            _this.$axios.get("http://v8tob.youwoxing.net/store/product_library/pdd_detail?ids="+_this.params.goods_id).then((res) => {
-                if(res.data){
-                    var q_num = res.data.coupon_remain_quantity;
-                    if(q_num>0){
-                        _this.handleEx();
-                    }else{
-                        config.layerMsg('库存不足~', 2);
-                    }
-                }else{
-                    config.layerMsg('出错了~', 2);
-                };
-            }).catch(() => {
-                console.log('error');
-            });
+            if(_this.q_num>0){
+                _this.handleEx();
+            }else{
+                config.layerMsg('库存不足~', 2);
+            }
         },
         handleSuccessMask(){
             var _this = this;
@@ -281,7 +297,7 @@ export default {
         }else{
             this.getData();
         };
-        
+        this.getQInfo();
     },
     mounted(){
         var _this = this;

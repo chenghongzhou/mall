@@ -362,7 +362,7 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             };
-            _this.$axios.get(allget+"/items/get_items",{params:formData}).then((res) => {
+            _this.$axios.post(allget+"/items/get_items",formData,headerConfig).then((res) => {
                 if(res.data.error_code == 0){
                     var params = res.data.product_list;
                     params.forEach((element,index) => {
