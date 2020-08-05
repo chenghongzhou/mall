@@ -152,7 +152,7 @@ export default {
             };
             var headerConfig = {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'application/json'
                 }
             };
             _this.$axios.post("http://v8track.youwoxing.net/track/pv",formData,headerConfig).then((res) => {

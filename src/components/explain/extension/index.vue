@@ -1,24 +1,25 @@
 <template>
-    <div class="main" ref="main">
-        <div class="header_part" ref="header" style="height:1.08rem" >
-            <div class="top" style="position:fixed;top:0;left:0;z-index:10;height:1.04rem">
+    <div class="main" style="max-height:100%;min-height:100%;display:block;height:100%">
+        <div class="header_part" ref="header" style="position:fixed;top:0;left:0;z-index:10;">
+            <div class="top" >
                 <i class="top_close" @click="forbidBack()"></i>
                 邀请有礼
             </div>
-            <div style="height:1.04rem"></div>
+            <!-- <div style="height:1.04rem"></div> -->
             <div class="header">
-           <div class="my_img"><img :src="userInfoData.avatar_url" alt=""></div>
-                <div class="my_info">
-                    <div class="my_name">{{userInfoData.nick_name}}</div>
-                    <div class="my_money">{{userInfoData.score}}<i class="money_icon"></i></div>
+                <div class="my_img"><img :src="userInfoData.avatar_url" alt=""></div>
+                    <div class="my_info">
+                        <div class="my_name">{{userInfoData.nick_name}}</div>
+                        <div class="my_money">{{userInfoData.score}}<i class="money_icon"></i></div>
+                    </div>
+                    <div class="my_info_right">
+                        <div class="get_integral" @click="taskWall()"><i></i></div>
+                        <div class="change_in_record" @click="exchangeRecord()"></div>
+                    </div>
                 </div>
-            <div class="my_info_right">
-                    <div class="get_integral" @click="taskWall()"><i></i></div>
-                    <div class="change_in_record" @click="exchangeRecord()"></div>
-                </div>
-            </div>
         </div> 
-        <div class="content">
+        <div class="content" ref="main" style="height:100%">
+            <div style="height:2.1rem"></div>
             <img src="../../../../static/images/home/extension_sc.png" alt="" class="extension_sc">
             <div class="c_part">亲爱哒，<br />
                 感谢你的支持和陪伴，欢迎推荐新朋友加入我们。每成功推荐一位小伙伴可获得<span>{{give_score}}</span>积分。<br />
@@ -49,8 +50,9 @@
                     <div class="nodata" v-if="list.length == 0">你还未邀请到用户，快点击右上角按钮分享哦~</div>
                 </ul>
             </div>
+            <footer-view style="position:relative"></footer-view>
         </div>
-        <footer-view style="position:static"></footer-view>
+        
         <div class="mask" v-if="mask" @click="mask = false">点击右上角按钮分享~</div>
     </div>
 </template>
@@ -113,7 +115,7 @@ export default {
             };
             var headerConfig = {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'application/json'
                 }
             };
             _this.$axios.post("http://v8track.youwoxing.net/track/pv",formData,headerConfig).then((res) => {

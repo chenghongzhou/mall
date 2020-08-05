@@ -51,10 +51,10 @@
                                             <div class="task_type_intr">{{item.tasks.dec}}</div>
                                             <div class="task_money"><i></i>+{{item.tasks.award_integral}}</div>
                                         </div>
-                                        <div class="task_btn task_btn_finish" v-if="item.tasks.max_num >0 && item.achieve_num == item.tasks.max_num">已完成</div>
-                                        <div class="task_btn task_btn_goon" v-if="item.tasks.max_num >0 && item.achieve_num < item.tasks.max_num" @click="storeGourl(item)">去完成</div>
-                                        <div class="task_btn task_btn_resive" v-if="item.tasks.max_num >0 && item.achieve_num < item.finish_num" @click="getStorePrize(item)">领取奖励</div>
-                                        <div class="task_finish_status">{{item.finish_num}}/{{item.tasks.max_num}}</div>
+                                        <div class="task_btn task_btn_finish" v-if="item.tasks.jump_num >0 && item.achieve_num == item.tasks.jump_num">已完成</div>
+                                        <div class="task_btn task_btn_goon" v-if="item.tasks.jump_num >0 && item.achieve_num < item.tasks.jump_num" @click="storeGourl(item)">去完成</div>
+                                        <div class="task_btn task_btn_resive" v-if="item.tasks.jump_num >0 && item.achieve_num < item.finish_num" @click="getStorePrize(item)">领取奖励</div>
+                                        <div class="task_finish_status">{{item.finish_num}}/{{item.tasks.jump_num}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -107,8 +107,9 @@
                 </div>
                 </div>
             </div> 
+            <footer-view style="position:relative"></footer-view>  
         </div>
-        <footer-view style="position:static"></footer-view>  
+        
          <div class="mask" v-if="signMask">
 			<div class="mask_main">
 				<div class="box tanchuscale">

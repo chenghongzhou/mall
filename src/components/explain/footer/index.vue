@@ -25,42 +25,15 @@ export default {
          goLink(){
             window.location.href = 'http://v8keji.cn/';
         },
-        getAuth(){
-            var _this = this;
-            // if(_this.authInfo){
-            //     return false;
-            // };
-            var params = {
-                'authorizationCode': _this.tcode,
-            };
-            _this.$axios.get("http://v8.python.youwoxing.net:9001/GetAuthorizerToken/",{params:params}).then((res) => {
-                if(res.data){
-                  
-                }else{
-                    config.layerMsg('出错了~', 2);
-                };
-            }).catch(() => {
-                console.log('error');
-            });
-        },
         //获取公众号信息
         getAuthInfo(){
             var _this = this;
-            // if(_this.authInfo){
-            //     return false;
-            // };
             var params = {
                 'storeId': _this.storeId,
             };
             _this.$axios.get("http://v8.python.youwoxing.net:9001/GetAuthorizerInfoByStoreId/",{params:params}).then((res) => {
-                console.log(res.data)
                 if(res.data){
                     _this.authInfo = res.data;
-                   config.setCookie(
-                        'authorizerInfo', 
-                        JSON.stringify(res.data), 
-                        7
-                    );
                 }else{
                     config.layerMsg('出错了~', 2);
                 };
@@ -192,6 +165,7 @@ export default {
             if(t_open_id){
                 _this.openid = JSON.parse(t_open_id).open_id;
             };
+            _this.tcode = config.getCookie('tcode');
         }
     },
     created(){
@@ -211,19 +185,14 @@ export default {
     },
     mounted(){
         var _this = this;
-        var authInfo = config.getCookie('authorizerInfo');
-        _this.tcode = config.getCookie('tcode');
-        _this.getParams();
-        if(authInfo){
-            _this.authInfo = JSON.parse(authInfo);
-        }
         setTimeout(() => {
             var userInfoData = config.getCookie('userInfoData');
+            _this.getParams();
             if(userInfoData){
                 _this.userInfoData = JSON.parse(userInfoData);
             };
             _this.getAuthInfo();
-        },0);
+        },1000);
         
         
     }

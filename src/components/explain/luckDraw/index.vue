@@ -382,6 +382,7 @@ export default {
                 console.log('error');
                 _this.isRuningLucky = false;
             });
+            _this.handleRecord('lottery_click');
 			// 请求接口，模拟一个抽奖数据(假设请求时间为2s)
 			// setTimeout(() => {
 			// 	this.award = {
@@ -482,6 +483,25 @@ export default {
 				this.animate = false;
 			}, 500);
 		},
+        //加埋点
+        handleRecord(type){
+            var _this = this;
+            var formData = {
+                "open_id":_this.openid,
+                "store_id":_this.storeId,
+                "webPage":type
+            };
+            var headerConfig = {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+            _this.$axios.post("http://v8track.youwoxing.net/track/pv",formData,headerConfig).then((res) => {
+                
+            }).catch(() => {
+                console.log('error');
+            });
+        },
         forbidBack(){
             var _this = this;
             var prveUrl = localStorage.getItem('backName');
@@ -544,6 +564,7 @@ export default {
             let scrollTimer = setInterval(this.scroll, 2000);
             _this.getLotteryPrize();
             _this.getMyChange();
+            _this.handleRecord('lottery_index');
         })
     }
 }
