@@ -188,7 +188,7 @@ export default {
             
             var formData = {
                 'store_id': _this.storeId,
-                "open_id":'oaWxEv2NUHC4q04-i3IRgFLZTBoU',//_this.openid,
+                "open_id":_this.openid,
                 "data":{
                     "score": _this.goodInfo.cost || 0,
                     "useType": _this.goodInfo.goods_id,
