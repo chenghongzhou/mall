@@ -119,6 +119,7 @@ export default {
             position: '',  //跳转定位
             gt:'',
             storeId:'',
+            pevrAppid:'',
         }
     },
     methods:{
@@ -156,7 +157,7 @@ export default {
                      config.setCookie(
                         'openid', 
                         JSON.stringify(res.data), 
-                        7
+                        3
                     );
                 }
                 // else{
@@ -194,7 +195,7 @@ export default {
                 config.setCookie(
                     'userInfo', 
                     JSON.stringify(res.data), 
-                    7
+                    3
                 );
                 _this.updateUserInfo();
                 _this.getUserInfoMy();
@@ -253,7 +254,7 @@ export default {
                     config.setCookie(
                         'userInfoData', 
                         JSON.stringify(_this.userInfoData), 
-                        7
+                        3
                     );
                     if(_this.position !='' && _this.tcode){  //跳推荐
                         _this.login_bg = false;
@@ -469,7 +470,7 @@ export default {
             var url = 'http%3a%2f%2fv8homepage.youwoxing.net';
             var data = config.getCookie('openid');
             var get_url_appid = config.getHashVReq('appid');
-            var cookie_appid = config.getCookie('appid');
+            var cookie_appid = _this.pevrAppid;
             var login_appid = '';
             
             if(get_url_appid){
@@ -479,11 +480,10 @@ export default {
                     login_appid = get_url_appid.substring(0,get_url_appid.length-2);
                 };
                 if(cookie_appid){
-                   var cookie_appid_d = JSON.parse(cookie_appid)
                     //如果这次进来获取的url中的appid和保存在cookie中的appid不同，说明公众号不同，需要重新授权
-                    if(cookie_appid_d != login_appid && config.thirdParty().isWechat == true && _this.tcode == ''){
+                    if(cookie_appid != login_appid && _this.tcode == ''){
                         window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+login_appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
-                        return false;
+                       return false;
                     };
                 }
             }
@@ -515,6 +515,10 @@ export default {
             var _this = this;
             var t_p = config.getHashVReq('appid');
             var t_code = config.getHashVReq('code');
+            var pevr_appid = config.getCookie('appid');
+            if(pevr_appid){
+                _this.pevrAppid = JSON.parse(pevr_appid);
+            };
             _this.position = config.getHashVReq('position') || '';
             if(t_p){
                 if(t_p.indexOf('#/') == '-1'){
@@ -524,12 +528,12 @@ export default {
                 };
                 config.setCookie(
                     'appid', 
-                    JSON.stringify(t_p), 
+                    JSON.stringify(_this.appid), 
                     7
                 );
             }else{
                 if(config.getCookie('appid')){
-                    t_p = config.getCookie('appid') || '';
+                    _this.appid = JSON.parse(config.getCookie('appid'));
                 }
                 
             };

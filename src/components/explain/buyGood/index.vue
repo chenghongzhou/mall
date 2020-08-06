@@ -70,7 +70,7 @@
 			<div class="mask_main file">
 				<div class="box tanchuscale">
                     <div class="file_title">积分不足</div>
-                    <div class="file_need">本次兑换共需{{goodInfo.score || 0}}积分</div>
+                    <div class="file_need">本次兑换共需{{goodInfo.cost || 0}}积分</div>
                     <div class="file_you">当前积分{{userInfoData.score}}</div>
                     <div class="file_btn" @click="goTaskWall()">立即赚积分</div>
                     <div class="file_close" @click="fileMask = false"></div>
@@ -372,7 +372,6 @@ export default {
             _this.defaultDate.tel = config.getHashVReq('tel');
             _this.defaultDate.address = config.getHashVReq('address');
             _this.defaultDate.address_detail = config.getHashVReq('address_detail');
-            console.log(_this.defaultDate)
         }
     },
     destroyed(){
@@ -393,6 +392,14 @@ export default {
     mounted(){
         var _this = this;
         config.isGoBack(_this.forbidBack);
+         _this.getf();
+         if(_this.$store.state.goodInfo.id){
+             _this.goodInfo = _this.$store.state.goodInfo;
+             _this.total_integral = _this.goodInfo.cost;
+             _this.total_price = _this.goodInfo.current_price;
+        }else{
+            _this.getData();
+        };
         _this.$nextTick(() =>{
            
         })

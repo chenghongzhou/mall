@@ -11,7 +11,7 @@
                 <img :src="params.pic" alt="">
             </div>
             <div class="good_info_box" :class="{'good_info_box_self':params.source == 0}">
-                <div style="overflow:hidden">
+                <div style="overflow:hidden;position:relative">
                     <div class="good_price_part">
                         <div class="price" v-if="params.source == 0" style="margin-top:0.35rem">
                             <!-- 原价：{{params.normal_price}}元 -->
@@ -27,8 +27,8 @@
                                 <i></i><span>{{params.cost}}</span>积分 <span v-if="params.source == 0">+{{params.current_price}}元</span>
                             </div>  
                         </div>
-                        <div class="q_time" v-if="params.source == 1">{{s_time}}-{{e_time}}</div>
                         <div class="price_result" :class="{'good_source':params.source ==1 }" v-if="params.source == 1"><i style="background: url('../../../../static/images/goodDetail/q_icon.png') center no-repeat;background-size:contain"></i><span>{{(params.coupon_discount/100).toFixed(2)}}抵用券</span></div>
+                        <div class="q_time" v-if="params.source == 1">{{s_time}}-{{e_time}}</div>
                     </div>
                     <div class="ex_people_nums">
                         <div>{{params.cost}}积分</div>
@@ -71,7 +71,7 @@
 			<div class="mask_main file">
 				<div class="box tanchuscale">
                     <div class="file_title">积分不足</div>
-                    <div class="file_need">本次兑换共需{{params.score || 0}}积分</div>
+                    <div class="file_need">本次兑换共需{{params.cost || 0}}积分</div>
                     <div class="file_you">当前积分{{userInfoData.score}}</div>
                     <div class="file_btn" @click="goTaskWall()">立即赚积分</div>
                     <div class="file_close" @click="fileMask = false"></div>
@@ -106,7 +106,6 @@ export default {
             var _this = this;
             if(_this.params.source == 1){
                 _this.getGood();
-                
             }else{
                 this.$router.replace({path:'/buyGood?id='+_this.id}); 
             }
@@ -215,7 +214,7 @@ export default {
                    _this.successMask = true;
                 }else if(res.data.code == 201){
                     _this.fileMask = false;
-                }{
+                }else{
                     config.layerMsg('出错了~', 2);
                 };
             }).catch(() => {
@@ -301,7 +300,17 @@ export default {
     },
     mounted(){
         var _this = this;
-        
+         this.getf();
+        window.scrollTo(0,0);
+        if(this.$store.state.goodInfo.id){
+            this.params = this.$store.state.goodInfo;
+            setTimeout(() => {
+                this.detailBox();
+            },0)
+        }else{
+            this.getData();
+        };
+        this.getQInfo();
         config.isGoBack(_this.forbidBack);
         _this.$nextTick(() =>{
             

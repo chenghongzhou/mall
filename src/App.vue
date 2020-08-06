@@ -3,13 +3,13 @@
     <!-- <div style="height:100%">
       <router-view></router-view>
     </div> -->
-    <keep-alive>
+    <!-- <keep-alive>
         <router-view></router-view>
-    </keep-alive>
+    </keep-alive> -->
     
-    <!-- <transition name="fade" mode="out-in">
+    <transition name="fade" mode="out-in">
         <router-view></router-view>
-    </transition> -->
+    </transition>
   </div>
 </template>
 

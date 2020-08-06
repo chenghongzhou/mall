@@ -269,7 +269,7 @@ export default {
             var _this = this;
             var formData = {
                 'store_id': _this.storeId,
-                "open_id":'oaWxEv2NUHC4q04-i3IRgFLZTBoU'//_this.openid
+                "open_id":_this.openid
             };
             
             var headerConfig = {
@@ -283,6 +283,11 @@ export default {
                     var list = res.data.bonus_sets;
                     var awardsList = [];
                     var len = list.length;
+                    list.forEach((item,index) =>{
+                        if(item.type == 2){
+                            item.reward_name = item.rate+'积分';
+                        }
+                    })
                     _this.title = res.data.title
                     document.title = _this.title;
                     _this.getData = res.data;

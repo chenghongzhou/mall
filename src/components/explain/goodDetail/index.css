@@ -73,12 +73,12 @@
 .price_result{
     font-size: 0.26rem;
     color: #ffffff;
-    margin-top: 0.4rem;
+    margin-top: 0.35rem;
 }
 .price_result span{
     font-size: 0.4rem;
     font-weight: bold;
-    margin-top: 0.05rem;
+    
 }
 .price_result i{
     width: 0.32rem;
@@ -88,7 +88,7 @@
     margin-right: 0.06rem;
     display: inline-block;
     vertical-align: top;
-    margin-top: 0.05rem;
+    margin-top: 0.1rem;
 }
 .ex_people_nums{
     width: 2rem;
@@ -346,5 +346,8 @@
 .q_time{
     font-size: 0.2rem;
     color: #ffffff;
-    margin-top: 0.1rem;
+    margin-top: 0rem;
+    position: absolute;
+    left: 0.3rem;
+    top: 0.95rem;
 }

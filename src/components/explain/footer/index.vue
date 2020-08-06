@@ -59,6 +59,7 @@ export default {
             var myName = _this.userInfoData.nick_name || 0;
             var gImg = _this.authInfo.authorizer_info.head_img;
             var gName = _this.authInfo.authorizer_info.nick_name;
+            var shareIcon = _this.authInfo.logoUrl;
             var rech = '&myImg='+myImg+'&myName='+myName+'&gImg='+gImg+'&gName='+gName;
             xhr.open('GET', shareUrlRequire, true);
             xhr.send(null);
@@ -80,7 +81,7 @@ export default {
                                 title: gName+'0元兑好礼',  //标题
                                 link: 'http://v8homepage.youwoxing.net/#/friendRecommend?appid='+_this.appid+rech+'&openid='+openid,  //分享之后的页面链接
                                 desc: _this.userInfoData.nick_name+'邀请你免费参与活动，兑换0元商品',  
-                                imgUrl: 'http://v8homepage.youwoxing.net/static/images/home/logo.png'  //图片
+                                imgUrl: shareIcon  //图片
                             };
                             //分享给朋友
                             wx.updateAppMessageShareData(wxconfig);

@@ -80,7 +80,7 @@
                             </div>
                             <img src="../../../../static/images/home/banner.png" alt="" class="every_banner_img">
 
-                            <div class="every_task_box">
+                            <div class="every_task_box" v-if="newUserList && newUserList.length > 0">
                                 <div class="task_list_top">
                                     <div class="new_people_icon">
                                         <img src="../../../../static/images/taskWall/new_people_icon.png" alt="">
@@ -223,7 +223,7 @@ export default {
                 if(res.data.error_code == 0){
                     window.location.href = item.tasks.jump_link;
                 }else{
-                    config.layerMsg(res.data.msg, 2);
+                    config.layerMsg('接口出错了~', 2);
                 };
             }).catch(() => {
                 console.log('error');
