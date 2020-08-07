@@ -92,7 +92,17 @@
 				<div class="box tanchuscale">
                     <img :src="kserverCode" alt="" class="mask_wx_code">
                     
-                    <div class="success_btn" style="margin-top:0.4rem" @click="kserver = false">我已添加客服</div>
+                    <div class="success_btn" style="margin-top:0.4rem" @click="goGoodRecord()">我已添加客服</div>
+				</div>
+			</div>
+		</div>
+        <!--实物-->
+        <div class="mask" v-if="sh_server">
+			<div class="mask_main_good">
+				<div class="box tanchuscale">
+                    <img :src="shServerCode" alt="" class="mask_wx_code">
+                    
+                    <div class="success_btn" style="margin-top:0.4rem" @click="goGoodRecord()">我已添加客服</div>
 				</div>
 			</div>
 		</div>
@@ -128,6 +138,8 @@ export default {
             id:'',
             kserver:false,
             kserverCode:'',
+            sh_server:false,
+            shServerCode:''
         }
     },
     methods: {
@@ -141,6 +153,11 @@ export default {
             this.total_integral = this.goodInfo.cost*this.num;
             this.total_price = this.goodInfo.current_price*this.num;
         },
+        goGoodRecord(){
+            this.sh_server = false;
+            this.kserver = false;
+            this.$router.replace({path:'/exchangeRecord'});
+        },
         handleSuccessMask(){
             var _this = this;
             if(_this.goodInfo.show_type == 0){
@@ -150,31 +167,32 @@ export default {
                 }else{
                     config.layerMsg('未配置链接！', 2);
                 }
-            }else{
+            }else if(_this.goodInfo.show_type == 1){
                 _this.goodImg = _this.goodInfo.exchange_show_pic;
                 _this.goodText = _this.goodInfo.exchange_show_text;
                 _this.successMask = false;
                 _this.wx_code = true;
-            }
-            // if(_this.goodInfo.show_type == 1){
-            //     _this.goodImg = _this.goodInfo.exchange_show_pic;
-            //     _this.goodText = _this.goodInfo.exchange_show_text;
-            //     _this.successMask = false;
-            //     _this.wx_code = true;
-            // }
-            // if(_this.goodInfo.show_type == 2){
-            //     _this.successMask = false;
-            // }
+            }else if(_this.goodInfo.show_type == 2){
+                _this.successMask = false;
+                if(_this.goodInfo.is_need_qrcode == 1){
+                    _this.shServerCode = _this.goodInfo.qrcode;
+                    _this.sh_server = true;
+                }else{
+                    this.$router.replace({path:'/exchangeRecord'});
+                }
+            }else{
+                config.layerMsg('类型错误', 2);
+            };
         },
         handleServer(){
             var _this = this;
+             _this.wx_code = false;
             if(_this.goodInfo.is_need_qrcode == 1){
-                _this.wx_code = false;
                 _this.kserverCode = _this.goodInfo.qrcode;
                 _this.kserver = true;
             }else{
-                _this.wx_code = false;
-            };
+                this.$router.replace({path:'/exchangeRecord'});
+            }
         },
         getGood(){
             var _this = this;

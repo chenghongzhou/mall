@@ -195,6 +195,25 @@ export default {
             var _this = this;
             var t_p = config.getHashVReq('appid');
             var t_data = config.getCookie('userInfoData');
+
+            var url_store_id = config.getHashVReq('storeId');
+            var t_store = config.getCookie('userInfo');
+            if(url_store_id){
+                if(t_store){
+                    _this.storeId = Number(JSON.parse(t_store).storeId);
+                    if(_this.storeId != url_store_id){
+                        //如果当前链接的url，storeid和cookie不一样需要重新授权
+                        window.location.replace('http://v8homepage.youwoxing.net/?position=read&appid='+t_p)
+                    }
+                }else{
+                    //去授权
+                    window.location.replace('http://v8homepage.youwoxing.net/?position=read&appid='+t_p)
+                };    
+            }else{
+                if(t_store){
+                    _this.storeId = Number(JSON.parse(t_store).storeId);
+                }
+            };
             if(t_p){
                 if(t_p.indexOf('#/') == '-1'){
                     _this.appid = t_p;
@@ -209,10 +228,7 @@ export default {
                     window.location.replace('http://v8homepage.youwoxing.net/?position=read&appid='+t_p)
                 };
             };
-           var t_store = config.getCookie('userInfo');
-            if(t_store){
-                _this.storeId = Number(JSON.parse(t_store).storeId);
-            };
+          
             var t_open_id = config.getCookie('openid');
             if(t_open_id){
                 _this.openid = JSON.parse(t_open_id).open_id;
