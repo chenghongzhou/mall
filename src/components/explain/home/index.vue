@@ -124,7 +124,7 @@ export default {
     },
     methods:{
         goLink(item){
-            if(item.type == 2){
+            if(item.url_type == 2){
                 this.$store.state.goodInfo = {};
                 this.$router.replace({path:'/goodDetail?recordPage=index&id='+item.url+'&ishome=1'});
                 return false;
