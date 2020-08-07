@@ -173,7 +173,7 @@
                 <div class="box" style="background:#fff;border-radius:0.3rem;padding-top:0.2rem;box-sizing:border-box">
                     <img src="../../../../static/images/luckDraw/no_prize.png" alt="" class="no_prize">
                    <p style="font-size:0.3rem;font-weight:bold;text-align:center;">次数用光了</p>
-                   <div style="width:3rem;padding:0.25rem 0rem;font-size:0.26rem;border-radius:0.5rem;background:red;color:#fff;text-align:center;margin:1.4rem auto;" @click="handldGetTimes()">获取抽奖次数</div>
+                   <div style="width:3rem;padding:0.25rem 0rem;font-size:0.26rem;border-radius:0.5rem;background:red;color:#fff;text-align:center;margin:1.4rem auto;" @click="handldGetTimes()">更多抽奖</div>
                    <div class="file_close" @click="maskNoTime = false"></div>
                 </div>
             </div>
