@@ -382,8 +382,8 @@ export default {
         handleRecord(){
             var _this = this;
             var formData = {
-                "open_id":_this.open_id,
-                "store_id":_this.storeId,
+                "openId":_this.open_id,
+                "storeId":_this.storeId,
                 "webPage":"index"
             };
             var headerConfig = {

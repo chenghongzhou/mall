@@ -285,7 +285,7 @@ export default {
                     var len = list.length;
                     list.forEach((item,index) =>{
                         if(item.type == 2){
-                            item.reward_name = item.rate+'积分';
+                            item.reward_name = item.integral+'积分';
                         }
                     })
                     _this.title = res.data.title
@@ -492,8 +492,8 @@ export default {
         handleRecord(type){
             var _this = this;
             var formData = {
-                "open_id":_this.openid,
-                "store_id":_this.storeId,
+                "openId":_this.openid,
+                "storeId":_this.storeId,
                 "webPage":type
             };
             var headerConfig = {
@@ -535,22 +535,6 @@ export default {
             var t_data = config.getCookie('userInfoData');
             var url_store_id = config.getHashVReq('storeId');
             var t_store = config.getCookie('userInfo');
-             if(url_store_id){
-                if(t_store){
-                    _this.storeId = Number(JSON.parse(t_store).storeId);
-                    if(_this.storeId != url_store_id){
-                        //如果当前链接的url，storeid和cookie不一样需要重新授权
-                        window.location.replace('http://v8homepage.youwoxing.net/?position=luckDraw&appid='+t_p);
-                    }
-                }else{
-                    //去授权
-                    window.location.replace('http://v8homepage.youwoxing.net/?position=luckDraw&appid='+t_p);
-                };    
-            }else{
-                if(t_store){
-                    _this.storeId = Number(JSON.parse(t_store).storeId);
-                }
-            };
             if(t_data){
                 _this.userInfoData = JSON.parse(t_data);
             }
@@ -561,6 +545,23 @@ export default {
                     _this.appid = t_p.substring(0,t_p.length-2);
                 };
             };
+             if(url_store_id){
+                if(t_store){
+                    _this.storeId = Number(JSON.parse(t_store).storeId);
+                    if(_this.storeId != url_store_id){
+                        //如果当前链接的url，storeid和cookie不一样需要重新授权
+                        window.location.replace('http://v8homepage.youwoxing.net/?position=luckDraw&appid='+_this.appid);
+                    }
+                }else{
+                    //去授权
+                    window.location.replace('http://v8homepage.youwoxing.net/?position=luckDraw&appid='+_this.appid);
+                };    
+            }else{
+                if(t_store){
+                    _this.storeId = Number(JSON.parse(t_store).storeId);
+                }
+            };
+            
             
             var t_open_id = config.getCookie('openid');
             if(t_open_id){
