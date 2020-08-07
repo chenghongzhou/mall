@@ -180,6 +180,8 @@
     color: #ffffff;
     box-sizing: border-box;
     letter-spacing: 0.03rem;
+    padding-top: 0.03rem;
+
 }
 .notice ul li span{
     color: #f6ff95;
@@ -543,4 +545,13 @@
     font-size: 0.28rem;
     color: #ffffff;
     padding: 0.26rem 0;
+}
+.file_close{
+    width: 0.4rem;
+    height: 0.4rem;
+    background: url("../../../../static/images/buyGood/close_mask.png") center no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 0.1rem;
+    right: 0.1rem;
 }

@@ -343,7 +343,7 @@ export default {
                 if(res.data.error_code == 0){
                     console.log(item)
                     _this.resultImg = item.tasks.qr_code;
-                    if(item.qr_code&&item.qr_code!=''){
+                    if(item.tasks.qr_code&&item.tasks.qr_code!=''){
                         _this.wx_code = true;
                     }else if(item.tasks.jump_link&&item.tasks.jump_link != ''){
                         window.location.href = item.tasks.jump_link;

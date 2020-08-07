@@ -36,7 +36,7 @@
                 </div>
                 <div class="good_info_tl" :class="{'good_info_tl_self':params.source == 0}">
                     <div class="good_name">{{params.name}}</div>
-                    <div class="p_q" v-if="params.source == 1"><span>￥</span>{{(params.coupon_discount/100).toFixed(2)}}<span>券后价</span><font>￥{{(params.normal_price/100).toFixed(2)}}</font></div>
+                    <div class="p_q" v-if="params.source == 1"><span>￥</span>{{(params.current_price/100).toFixed(2)}}<span>券后价</span><font>￥{{(params.normal_price/100).toFixed(2)}}</font></div>
                 </div>
             </div>
             
@@ -47,8 +47,8 @@
             <div class="exchange_info" v-if="params.source == 1">
                 <p>兑换说明</p>
                 <ul>
-                    <li><span></span>兑换成功后，可活动 {{(params.coupon_discount/100).toFixed(2)}} 元抵扣价。</li>
-                    <li><span></span>券后仅需 {{(params.coupon_discount/100).toFixed(2)}} 元即可购买，以购买页实时价格为准。</li>
+                    <li><span></span>兑换成功后，可获得 {{(params.coupon_discount/100).toFixed(2)}} 元抵扣价。</li>
+                    <li><span></span>券后仅需 {{(params.current_price/100).toFixed(2)}} 元即可购买，以购买页实时价格为准。</li>
                     <li><span></span>请在适用范围内适用，数量有限，兑完即止。</li>
                 </ul>
             </div>
@@ -213,7 +213,7 @@ export default {
                     _this.getUserInfoMy();
                    _this.successMask = true;
                 }else if(res.data.code == 201){
-                    _this.fileMask = false;
+                    _this.fileMask = true;
                 }else{
                     config.layerMsg('出错了~', 2);
                 };

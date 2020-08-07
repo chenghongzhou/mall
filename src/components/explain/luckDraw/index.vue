@@ -168,11 +168,13 @@
         </div>
        <!--没中奖-->
        <!--没中奖-->
-        <div class="mask" v-if="maskNoTime" @click="maskNoTime = false">
+        <div class="mask" v-if="maskNoTime">
             <div class="mask_main tanchuscale">
-                <div class="box" style="background:#fff;border-radius:0.3rem;padding-top:2rem;box-sizing:border-box">
-                   <p style="font-size:0.26rem;text-align:center;">次数用光了</p>
-                   <div style="width:3rem;padding:0.2rem 0rem;font-size:0.26rem;border:1px solid #333;border-radius:0.5rem;text-align:center;margin:1rem auto;" @click="handldGetTimes()">更多抽奖</div>
+                <div class="box" style="background:#fff;border-radius:0.3rem;padding-top:0.2rem;box-sizing:border-box">
+                    <img src="../../../../static/images/luckDraw/no_prize.png" alt="" class="no_prize">
+                   <p style="font-size:0.3rem;font-weight:bold;text-align:center;">次数用光了</p>
+                   <div style="width:3rem;padding:0.25rem 0rem;font-size:0.26rem;border-radius:0.5rem;background:red;color:#fff;text-align:center;margin:1.4rem auto;" @click="handldGetTimes()">获取抽奖次数</div>
+                   <div class="file_close" @click="maskNoTime = false"></div>
                 </div>
             </div>
         </div>
@@ -249,14 +251,16 @@ export default {
         //跑马灯
         getAds(){
             var name = userName;
-            var len = this.reallAwards.length;
+            var len = this.awards.length;
             var arrList = [];
              var awardsNums = parseInt(Math.random()*(len),10);
             for(var i = 0;i<30;i++){
                 var nameNums = parseInt(Math.random()*(500),10);
                 var awardsNums = parseInt(Math.random()*(len),10);
-                var item = {'name':name[nameNums],'prize':this.reallAwards[awardsNums].name};
-                arrList.push(item);
+                if(this.reallAwards[awardsNums].reward_name){
+                    var item = {'name':name[nameNums],'prize':this.reallAwards[awardsNums].reward_name};
+                    arrList.push(item);
+                }
             };
             this.noticeList = arrList;
         },

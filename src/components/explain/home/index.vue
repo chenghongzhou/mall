@@ -2,9 +2,9 @@
     <div class="main">
         <div class="header_part" style="position:fixed;top:0;left:0;z-index:10;height:1.04rem">
             <div class="header">
-                <div class="my_img"><img :src="userInfoData.avatar_url" alt=""></div>
+                <div class="my_img"><img :src="userInfo.headimgurl" alt=""></div>
                 <div class="my_info">
-                    <div class="my_name">{{userInfoData.nick_name}}</div>
+                    <div class="my_name">{{userInfo.nickname}}</div>
                     <div class="my_money">{{userInfoData.score || 0}}<i class="money_icon"></i></div>
                 </div>
                 <div class="my_info_right">
@@ -124,8 +124,18 @@ export default {
     },
     methods:{
         goLink(item){
+            if(item.type == 2){
+                this.$store.state.goodInfo = {};
+                this.$router.replace({path:'/goodDetail?recordPage=index&id='+item.url+'&ishome=1'});
+                return false;
+            }
             if(item.url != ''){
-                window.location.href=item.url;
+                if(item.url.indexOf('http') == 0 ||  item.url.indexOf('https') == 0){
+                    window.location.href=item.url; 
+                }else{
+                    window.location.href='http://'+item.url;
+                    
+                };
             }
         },
         handleGoodsTypeTab(rows,index){

@@ -27,7 +27,7 @@
                             <div class="name">{{item.bonus_name}}</div>
                             <div class="time">{{item.create_time}}</div>
                         </div>
-                        <div class="tal" @click="handleTal(item,index)">联系客服</div>
+                        <div class="tal" @click="handleTal(item,index)" v-if="item.qrcode">联系客服</div>
                     </li>
                     <div class="nodata" v-if="list.length == 0">暂无数据</div>
                 </ul>
