@@ -402,6 +402,7 @@ export default {
 		},
         handleMaskIntegral(){
             var _this = this;
+            _this.maskLink = false;
             _this.kserver = true;
             _this.kserverCode = _this.getPrizeInfo.qrcode;
         },

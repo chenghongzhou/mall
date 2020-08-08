@@ -62,7 +62,7 @@
                     <div class="nodata_good" v-if="goodList.length == 0">暂无数据</div>
                     <div class="goods_list" @click="goodDetail(item)" v-for="(item,index) in goodList" :key="index">
                         <div class="goods_free_shipping"></div>
-                        <div class="change_people">{{item.is_buy_nums}}人已兑</div>
+                        <!-- <div class="change_people">{{item.is_buy_nums}}人已兑</div> -->
                         <div class="goods">
                             <img :src="item.pic" alt="">
                         </div>

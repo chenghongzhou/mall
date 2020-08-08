@@ -128,7 +128,6 @@ export default {
                 tel:'',
                 address_detail:'',
                 address:''
-
             },
             storeId:'',
             openid:'',
@@ -319,12 +318,13 @@ export default {
                      if(_this.list.length > 0){
                           _this.list.forEach((item,index) => {
                              if(item.if_default){
-                                 _this.defaultDate = item;
+                                 //_this.defaultDate = item;
+                                 _this.defaultDate.name = item.name;
+                                _this.defaultDate.tel = item.tel;
+                                _this.defaultDate.address = item.address;
+                                _this.defaultDate.address_detail = item.address_detail;
                              }
                           });
-                          if(!_this.defaultDate.if_default){
-                            _this.defaultDate=_this.list[0];
-                          };
                         }
                 }else{
                     config.layerMsg('出错了~', 2);
@@ -386,10 +386,16 @@ export default {
             if(t_open_id){
                 _this.openid = JSON.parse(t_open_id).open_id;
             };
-            _this.defaultDate.name = config.getHashVReq('name');
-            _this.defaultDate.tel = config.getHashVReq('tel');
-            _this.defaultDate.address = config.getHashVReq('address');
-            _this.defaultDate.address_detail = config.getHashVReq('address_detail');
+            var address_name = config.getHashVReq('name');
+            if(address_name){
+                _this.defaultDate.name = config.getHashVReq('name');
+                _this.defaultDate.tel = config.getHashVReq('tel');
+                _this.defaultDate.address = config.getHashVReq('address');
+                _this.defaultDate.address_detail = config.getHashVReq('address_detail');
+            }else{
+                 _this.getAddress();
+            }
+            
         }
     },
     destroyed(){
@@ -419,7 +425,7 @@ export default {
             _this.getData();
         };
         _this.$nextTick(() =>{
-           
+            
         })
     }
 }

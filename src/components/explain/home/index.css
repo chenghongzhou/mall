@@ -94,7 +94,7 @@
     height: 0.34rem;
     background: url("../../../../static/images/home/integral.png") center no-repeat;
     background-size: contain;
-    margin-left: 0.1rem;
+    margin-left: 0.2rem;
     display: inline-block;
     vertical-align: middle;
     margin-top: -0.1rem;
@@ -149,6 +149,8 @@
     height: 2.4rem;
     padding: 0.2rem 0.3rem 0rem 0.3rem;
     box-sizing: border-box;
+    border-radius: 0.1rem;
+    overflow: hidden;
 }
 .banner img{
     width: 100%;
@@ -240,10 +242,14 @@
     height: auto;
     padding: 0rem 0.3rem 0.1rem;
     box-sizing: border-box;
+    border-radius: 0.1rem;
+    overflow: hidden;
 }
 .activity_entra img{
     width: 100%;
     height: 1.61rem;
+    border-radius: 0.1rem;
+    overflow: hidden;
 }
 .contain{
     width: 100%;

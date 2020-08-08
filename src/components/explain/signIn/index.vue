@@ -81,9 +81,9 @@
 
             <div class="mask" v-if="siginDescMask">
                 <div class="mask_main">
-                    <div class="sigin_info tanchuscale">
+                    <div class="sigin_info tanchuscale"  style="height:6rem">
                         <h6>签到说明</h6>
-                        <div class="sigin_desc">{{siginDesc}}</div>
+                        <div class="sigin_desc" v-html="siginDesc"></div>
                         <div class="file_close" @click="siginDescMask = false"></div>
                     </div>
                     

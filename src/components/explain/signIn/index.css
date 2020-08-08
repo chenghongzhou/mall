@@ -444,5 +444,10 @@ h6{
 }
 .sigin_desc{
     font-size: 0.24rem;
-    line-height: 0.4rem;
+    line-height: 0.45rem;
+    padding-left: 0.6rem;
+    padding-top: 0.3rem;
+}
+.sigin_desc p{
+    line-height: 0.3rem;
 }

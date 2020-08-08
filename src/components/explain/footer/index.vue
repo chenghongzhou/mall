@@ -193,7 +193,7 @@ export default {
                 _this.userInfoData = JSON.parse(userInfoData);
             };
             _this.getAuthInfo();
-        },1000);
+        },0);
         
         
     }

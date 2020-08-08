@@ -136,6 +136,10 @@ ul,li{
     width: 100%;
     height: 2.12rem;
 }
+.money_icon{
+    margin-left: 0.2rem !important;
+   
+}
 /* 需要给弹窗设置为弹出的样式，进行了添加tanchuscale */
 /* 控制弹出窗的动画，开始缩放为0，一直慢慢放大 */
 @keyframes tanchuscale{
