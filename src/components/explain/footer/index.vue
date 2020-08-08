@@ -8,7 +8,7 @@
 
 <script>
 import { allget,allgetLogin } from '../../../api/api.js';
-import wx from 'weixin-js-sdk';
+//import wx from 'weixin-js-sdk';
 export default {
     props: ['userInfo'],
     data(){
@@ -188,14 +188,14 @@ export default {
     },
     mounted(){
         var _this = this;
-        setTimeout(() => {
-            var userInfo_data = config.getCookie('userInfoData');
-            _this.getParams();
-            if(userInfo_data && userInfo_data != 'undefined'){
-                _this.userInfoData = JSON.parse(userInfo_data);
-            };
-            _this.getAuthInfo();
-        },1000);
+        // setTimeout(() => {
+        //     var userInfo_data = config.getCookie('userInfoData');
+        //     _this.getParams();
+        //     if(userInfo_data && userInfo_data != 'undefined'){
+        //         _this.userInfoData = JSON.parse(userInfo_data);
+        //     };
+        //     _this.getAuthInfo();
+        // },1000);
         
         
     }

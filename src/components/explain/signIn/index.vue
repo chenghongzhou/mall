@@ -95,7 +95,8 @@
 </template>
 
 <script>
-import { allget } from '../../../api/api.js';
+import { allget,allgetLogin } from '../../../api/api.js';
+import wx from 'weixin-js-sdk';
 export default {
     data(){
         return {
@@ -226,6 +227,83 @@ export default {
                 console.log('error');
             });
         },
+         //获取公众号信息
+        getAuthInfo(){
+            var _this = this;
+            var params = {
+                'storeId': _this.storeId,
+            };
+            _this.$axios.get("http://v8.python.youwoxing.net:9001/GetAuthorizerInfoByStoreId/",{params:params}).then((res) => {
+                
+                if(res.data){
+                    var authInfo = res.data;
+                    _this.share(authInfo);
+                }else{
+                    config.layerMsg('出错了~', 2);
+                };
+                
+            }).catch(() => {
+                console.log('error');
+            });
+        },
+        //分享
+        share(authInfo){
+            var _this = this;
+            var goUrl = window.location.href;  //当前页面的链接
+            var shareUrlLink = encodeURIComponent(goUrl.split('#')[0]);
+            var xhr = '';
+            var openid = _this.openid;
+            if(typeof XMLHttpRequest != 'underfined'){
+                xhr = new XMLHttpRequest();
+            }else{
+                xhr = new ActiveXObject();  //ie5,6
+            };
+            var shareUrlRequire = allgetLogin+'/GetShareSignature/?url='+shareUrlLink+'&appId='+_this.appid;
+             var myImg = _this.userInfoData.avatar_url || 0;
+            var myName = _this.userInfoData.nick_name || 0;
+            var gImg = authInfo.authorizer_info.head_img;
+            var gName = authInfo.authorizer_info.nick_name;
+            var shareIcon = authInfo.logoUrl;
+            var rech = '&myImg='+myImg+'&myName='+myName+'&gImg='+gImg+'&gName='+gName;
+            xhr.open('GET', shareUrlRequire, true);
+            xhr.send(null);
+            xhr.onreadystatechange = function(res){
+                if(xhr.readyState==4 && xhr.status==200){
+                    var res = JSON.parse(xhr.responseText);
+                    if(res){
+                        
+                        wx.config({
+                            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                            appId: _this.appid,
+                            timestamp: res.timestamp,
+                            nonceStr: res.nonceStr,
+                            signature: res.signature,
+                            jsApiList: ["updateAppMessageShareData","onMenuShareAppMessage"], // 必填，需要使用的JS接口列表
+                        });
+                        wx.ready(function(){
+                            var wxconfig = {
+                                title: gName+'0元兑好礼',  //标题
+                                link: 'http://v8homepage.youwoxing.net/#/friendRecommend?appid='+_this.appid+rech+'&openid='+openid,  //分享之后的页面链接
+                                desc: _this.userInfoData.nick_name+'邀请你免费参与活动，兑换0元商品',  
+                                imgUrl: shareIcon  //图片
+                            };
+                            //分享给朋友
+                            wx.onMenuShareAppMessage(wxconfig);
+                            wx.updateAppMessageShareData(wxconfig);
+                            
+                            
+                        });
+                        wx.error(function(err){
+                            console.log(err);
+                        
+                        });
+                    }else{
+                        // config.layerMsg('出错了~', 2);
+                    }
+                    
+                }
+            }
+        },
         forbidBack(){
            var _this = this;
             var prveUrl = localStorage.getItem('backName');
@@ -270,6 +348,8 @@ export default {
                     if(_this.storeId != url_store_id){
                         //如果当前链接的url，storeid和cookie不一样需要重新授权
                         window.location.replace('http://v8homepage.youwoxing.net/?position=signIn&appid='+_this.appid)
+                    }else{
+                        _this.getAuthInfo();
                     }
                 }else{
                     //去授权
@@ -278,7 +358,7 @@ export default {
             }else{
                 if(t_store){
                     _this.storeId = Number(JSON.parse(t_store).storeId);
-                }
+                };
             };
             
             
