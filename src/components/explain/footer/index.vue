@@ -8,8 +8,7 @@
 
 <script>
 import { allget,allgetLogin } from '../../../api/api.js';
-//import '../../../../static/js/jweixin.js';
-//import wx from 'weixin-js-sdk'
+import wx from 'weixin-js-sdk';
 export default {
     props: ['userInfo'],
     data(){
@@ -32,6 +31,7 @@ export default {
                 'storeId': _this.storeId,
             };
             _this.$axios.get("http://v8.python.youwoxing.net:9001/GetAuthorizerInfoByStoreId/",{params:params}).then((res) => {
+                
                 if(res.data){
                     _this.authInfo = res.data;
                 }else{
@@ -74,7 +74,7 @@ export default {
                             timestamp: res.timestamp,
                             nonceStr: res.nonceStr,
                             signature: res.signature,
-                            jsApiList: ["updateAppMessageShareData"], // 必填，需要使用的JS接口列表
+                            jsApiList: ["updateAppMessageShareData","onMenuShareAppMessage"], // 必填，需要使用的JS接口列表
                         });
                         wx.ready(function(){
                             var wxconfig = {
@@ -84,7 +84,9 @@ export default {
                                 imgUrl: shareIcon  //图片
                             };
                             //分享给朋友
+                            wx.onMenuShareAppMessage(wxconfig);
                             wx.updateAppMessageShareData(wxconfig);
+                            
                             
                         });
                         wx.error(function(err){
@@ -187,13 +189,13 @@ export default {
     mounted(){
         var _this = this;
         setTimeout(() => {
-            var userInfoData = config.getCookie('userInfoData');
+            var userInfo_data = config.getCookie('userInfoData');
             _this.getParams();
-            if(userInfoData){
-                _this.userInfoData = JSON.parse(userInfoData);
+            if(userInfo_data && userInfo_data != 'undefined'){
+                _this.userInfoData = JSON.parse(userInfo_data);
             };
             _this.getAuthInfo();
-        },0);
+        },1000);
         
         
     }

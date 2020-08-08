@@ -197,7 +197,7 @@ export default {
             var _this = this;
             if(_this.goodInfo.show_type == 2){
                 if(!_this.defaultDate.name){
-                    config.layerMsg('请添加收获地址~', 2);
+                    config.layerMsg('请添加收货地址~', 2);
                     return false;
                 };
             };

@@ -194,6 +194,7 @@ export default {
             };
             _this.$axios.get(allgetLogin+"/GetUserInfo/",{params:formData}).then((res) => {
                 _this.storeId = Number(res.data.storeId);
+                //config.layerMsg(res.data.nickname+'/'+res.data.openid, 10);
                 if(res.data && res.data.nickname){
                     _this.userInfo = res.data;
                     
@@ -202,6 +203,7 @@ export default {
                         _this.userInfo = JSON.parse(config.getCookie('userInfo'));
                     }
                 };
+
                 config.setCookie(
                     'userInfo', 
                     JSON.stringify(res.data), 
@@ -259,13 +261,13 @@ export default {
                 }
             };
             _this.$axios.post(allget+"/c_account/get_user_info",formData,headerConfig).then((res) => {
+                config.setCookie(
+                    'userInfoData', 
+                    JSON.stringify( res.data.user_data), 
+                    3
+                );
                 if(res.data.error_code == 0){
                     _this.userInfoData = res.data.user_data;
-                    config.setCookie(
-                        'userInfoData', 
-                        JSON.stringify(_this.userInfoData), 
-                        3
-                    );
                     if(_this.position !='' && _this.tcode){  //跳推荐
                         _this.login_bg = false;
                         _this.$router.replace({path:'/'+_this.position});
@@ -326,7 +328,9 @@ export default {
                    }
                    setTimeout(() => {
                        _this.banner1();
-                       _this.banner2();
+                       if(_this.banner_list2.length > 1){
+                           _this.banner2();
+                       }
                     },300)
                 }else{
                     //config.layerMsg(res.data.msg, 2);
