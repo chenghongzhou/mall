@@ -69,15 +69,20 @@
                             <!-- <div class="goods_name" :class="{'good_source':item.source == 1}">{{item.name}}</div> -->
                             <div class="goods_name good_source">{{item.name}}</div>
                         <!--<div class="goods_old_price" v-if="item.source == 0">原价{{item.normal_price}}元</div> -->
-                        <div class="goods_now_price">
+                        <div class="goods_now_price" v-if="item.source == 1">
+                            <div>
+                                <span>{{item.cost}}</span>积分
+                            </div>
+                        </div>
+                        <div class="goods_now_price" v-if="item.source == 0">
                             <div v-if="item.buy_type == 1">
                                 <span>{{item.cost}}</span>积分
                             </div>
                             <div v-if="item.buy_type == 0">
-                                <span>{{item.current_price}}元</span>
+                                <span>{{(item.current_price/100).toFixed(2)}}元</span>
                             </div>
                             <div v-if="item.buy_type == 2">
-                                <span>{{item.cost}}</span>积分<span>+{{item.current_price}}元</span>
+                                <span>{{item.cost}}</span>积分<span>+{{(item.current_price/100).toFixed(2)}}元</span>
                             </div>
                         </div>
                         <!-- <div class="buy_btn">立即兑</div> -->
@@ -193,12 +198,22 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             };
+            var url = 'http%3a%2f%2fv8homepage.youwoxing.net';
             _this.$axios.get(allgetLogin+"/GetUserInfo/",{params:formData}).then((res) => {
                 _this.storeId = Number(res.data.storeId);
                 //config.layerMsg(res.data.nickname+'/'+res.data.openid, 10);
-                if(res.data && res.data.nickname){
-                    _this.userInfo = res.data;
-                    
+                if(res.data.errcode == 0){
+                    if(res.data.nickname && res.data.nickname != null){
+                        _this.userInfo = res.data;
+                    }else{
+                        if(config.thirdParty().isWechat == true){
+                            window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+_this.appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
+                        }
+                    }
+                }else if(res.data.errcode == 40003){
+                    if(config.thirdParty().isWechat == true){
+                            window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+_this.appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
+                        }
                 }else{
                     if(config.getCookie('userInfo')){
                         _this.userInfo = JSON.parse(config.getCookie('userInfo'));
