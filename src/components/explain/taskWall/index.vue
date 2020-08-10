@@ -346,9 +346,9 @@ export default {
                 if(res.data.error_code == 0){
                     console.log(item)
                     _this.resultImg = item.tasks.qr_code;
-                    if(item.tasks.qr_code&&item.tasks.qr_code!=''){
+                    if(item.tasks.jump_type == 0){
                         _this.wx_code = true;
-                    }else if(item.tasks.jump_link&&item.tasks.jump_link != ''){
+                    }else if(item.tasks.jump_type == 1){
                         window.location.href = item.tasks.jump_link;
                     }else{
                         config.layerMsg('未配置', 2);

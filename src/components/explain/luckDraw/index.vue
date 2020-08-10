@@ -60,7 +60,7 @@
                         <div class="prize_name">{{awards[4].reward_name}}</div>
                    </li>
                </ul>
-               <div class="play_remmid" v-if="getData.limit_count-myChange && getData.limit_count-myChange>0">我的抽奖机会：<span>{{getData.limit_count-myChange}}</span>次</div>
+               <div class="play_remmid" v-if="getData.limit_count-myChange && getData.limit_count-myChange>0 && getData.if_limit_count == 1">我的抽奖机会：<span>{{getData.limit_count-myChange}}</span>次</div>
            </div>
            <div class="get_play_change" @click="taskWall()"></div>
            <!-- <div class="play_intru">每人每天{{getData.limit_count}}次，前{{getData.free_chance_per_day}}次抽奖免费，再次抽奖{{getData.cost}}积分/次</div> -->
@@ -98,7 +98,7 @@
                     <div class="prize_things_box">
                         <img :src="maskNoknowPrizeSrc" alt="" class="mask_integral">
                     </div>
-                    <div class="mask_btn" @click="handleMaskIntegral()">立即打开</div>
+                    <div class="mask_btn" @click="handleMaskIntegral(1)">立即打开</div>
                     <div class="mask_close" @click="maskNoknowPrize = false"></div>
                 </div>
             </div>
@@ -129,7 +129,7 @@
                     <div class="mask_prize_name">恭喜您获得{{getPrizeInfo.integral}}积分</div>
                     <div class="prize_things_box">
                         <img src="../../../../static/images/luckDraw/integral.png" alt="" class="mask_integral">
-                        <div class="prize_integral_num">X1</div>
+                        <div class="prize_integral_num">X{{getPrizeInfo.integral}}</div>
                     </div>
                     <div class="mask_btn" @click="handleUse()">立即使用</div>
                     <div class="mask_close" @click="maskIntegral = false"></div>
@@ -351,11 +351,14 @@ export default {
 		},
 		drawAward() {
             var _this = this;
-            if(_this.getData.limit_count-_this.myChange <= 0){
-                _this.maskNoTime = true;
-                _this.isRuningLucky = false;
-                return false;
-            };
+            if(_this.getData.if_limit_count == 1){
+                if(_this.getData.limit_count-_this.myChange <= 0){
+                    _this.maskNoTime = true;
+                    _this.isRuningLucky = false;
+                    return false;
+                };
+            }
+            
             var formData = {
                 'store_id': _this.storeId,
                 "open_id":_this.openid
@@ -401,8 +404,12 @@ export default {
 			// 	//console.log("返回的抽奖结果是", this.award);
 			// }, 2000);
 		},
-        handleMaskIntegral(){
+        handleMaskIntegral(index){
             var _this = this;
+            if(index == 1){
+                window.location.href = _this.getPrizeInfo.link_url;
+                return false;
+            }
             _this.maskLink = false;
             _this.kserver = true;
             _this.kserverCode = _this.getPrizeInfo.qrcode;

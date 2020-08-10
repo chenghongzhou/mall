@@ -155,7 +155,7 @@ export default {
         },
         getQInfo(){
             var _this = this;
-            _this.$axios.get("http://v8tob.youwoxing.net/store/product_library/pdd_detail?ids=156284673098&klk="+_this.params.goods_id).then((res) => {
+            _this.$axios.get("http://v8tob.youwoxing.net/store/product_library/pdd_detail?ids="+_this.params.goods_id).then((res) => {
                 if(res.data){
                     _this.q_num = res.data.coupon_remain_quantity;
                     _this.s_time = _this.formatTime(res.data.coupon_start_time);
