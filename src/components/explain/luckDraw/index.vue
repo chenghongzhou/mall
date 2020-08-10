@@ -96,7 +96,7 @@
                     <div class="mask_title">恭喜中奖</div>
                     <div class="mask_prize_name">恭喜您抽中神秘礼包</div>
                     <div class="prize_things_box">
-                        <img :src="maskNoknowPrizeSrc" alt="" class="mask_integral">
+                        <img :src="maskNoknowPrizeSrc" alt="" class="mask_integral" style="height:2.7rem;margin-top:0.3rem">
                     </div>
                     <div class="mask_btn" @click="handleMaskIntegral(1)">立即打开</div>
                     <div class="mask_close" @click="maskNoknowPrize = false"></div>
@@ -112,7 +112,7 @@
                     <div class="mask_title">恭喜中奖</div>
                     <div class="mask_prize_name">恭喜您抽中{{getPrizeInfo.name}}</div>
                     <div class="prize_things_box">
-                        <img :src="maskNoknowPrizeSrc" alt="" class="mask_integral">
+                        <img :src="maskNoknowPrizeSrc" alt="" class="mask_integral" style="height:2.7rem;margin-top:0.3rem">
                     </div>
                     <div class="mask_btn" @click="handleMaskIntegral()">立即查看</div>
                     <div class="mask_close" @click="maskLink = false"></div>
@@ -267,14 +267,15 @@ export default {
         },
         handleUse(){
             this.maskIntegral=false;
-            this.$router.replace({path:'/'});
+            window.location.href = 'http://v8homepage.youwoxing.net/?position=';
+           // this.$router.replace({path:'/?isback=no'});
         },
         //获取抽奖奖品
         getLotteryPrize(){
             var _this = this;
             var formData = {
                 'store_id': _this.storeId,
-                "open_id":_this.openid
+                "open_id": _this.openid
             };
             
             var headerConfig = {
@@ -361,7 +362,7 @@ export default {
             
             var formData = {
                 'store_id': _this.storeId,
-                "open_id":_this.openid
+                "open_id": _this.openid
             };
             
             var headerConfig = {
@@ -376,8 +377,10 @@ export default {
                          _this.move();
                          _this.getUserInfoMy();
                      }else if(res.data.msg.indexOf('积分不足') == 0){
+                         _this.isRuningLucky = false;
                          config.layerMsg('积分不足', 2);
                      }else{
+                         _this.isRuningLucky = false;
                          config.layerMsg(res.data.msg, 2);
                      };
                      

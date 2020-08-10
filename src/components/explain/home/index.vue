@@ -126,6 +126,7 @@ export default {
             gt:'',
             storeId:'',
             pevrAppid:'',
+            isback:''
         }
     },
     methods:{
@@ -285,7 +286,7 @@ export default {
                 );
                 if(res.data.error_code == 0){
                     _this.userInfoData = res.data.user_data;
-                    if(_this.position !='' && _this.tcode){  //跳推荐
+                    if(_this.position !='' && _this.tcode && !_this.isback){  //跳推荐
                         _this.login_bg = false;
                         _this.$router.replace({path:'/'+_this.position});
                     };
@@ -653,7 +654,6 @@ export default {
                 };
                 _this.position = config.getHashVReq('state');
             };
-            
         }
     },
     destroyed(){

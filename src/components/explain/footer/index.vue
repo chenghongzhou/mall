@@ -34,9 +34,7 @@ export default {
                 'storeId': _this.storeId,
             };
             _this.$axios.get("http://v8.python.youwoxing.net:9001/GetAuthorizerInfoByStoreId/",{params:params}).then((res) => {
-                
                 if(res.data){
-                    console.log(res.data)
                     _this.gzNickname = res.data.authorizer_info.nick_name;
                 }else{
                     config.layerMsg('出错了~', 2);

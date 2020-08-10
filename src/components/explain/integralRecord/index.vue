@@ -60,7 +60,8 @@ export default {
     },
     methods:{
         goHome(){
-            this.$router.replace({path:'/?position='});
+            window.location.href = 'http://v8homepage.youwoxing.net/?position=';
+           // this.$router.replace({path:'/?isback=no&position='});
         },
         getData(){
             var _this = this;
