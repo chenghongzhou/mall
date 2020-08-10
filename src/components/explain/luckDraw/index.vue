@@ -267,8 +267,8 @@ export default {
         },
         handleUse(){
             this.maskIntegral=false;
-            window.location.href = 'http://v8homepage.youwoxing.net/?position=';
-           // this.$router.replace({path:'/?isback=no'});
+           // window.location.replace('http://v8homepage.youwoxing.net/?position=&appid='+_this.appid);
+            this.$router.replace({path:'/'});
         },
         //获取抽奖奖品
         getLotteryPrize(){

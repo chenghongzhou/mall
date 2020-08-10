@@ -55,13 +55,20 @@ export default {
             list:[],
             storeId:'',
             openid:'',
-            total:''
+            total:'',
+            appid:'',
         }
     },
     methods:{
         goHome(){
-            window.location.href = 'http://v8homepage.youwoxing.net/?position=';
-           // this.$router.replace({path:'/?isback=no&position='});
+            // if(config.getCookie('appid')){
+            //     _this.appid = JSON.parse(config.getCookie('appid'));
+            //      window.location.replace('http://v8homepage.youwoxing.net/?position=&appid='+_this.appid);
+            // }else{
+            //     this.$router.replace({path:'/'});
+            // }
+            
+            this.$router.replace({path:'/?position='});
         },
         getData(){
             var _this = this;
