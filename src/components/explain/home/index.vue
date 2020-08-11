@@ -229,12 +229,10 @@ export default {
                 _this.updateUserInfo();
                 _this.getUserInfoMy();
                 _this.getAuthInfo();
-                 if(_this.position == ''){  //如果等于''则不跳
-                    _this.getActivityList();
-                    _this.getStoreGroups();
-                    _this.getStoreItems(-1);
-                    _this.getBanner();
-                };
+                _this.getActivityList();
+                _this.getStoreGroups();
+                _this.getStoreItems(-1);
+                _this.getBanner();
                 
             }).catch(() => {
                 console.log('error');
