@@ -286,9 +286,10 @@ export default {
                 );
                 if(res.data.error_code == 0){
                     _this.userInfoData = res.data.user_data;
-                    if(_this.position !='' && _this.tcode && !_this.isback){  //跳推荐
+                    if(_this.position !='' && _this.tcode){  //跳推荐
                         _this.login_bg = false;
-                        _this.$router.replace({path:'/'+_this.position});
+                        //_this.$router.replace({path:'/'+_this.position});
+                        window.location.replace('http://v8homepage.youwoxing.net/#/'+_this.position+'?appid='+_this.appid);
                     };
                 }else{
                    // config.layerMsg(res.data.msg, 2);
