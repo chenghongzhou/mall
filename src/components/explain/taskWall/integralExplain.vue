@@ -4,23 +4,23 @@
             <i class="top_close" @click="forbidBack()"></i>
             积分说明
         </div>
-        <div class="content">
+        <div class="content" style="padding-bottom:0.1rem">
             <h1>积分该怎么花？</h1>
             <div class="s_title"><i></i>使用积分兑换商品</div>
             <div class="i_explain">1，兑换优惠券/码  <span>兑换成功后，可以在个人中心查看</span></div>
             <div class="i_explain">2，兑换权益卡  <span>兑换成功后，可以在个人中心查看</span></div>
-            <div class="i_explain">3，兑换商品  <span>兑换成功后，可以在我的订单查看发货进度</span></div>
+            <div class="i_explain">3，兑换商品  <span>兑换成功后，可以添加客服微信，确认发货进度</span></div>
 
             <h1>该怎么赚积分？</h1>
             <div class="s_title"><i></i>消费</div>
-            <div class="i_explain" style="text-indent:0">以下可获得积分的规则可叠加： </div>
-            <div class="i_explain">1，所有商品消费1.00元可获得1积分</div>
-            <div class="s_title"><i></i>签到</div>
-            <div class="i_explain">2，每日签到可得2积分</div>
-            <div class="i_explain">3，每连续签到15天可获得188积分</div>
-            <div class="i_explain">4，每连续签到6天可获得99积分</div>
-            <div class="i_explain">5，每连续签到3天可获得66积分</div>
-            <div class="s_title"><i></i>关注公众号可获得100积分</div>
+            <!-- <div class="i_explain" style="text-indent:0">以下可获得积分的规则可叠加： </div> -->
+            <div class="i_explain">1，签到</div>
+            <!-- <div class="s_title"><i></i>签到</div> -->
+            <div class="i_explain">2，抽奖</div>
+            <div class="i_explain">3，阅读有赏</div>
+            <div class="i_explain">4，邀请有礼</div>
+            <div class="i_explain">5，兑换商品</div>
+            <!-- <div class="s_title"><i></i>关注公众号可获得100积分</div> -->
 
             <h1>常见问题</h1>
             <div class="s_title">1，积分状态</div>
@@ -37,8 +37,11 @@
             <div class="i_explain" >下单时使用积分抵现，在整笔订单退款时，则会退回所有失效的积分 </div>
             <div class="i_explain" >在积分商城使用积分兑换，订单退款时，不会退回积分 </div>
             <div class="i_explain" ><span>详情可咨询客服</span></div>
+
+
+            <footer-view style="position:static;margin-top:0.5rem"></footer-view>  
         </div>
-        <footer-view style="position:relative"></footer-view>  
+        
     </div>
 </template>
 

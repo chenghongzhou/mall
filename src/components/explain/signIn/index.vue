@@ -59,10 +59,10 @@
                             <div class="list_rank" v-else-if="index == 1"><img src="../../../../static/images/sign/rank2.png" alt=""></div>
                             <div class="list_rank" v-else-if="index == 2"><img src="../../../../static/images/sign/rank3.png" alt=""></div>
                             <div class="list_rank" v-else>{{index+1}}</div>
-                            <img :src="item.avatar_url" alt="" class="list_img">
+                            <img :src="item.headImgUrl" alt="" class="list_img">
                             <div class="list_info">
-                                <p class="list_info_name">{{item.nick_name}}</p>
-                                <div class="list_info_signs">累计签到{{item.sign_count}}天<span v-if="tabIndex == 1">{{item.sign_time}}</span></div>
+                                <p class="list_info_name">{{item.nickName}}</p>
+                                <div class="list_info_signs">累计签到{{item.totalSignCount}}天<span v-if="tabIndex == 1">{{item.lastSignTmStr}}</span></div>
                             </div>
                             <!-- <div class="love"></div> -->
                         </li>
@@ -149,25 +149,22 @@ export default {
             
             var headerConfig = {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                 }
             };
-            _this.$axios.post(allget+"/sign/sign_once",formData,headerConfig).then((res) => {
-                _this.getData = res.data.data;
-                _this.continue_sign_count = res.data.data.user_position.continue_sign_count;
-                _this.total_sign_count = res.data.data.user_position.total_sign_count;
-
-                if(res.data.error_code == 0){
+            _this.$axios.post("http://v8message.youwoxing.net/sign/sign_once",formData,headerConfig).then((res) => {
+                _this.getData = res.data;
+                _this.continue_sign_count = res.data.continueSignCount;
+                _this.total_sign_count = res.data.totalSignCount;
+                _this.siginList = res.data.dayList;
+                _this.rank = res.data.dayRank;
+                if(res.data.errorCode == 200){
                     _this.signMask = true;
-                    _this.siginList = res.data.data.list.day_list;
-                     _this.rank = res.data.data.user_position.in_day_list;
                      _this.getUserInfoMy();
-                }else if(res.data.error_code == 1){
-                    _this.siginList = res.data.data.list.day_list;
-                     _this.rank = res.data.data.user_position.in_day_list;
-                   // config.layerMsg(res.data.msg, 2);
+                }else if(res.data.errorCode == 202){
+
                 }else{
-                    config.layerMsg(res.data.msg, 2);
+                     config.layerMsg(res.data.msg, 2);
                 };
             }).catch(() => {
                 console.log('error');
@@ -212,7 +209,7 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             };
-            _this.$axios.post(allget+"/c_account/get_user_info",formData,headerConfig).then((res) => {
+            _this.$axios.post(allget+"http://v8message.youwoxing.net/sign/sign_once",formData,headerConfig).then((res) => {
                 if(res.data.error_code == 0){
                     _this.userInfoData = res.data.user_data;
                     config.setCookie(

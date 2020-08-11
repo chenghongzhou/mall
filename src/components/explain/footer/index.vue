@@ -2,7 +2,7 @@
     <div class="footer_box">
         <div class="bottom">
            <!-- <div class="go_link" @click="goLink()"></div> -->
-           <div class="gzh_title">©#{{gzNickname}}# 版权所有</div>
+           <div class="gzh_title">©{{gzNickname}} 版权所有</div>
            <div class="gzh_title">微吧科技提供技术支持</div>
            <a href="http://v8keji.cn/" class="gzh_title">立即创建＞</a>
        </div>
@@ -145,7 +145,7 @@ export default {
 .gzh_title{
     text-align: center;
     font-size: 0.2rem;
-    color: #cccccc;
+    color: #c1bfbf;
     display: block;
     text-decoration: none;
 }
