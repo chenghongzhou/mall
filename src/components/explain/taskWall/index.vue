@@ -293,7 +293,7 @@ export default {
             }else if(type == 2){ //阅读
                 this.$router.replace({path:'read',query: {recordPage:'taskWall'}});
             }else if(type == 3){  //商城首页
-                this.$router.replace({path:'/',query: {recordPage:'taskWall'}});
+                this.$router.replace({path:'/?position='});
             }else if(type == 4){ //邀请链接
                 this.$router.replace({path:'extension',query: {recordPage:'taskWall'}});
             }else{
