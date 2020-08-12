@@ -73,7 +73,7 @@
                 <div class="mask_main">
                     <div class="box tanchuscale">
                         <div class="mask_title">签到成功</div>
-                        <div class="mask_you_get">恭喜你获得{{getData.get_score}}积分</div>
+                        <div class="mask_you_get">恭喜你获得{{getData.score}}积分</div>
                         <div class="mask_btn" @click="signMask = false">确认</div>
                     </div>
                 </div>
@@ -337,7 +337,12 @@ export default {
                 };
             };
             if(t_data){
-                _this.userInfoData = JSON.parse(t_data);
+                try {
+                     _this.userInfoData = JSON.parse(t_data);     
+                } catch (error) {
+                    window.location.replace('http://v8homepage.youwoxing.net/?position=signIn&appid='+_this.appid)
+                }
+               
             }
              if(url_store_id){
                 if(t_store){

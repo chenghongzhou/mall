@@ -53,7 +53,7 @@
                                         </div>
                                         <div class="task_btn task_btn_finish" v-if="item.tasks.jump_num >0 && item.achieve_num == item.tasks.jump_num && item.tasks.jump_type == 1" @click="handleRw(item)">已完成</div>
                                         <div class="task_btn task_btn_goon" v-if="(item.tasks.jump_num >0 && item.achieve_num < item.tasks.jump_num) || item.tasks.jump_type == 0" @click="storeGourl(item)">去完成</div>
-                                        <div class="task_btn task_btn_resive" v-if="item.tasks.jump_num >0 && item.achieve_num < item.finish_num  && item.tasks.jump_type == 1" @click="getStorePrize(item)">领取奖励</div>
+                                        <div class="task_btn task_btn_resive" v-if="item.achieve_num < item.finish_num" @click="getStorePrize(item)">领取奖励</div>
                                         <div class="task_finish_status" v-if="item.tasks.jump_type == 1">{{item.finish_num}}/{{item.tasks.jump_num}}</div>
                                     </div>
                                 </div>
@@ -511,7 +511,14 @@ export default {
                 };
             };
             if(t_data){
-                _this.userInfoData = JSON.parse(t_data);
+                try {
+                      _this.userInfoData = JSON.parse(t_data);
+                } catch (error) {
+                     if(config.thirdParty().isWechat == true){
+                        window.location.replace('http://v8homepage.youwoxing.net/?position=taskWall&appid='+t_p)
+                    };
+                }
+              
             }else{ //去授权
                 if(config.thirdParty().isWechat == true){
                     window.location.replace('http://v8homepage.youwoxing.net/?position=taskWall&appid='+t_p)

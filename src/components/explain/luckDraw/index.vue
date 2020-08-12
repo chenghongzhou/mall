@@ -629,7 +629,13 @@ export default {
             var url_store_id = config.getHashVReq('storeId');
             var t_store = config.getCookie('userInfo');
             if(t_data){
-                _this.userInfoData = JSON.parse(t_data);
+                 try {
+                    _this.userInfoData = JSON.parse(t_data);
+                } catch (error) {
+                    if(config.thirdParty().isWechat == true){
+                        window.location.replace('http://v8homepage.youwoxing.net/?position=luckDraw&appid='+_this.appid);
+                    };
+                }
             }
             if(t_p){
                 if(t_p.indexOf('#/') == '-1'){
@@ -655,6 +661,7 @@ export default {
                 if(t_store){
                     _this.storeId = Number(JSON.parse(t_store).storeId);
                 };
+                
             };
             var t_open_id = config.getCookie('openid');
             if(t_open_id){

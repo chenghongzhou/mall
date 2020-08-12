@@ -287,7 +287,13 @@ export default {
                 };
             };
             if(t_data){
-                _this.userInfoData = JSON.parse(t_data);
+                try {
+                    _this.userInfoData = JSON.parse(t_data);
+                } catch (error) {
+                    if(config.thirdParty().isWechat == true){
+                        window.location.replace('http://v8homepage.youwoxing.net/?position=extension&appid='+ _this.appid)
+                    };
+                }
             }
              if(url_store_id){
                 if(t_store){
