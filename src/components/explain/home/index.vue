@@ -203,6 +203,14 @@ export default {
             _this.$axios.get(allgetLogin+"/GetUserInfo/",{params:formData}).then((res) => {
                 _this.storeId = Number(res.data.storeId);
                 //config.layerMsg(res.data.nickname+'/'+res.data.openid, 10);
+                config.setCookie(
+                    'userInfo', 
+                    JSON.stringify(res.data), 
+                    3
+                );
+                _this.updateUserInfo();
+                _this.getUserInfoMy();
+                _this.getAuthInfo();
                 if(res.data.errcode == 0){
                     if(res.data.nickname && res.data.nickname != null){
                         _this.userInfo = res.data;
@@ -221,14 +229,7 @@ export default {
                     }
                 };
 
-                config.setCookie(
-                    'userInfo', 
-                    JSON.stringify(res.data), 
-                    3
-                );
-                _this.updateUserInfo();
-                _this.getUserInfoMy();
-                _this.getAuthInfo();
+                
                 _this.getActivityList();
                 _this.getStoreGroups();
                 _this.getStoreItems(-1);
@@ -282,6 +283,10 @@ export default {
                     JSON.stringify( res.data.user_data), 
                     3
                 );
+                if(!_this.userInfo.nickname){
+                    config.layerMsg('请先关注公众号~', 2);
+                    return false;
+                };
                 if(res.data.error_code == 0){
                     _this.userInfoData = res.data.user_data;
                     if(_this.position !='' && _this.tcode){  //跳推荐
