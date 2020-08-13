@@ -292,8 +292,8 @@ export default {
                 this.$router.replace({path:'signIn',query: {recordPage:'taskWall'}});
             }else if(type == 2){ //阅读
                 this.$router.replace({path:'read',query: {recordPage:'taskWall'}});
-            }else if(type == 3){  //商城首页
-                this.$router.replace({path:'/?position='});
+            }else if(type == 3){  //抽奖
+                this.$router.replace({path:'/luckDraw',query: {recordPage:'taskWall'}});
             }else if(type == 4){ //邀请链接
                 this.$router.replace({path:'extension',query: {recordPage:'taskWall'}});
             }else{
