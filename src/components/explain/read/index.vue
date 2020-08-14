@@ -31,9 +31,10 @@
                    <div class="go_readed" v-if="item.progress == 1" @click="goReaded(item)">已阅读</div>
                </li>
            </ul>
+           <footer-view></footer-view>
        </div>
         <span style="" ref="perv">{{perv}}</span>
-       <footer-view></footer-view>
+       
     </div>
 </template>
 
@@ -287,9 +288,9 @@ export default {
                 try {
                     _this.userInfoData = JSON.parse(t_data);
                 } catch (error) {
-                    if(config.thirdParty().isWechat == true){
-                        window.location.replace('http://v8homepage.youwoxing.net/?position=read&appid='+_this.appid)
-                    };
+                    // if(config.thirdParty().isWechat == true){
+                    //     window.location.replace('http://v8homepage.youwoxing.net/?position=read&appid='+_this.appid)
+                    // };
                 }
             }
             if(url_store_id){

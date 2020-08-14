@@ -118,16 +118,16 @@ export default {
         handTab(num){
             var _this = this;
             _this.tabIndex = num;
-            _this.siginList = _this.getData.list.day_list;
+            _this.siginList = _this.getData.day_list;
             if(num == 1){
-                _this.siginList = _this.getData.list.day_list;
-                _this.rank = _this.getData.user_position.in_day_list;
+                _this.siginList = _this.getData.dayList;
+                _this.rank = _this.getData.dayRank;
             }else if(num == 2){
-                _this.siginList = _this.getData.list.month_list;
-                _this.rank = _this.getData.user_position.in_month_list;
+                _this.siginList = _this.getData.monthList;
+                _this.rank = _this.getData.monthRank;
             }else{
-                _this.siginList = _this.getData.list.total_list;
-                _this.rank = _this.getData.user_position.in_total_list;
+                _this.siginList = _this.getData.totalList;
+                _this.rank = _this.getData.totalRank;
             };
         },
         exchangeRecord(){
@@ -340,7 +340,7 @@ export default {
                 try {
                      _this.userInfoData = JSON.parse(t_data);     
                 } catch (error) {
-                    window.location.replace('http://v8homepage.youwoxing.net/?position=signIn&appid='+_this.appid)
+                   // window.location.replace('http://v8homepage.youwoxing.net/?position=signIn&appid='+_this.appid)
                 }
                
             }

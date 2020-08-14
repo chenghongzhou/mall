@@ -632,9 +632,9 @@ export default {
                  try {
                     _this.userInfoData = JSON.parse(t_data);
                 } catch (error) {
-                    if(config.thirdParty().isWechat == true){
-                        window.location.replace('http://v8homepage.youwoxing.net/?position=luckDraw&appid='+_this.appid);
-                    };
+                    // if(config.thirdParty().isWechat == true){
+                    //     window.location.replace('http://v8homepage.youwoxing.net/?position=luckDraw&appid='+_this.appid);
+                    // };
                 }
             }
             if(t_p){

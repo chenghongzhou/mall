@@ -216,7 +216,7 @@ export default {
                         _this.userInfo = res.data;
                     }else{
                         if(config.thirdParty().isWechat == true){
-                            window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+_this.appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
+                           // window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+_this.appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
                         }
                     }
                 }else if(res.data.errcode == 40003){
@@ -280,17 +280,17 @@ export default {
             _this.$axios.post(allget+"/c_account/get_user_info",formData,headerConfig).then((res) => {
                 config.setCookie(
                     'userInfoData', 
-                    JSON.stringify( res.data.user_data), 
+                    JSON.stringify(res.data.user_data), 
                     3
                 );
-                if(!_this.userInfo.nickname){
-                    config.layerMsg('请先关注公众号~', 2);
-                    return false;
-                };
+                // if(!_this.userInfo.nickname){
+                //     config.layerMsg('请先关注公众号~', 2);
+                //     return false;
+                // };
+                _this.login_bg = false;
                 if(res.data.error_code == 0){
                     _this.userInfoData = res.data.user_data;
                     if(_this.position !='' && _this.tcode){  //跳推荐
-                        _this.login_bg = false;
                         //_this.$router.replace({path:'/'+_this.position});
                         window.location.replace('http://v8homepage.youwoxing.net/#/'+_this.position+'?appid='+_this.appid);
                     };
@@ -524,18 +524,18 @@ export default {
                 }
             }
             //从其他页面直接进去后，没有cookie是到首页授权后在跳到最开始打开的页面
+            _this.login_bg = false;
             if(_this.position && _this.tcode){
                  _this.getOpenId();
                 return false;
             };
-            _this.login_bg = false;
             if(data){
                 _this.open_id = JSON.parse(data).open_id;
                 return false;
             };
-            if(config.thirdParty().isWechat == true && _this.tcode == ''){
-                window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9")
-            }
+            // if(config.thirdParty().isWechat == true && _this.tcode == ''){
+            //     window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9")
+            // }
         },
         forbidBack(){
             if(config.thirdParty().isWechat == true){
