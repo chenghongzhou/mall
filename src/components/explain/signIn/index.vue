@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-        <div class="header_part">
+        <div class="header_part" style="position:fixed;top:0;left:0;z-index:10;">
             <div class="top">
                 <i class="top_close" @click="forbidBack()"></i>
                 每日签到
@@ -18,6 +18,7 @@
             </div>
         </div>
         <div class="content" style="margin-bottom:0.2rem">
+             <div style="height:2.1rem"></div>
             <div class="sign_box">
                 <div class="integral_record_intru" @click="handleSinginDesc()"></div>
                 <div class="my_sign">
@@ -95,7 +96,7 @@
 </template>
 
 <script>
-import { allget,allgetLogin } from '../../../api/api.js';
+import { allget,allgetLogin,baseZH,homeUrl } from '../../../api/api.js';
 import wx from 'weixin-js-sdk';
 export default {
     data(){
@@ -152,7 +153,7 @@ export default {
                     'Content-Type': 'application/json',
                 }
             };
-            _this.$axios.post("http://v8message.youwoxing.net/sign/sign_once",formData,headerConfig).then((res) => {
+            _this.$axios.post(allgetLogin+"/sign/sign_once",formData,headerConfig).then((res) => {
                 _this.getData = res.data;
                 _this.continue_sign_count = res.data.continueSignCount;
                 _this.total_sign_count = res.data.totalSignCount;
@@ -209,7 +210,7 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             };
-            _this.$axios.post(allget+"http://v8message.youwoxing.net/sign/sign_once",formData,headerConfig).then((res) => {
+            _this.$axios.post(allget+"/sign/sign_once",formData,headerConfig).then((res) => {
                 if(res.data.error_code == 0){
                     _this.userInfoData = res.data.user_data;
                     config.setCookie(
@@ -230,7 +231,7 @@ export default {
             var params = {
                 'storeId': _this.storeId,
             };
-            _this.$axios.get("http://v8.python.youwoxing.net:9001/GetAuthorizerInfoByStoreId/",{params:params}).then((res) => {
+            _this.$axios.get(baseZH+"/GetAuthorizerInfoByStoreId/",{params:params}).then((res) => {
                 
                 if(res.data){
                     var authInfo = res.data;
@@ -280,7 +281,7 @@ export default {
                         wx.ready(function(){
                             var wxconfig = {
                                 title: gName+'0元兑好礼',  //标题
-                                link: 'http://v8homepage.youwoxing.net/#/friendRecommend?appid='+_this.appid+rech+'&openid='+openid,  //分享之后的页面链接
+                                link: homeUrl+'/#/friendRecommend?appid='+_this.appid+rech+'&openid='+openid,  //分享之后的页面链接
                                 desc: _this.userInfoData.nick_name+'邀请你免费参与活动，兑换0元商品',  
                                 imgUrl: shareIcon  //图片
                             };
@@ -338,36 +339,37 @@ export default {
             };
             if(t_data){
                 try {
-                     _this.userInfoData = JSON.parse(t_data);     
+                     _this.userInfoData = JSON.parse(t_data); 
+                     if(!_this.userInfoData.nick_name){
+                          window.location.replace(homeUrl+'/?position=signIn&appid='+_this.appid);
+                     }
                 } catch (error) {
-                   // window.location.replace('http://v8homepage.youwoxing.net/?position=signIn&appid='+_this.appid)
+
                 }
                
             }
              if(url_store_id){
                 if(t_store){
-                    _this.storeId = Number(JSON.parse(t_store).storeId);
+                     _this.storeId = Number(JSON.parse(t_store).storeId);
                     if(_this.storeId != url_store_id){
                         //如果当前链接的url，storeid和cookie不一样需要重新授权
-                        window.location.replace('http://v8homepage.youwoxing.net/?position=signIn&appid='+_this.appid)
+                        window.location.replace(homeUrl+'/?position=signIn&appid='+_this.appid)
                     }else{
                         _this.getAuthInfo();
                     }
                 }else{
                     //去授权
-                    window.location.replace('http://v8homepage.youwoxing.net/?position=signIn&appid='+_this.appid)
+                    window.location.replace(homeUrl+'/?position=signIn&appid='+_this.appid)
                 };    
             }else{
                 if(t_store){
                     _this.storeId = Number(JSON.parse(t_store).storeId);
                 };
             };
-            
-            
             var t_open_id = config.getCookie('openid');
             if(t_open_id){
                 _this.openid = JSON.parse(t_open_id).open_id;
-            };
+            }
         }
     },
     destroyed(){

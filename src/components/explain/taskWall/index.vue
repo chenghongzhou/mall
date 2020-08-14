@@ -149,7 +149,7 @@
 <script>
 import '../../../../static/js/swiper.js';
 import '../../../../static/css/swiper-3.4.2.min.css';
-import { allget } from '../../../api/api.js';
+import { allget,homeUrl } from '../../../api/api.js';
 export default {
     data(){
         return {
@@ -515,13 +515,13 @@ export default {
                       _this.userInfoData = JSON.parse(t_data);
                 } catch (error) {
                      if(config.thirdParty().isWechat == true){
-                        window.location.replace('http://v8homepage.youwoxing.net/?position=taskWall&appid='+t_p)
+                        window.location.replace(homeUrl+'/?position=taskWall&appid='+t_p)
                     };
                 }
               
             }else{ //去授权
                 if(config.thirdParty().isWechat == true){
-                    window.location.replace('http://v8homepage.youwoxing.net/?position=taskWall&appid='+t_p)
+                    window.location.replace(homeUrl+'/?position=taskWall&appid='+t_p)
                 };
             };
            var t_store = config.getCookie('userInfo');

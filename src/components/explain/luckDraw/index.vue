@@ -192,7 +192,7 @@
 </template>
 
 <script>
-import { allget,allgetLogin } from '../../../api/api.js';
+import { allget,allgetLogin,baseZH,homeUrl } from '../../../api/api.js';
 import wx from 'weixin-js-sdk';
 import { userName } from './name.js';
 export default {
@@ -551,7 +551,7 @@ export default {
             var params = {
                 'storeId': _this.storeId,
             };
-            _this.$axios.get("http://v8.python.youwoxing.net:9001/GetAuthorizerInfoByStoreId/",{params:params}).then((res) => {
+            _this.$axios.get(baseZH+"/GetAuthorizerInfoByStoreId/",{params:params}).then((res) => {
                 
                 if(res.data){
                     var authInfo = res.data;
@@ -601,7 +601,7 @@ export default {
                         wx.ready(function(){
                             var wxconfig = {
                                 title: gName+'0元兑好礼',  //标题
-                                link: 'http://v8homepage.youwoxing.net/#/friendRecommend?appid='+_this.appid+rech+'&openid='+openid,  //分享之后的页面链接
+                                link: homeUrl+'/#/friendRecommend?appid='+_this.appid+rech+'&openid='+openid,  //分享之后的页面链接
                                 desc: _this.userInfoData.nick_name+'邀请你免费参与活动，兑换0元商品',  
                                 imgUrl: shareIcon  //图片
                             };
@@ -631,6 +631,9 @@ export default {
             if(t_data){
                  try {
                     _this.userInfoData = JSON.parse(t_data);
+                    if(!_this.userInfoData.nick_name){
+                          window.location.replace(homeUrl+'/?position=luckDraw&appid='+_this.appid);
+                     }
                 } catch (error) {
                     // if(config.thirdParty().isWechat == true){
                     //     window.location.replace('http://v8homepage.youwoxing.net/?position=luckDraw&appid='+_this.appid);
@@ -649,13 +652,13 @@ export default {
                     _this.storeId = Number(JSON.parse(t_store).storeId);
                     if(_this.storeId != url_store_id){
                         //如果当前链接的url，storeid和cookie不一样需要重新授权
-                        window.location.replace('http://v8homepage.youwoxing.net/?position=luckDraw&appid='+_this.appid);
+                        window.location.replace(homeUrl+'/?position=luckDraw&appid='+_this.appid);
                     }else{
                         _this.getAuthInfo();
                     }
                 }else{
                     //去授权
-                    window.location.replace('http://v8homepage.youwoxing.net/?position=luckDraw&appid='+_this.appid);
+                    window.location.replace(homeUrl+'/?position=luckDraw&appid='+_this.appid);
                 };    
             }else{
                 if(t_store){

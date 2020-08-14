@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { allget,allgetLogin } from '../../../api/api.js';
+import { allget,allgetLogin,baseZH } from '../../../api/api.js';
 export default {
     props: ['userInfo'],
     data(){
@@ -33,7 +33,7 @@ export default {
             var params = {
                 'storeId': _this.storeId,
             };
-            _this.$axios.get("http://v8.python.youwoxing.net:9001/GetAuthorizerInfoByStoreId/",{params:params}).then((res) => {
+            _this.$axios.get(baseZH+"/GetAuthorizerInfoByStoreId/",{params:params}).then((res) => {
                 if(res.data){
                     _this.gzNickname = res.data.authorizer_info.nick_name;
                 }else{
@@ -80,7 +80,7 @@ export default {
                         wx.ready(function(){
                             var wxconfig = {
                                 title: gName+'0元兑好礼',  //标题
-                                link: 'http://v8homepage.youwoxing.net/#/friendRecommend?appid='+_this.appid+rech+'&openid='+openid,  //分享之后的页面链接
+                                link: homeUrl+'/#/friendRecommend?appid='+_this.appid+rech+'&openid='+openid,  //分享之后的页面链接
                                 desc: _this.userInfoData.nick_name+'邀请你免费参与活动，兑换0元商品',  
                                 imgUrl: shareIcon  //图片
                             };

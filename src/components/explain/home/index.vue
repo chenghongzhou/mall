@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import { allget,allgetLogin } from '../../../api/api.js';
+import { allget,allgetLogin,redirectUri,baseZH,homeUrl } from '../../../api/api.js';
 import wx from 'weixin-js-sdk';
 import '../../../../static/js/swiper.js';
 import '../../../../static/css/swiper-3.4.2.min.css';
@@ -121,7 +121,7 @@ export default {
             banner_list1: [],  //banner
             banner_list2: [],  //banner
             tcode:'',
-            login_bg:true,
+            login_bg:false,
             position: '',  //跳转定位
             gt:'',
             storeId:'',
@@ -177,10 +177,6 @@ export default {
                         3
                     );
                 }
-                // else{
-                //     _this.open_id = JSON.parse(config.getCookie('openid')).open_id;
-                // };
-                
                 _this.getUserInfo();
                
             }).catch(() => {
@@ -199,10 +195,9 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             };
-            var url = 'http%3a%2f%2fv8homepage.youwoxing.net';
+            var url = redirectUri;
             _this.$axios.get(allgetLogin+"/GetUserInfo/",{params:formData}).then((res) => {
                 _this.storeId = Number(res.data.storeId);
-                //config.layerMsg(res.data.nickname+'/'+res.data.openid, 10);
                 config.setCookie(
                     'userInfo', 
                     JSON.stringify(res.data), 
@@ -216,13 +211,13 @@ export default {
                         _this.userInfo = res.data;
                     }else{
                         if(config.thirdParty().isWechat == true){
-                           // window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+_this.appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
+                            window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+_this.appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
                         }
                     }
                 }else if(res.data.errcode == 40003){
                     if(config.thirdParty().isWechat == true){
-                            window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+_this.appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
-                        }
+                        window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+_this.appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
+                    }
                 }else{
                     if(config.getCookie('userInfo')){
                         _this.userInfo = JSON.parse(config.getCookie('userInfo'));
@@ -292,7 +287,7 @@ export default {
                     _this.userInfoData = res.data.user_data;
                     if(_this.position !='' && _this.tcode){  //跳推荐
                         //_this.$router.replace({path:'/'+_this.position});
-                        window.location.replace('http://v8homepage.youwoxing.net/#/'+_this.position+'?appid='+_this.appid);
+                        window.location.replace(homeUrl+'/#/'+_this.position+'?appid='+_this.appid);
                     };
                 }else{
                    // config.layerMsg(res.data.msg, 2);
@@ -503,7 +498,7 @@ export default {
         login(){
             var _this = this;
             var appid = _this.appid;//'wx91c0cbe98956a703';
-            var url = 'http%3a%2f%2fv8homepage.youwoxing.net';
+            var url = redirectUri;
             var data = config.getCookie('openid');
             var get_url_appid = config.getHashVReq('appid');
             var cookie_appid = _this.pevrAppid;
@@ -519,19 +514,26 @@ export default {
                     //如果这次进来获取的url中的appid和保存在cookie中的appid不同，说明公众号不同，需要重新授权
                     if(cookie_appid != login_appid && _this.tcode == ''){
                         window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+login_appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
-                       return false;
+
                     };
+                }else{
+                    if(config.thirdParty().isWechat == true && _this.tcode == ''){
+                        window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9")
+                    }
                 }
             }
             //从其他页面直接进去后，没有cookie是到首页授权后在跳到最开始打开的页面
-            _this.login_bg = false;
+            
             if(_this.position && _this.tcode){
                  _this.getOpenId();
                 return false;
             };
             if(data){
-                _this.open_id = JSON.parse(data).open_id;
-                return false;
+               try {
+                 _this.open_id = JSON.parse(data).open_id;
+               } catch (error) {
+                   
+               }
             };
             // if(config.thirdParty().isWechat == true && _this.tcode == ''){
             //     window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9")
@@ -553,7 +555,7 @@ export default {
             var params = {
                 'storeId': _this.storeId,
             };
-            _this.$axios.get("http://v8.python.youwoxing.net:9001/GetAuthorizerInfoByStoreId/",{params:params}).then((res) => {
+            _this.$axios.get(baseZH+"/GetAuthorizerInfoByStoreId/",{params:params}).then((res) => {
                 
                 if(res.data){
                     var authInfo = res.data;
@@ -603,7 +605,7 @@ export default {
                         wx.ready(function(){
                             var wxconfig = {
                                 title: gName+'0元兑好礼',  //标题
-                                link: 'http://v8homepage.youwoxing.net/#/friendRecommend?appid='+_this.appid+rech+'&openid='+openid,  //分享之后的页面链接
+                                link: homeUrl+'/#/friendRecommend?appid='+_this.appid+rech+'&openid='+openid,  //分享之后的页面链接
                                 desc: _this.userInfoData.nick_name+'邀请你免费参与活动，兑换0元商品',  
                                 imgUrl: shareIcon  //图片
                             };
@@ -630,7 +632,11 @@ export default {
             var t_code = config.getHashVReq('code');
             var pevr_appid = config.getCookie('appid');
             if(pevr_appid){
-                _this.pevrAppid = JSON.parse(pevr_appid);
+                try {
+                    _this.pevrAppid = JSON.parse(pevr_appid);
+                } catch (error) {
+                    
+                }
             };
             _this.position = config.getHashVReq('position') || '';
             if(t_p){
@@ -646,7 +652,11 @@ export default {
                 );
             }else{
                 if(config.getCookie('appid')){
-                    _this.appid = JSON.parse(config.getCookie('appid'));
+                    try {
+                        _this.appid = JSON.parse(config.getCookie('appid'));
+                    } catch (error) {
+                        
+                    }
                 }
                 
             };
