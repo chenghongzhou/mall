@@ -210,7 +210,7 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             };
-            _this.$axios.post(allget+"/sign/sign_once",formData,headerConfig).then((res) => {
+            _this.$axios.post(allget+"/c_account/get_user_info",formData,headerConfig).then((res) => {
                 if(res.data.error_code == 0){
                     _this.userInfoData = res.data.user_data;
                     config.setCookie(
@@ -330,6 +330,7 @@ export default {
             var t_data = config.getCookie('userInfoData');
             var url_store_id = config.getHashVReq('storeId');
             var t_store = config.getCookie('userInfo');
+            var isLink = config.getHashVReq('isLink');
             if(t_p){
                 if(t_p.indexOf('#/') == '-1'){
                     _this.appid = t_p;
@@ -364,6 +365,9 @@ export default {
             }else{
                 if(t_store){
                     _this.storeId = Number(JSON.parse(t_store).storeId);
+                };
+                if(isLink && isLink == 1){
+                    _this.getAuthInfo();
                 };
             };
             var t_open_id = config.getCookie('openid');

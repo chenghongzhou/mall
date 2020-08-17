@@ -279,6 +279,7 @@ export default {
             var t_data = config.getCookie('userInfoData');
             var url_store_id = config.getHashVReq('storeId');
             var t_store = config.getCookie('userInfo');
+            var isLink = config.getHashVReq('isLink');
             if(t_p){
                 if(t_p.indexOf('#/') == '-1'){
                     _this.appid = t_p;
@@ -314,6 +315,9 @@ export default {
             }else{
                 if(t_store){
                     _this.storeId = Number(JSON.parse(t_store).storeId);
+                };
+                if(isLink && isLink == 1){
+                    _this.getAuthInfo();
                 };
             };
             var t_open_id = config.getCookie('openid');

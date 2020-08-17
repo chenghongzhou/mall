@@ -471,8 +471,8 @@ export default {
                 "open_id":_this.openid,
                 "store_id":_this.storeId,
                 "data":{
-                    "avatar_url":_this.userInfoData.headimgurl,
-                    "nick_name":_this.userInfoData.nickname,
+                    "avatar_url":_this.userInfoData.avatar_url,
+                    "nick_name":_this.userInfoData.nick_name,
                 }
             };
             var headerConfig = {
@@ -628,6 +628,7 @@ export default {
             var t_data = config.getCookie('userInfoData');
             var url_store_id = config.getHashVReq('storeId');
             var t_store = config.getCookie('userInfo');
+            var isLink = config.getHashVReq('isLink');
             if(t_data){
                  try {
                     _this.userInfoData = JSON.parse(t_data);
@@ -664,7 +665,9 @@ export default {
                 if(t_store){
                     _this.storeId = Number(JSON.parse(t_store).storeId);
                 };
-                
+                if(isLink && isLink == 1){
+                    _this.getAuthInfo();
+                };
             };
             var t_open_id = config.getCookie('openid');
             if(t_open_id){

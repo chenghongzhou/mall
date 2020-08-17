@@ -121,7 +121,7 @@ export default {
             banner_list1: [],  //banner
             banner_list2: [],  //banner
             tcode:'',
-            login_bg:false,
+            login_bg:true,
             position: '',  //跳转定位
             gt:'',
             storeId:'',
@@ -287,7 +287,7 @@ export default {
                     _this.userInfoData = res.data.user_data;
                     if(_this.position !='' && _this.tcode){  //跳推荐
                         //_this.$router.replace({path:'/'+_this.position});
-                        window.location.replace(homeUrl+'/#/'+_this.position+'?appid='+_this.appid);
+                        window.location.replace(homeUrl+'/#/'+_this.position+'?isLink=1&appid='+_this.appid);
                     };
                 }else{
                    // config.layerMsg(res.data.msg, 2);
@@ -514,8 +514,9 @@ export default {
                     //如果这次进来获取的url中的appid和保存在cookie中的appid不同，说明公众号不同，需要重新授权
                     if(cookie_appid != login_appid && _this.tcode == ''){
                         window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+login_appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
-
-                    };
+                        //window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+login_appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
+                    }else{
+                    }
                 }else{
                     if(config.thirdParty().isWechat == true && _this.tcode == ''){
                         window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9")
