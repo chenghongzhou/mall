@@ -121,16 +121,12 @@ export default {
             banner_list1: [],  //banner
             banner_list2: [],  //banner
             tcode:'',
-            login_bg:false,
+            login_bg:true,
             position: '',  //跳转定位
             gt:'',
             storeId:'',
             pevrAppid:'',
-            isback:'',
-            getRedirectUri:'',
-            serviceType:'',
-            urlOpenId:'',
-            v8AppId:''
+            isback:''
         }
     },
     methods:{
@@ -175,9 +171,6 @@ export default {
                 // _this.gt = ty;
                 if(res.data.open_id != ""){
                      _this.open_id = res.data.open_id;
-                      if(_this.serviceType == 1){
-                        _this.getAuthLine(res.data.open_id);
-                    }
                      config.setCookie(
                         'openid', 
                         JSON.stringify(res.data), 
@@ -210,7 +203,7 @@ export default {
                     JSON.stringify(res.data), 
                     3
                 );
-              //  _this.updateUserInfo();
+                _this.updateUserInfo();
                 _this.getUserInfoMy();
                 _this.getAuthInfo();
                 if(res.data.errcode == 0){
@@ -218,21 +211,20 @@ export default {
                         _this.userInfo = res.data;
                     }else{
                         if(config.thirdParty().isWechat == true){
-                           // window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+_this.appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
+                            window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+_this.appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
                         }
                     }
                 }else if(res.data.errcode == 40003){
-                     var url = encodeURIComponent(_this.getRedirectUri+"?serviceType="+_this.serviceType+"&openId="+_this.urlOpenId+'&appid='+_this.appid+"&state="+_this.position);
-                    var sq_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+_this.v8AppId+"&redirect_uri="+url+"&response_type=code&scope=snsapi_userinfo&state="+_this.position+"#wechat_redirect";
                     if(config.thirdParty().isWechat == true){
-                        //window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+_this.appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
-                        window.location.replace(sq_url);
+                        window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+_this.appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
                     }
                 }else{
                     if(config.getCookie('userInfo')){
                         _this.userInfo = JSON.parse(config.getCookie('userInfo'));
                     }
                 };
+
+                
                 _this.getActivityList();
                 _this.getStoreGroups();
                 _this.getStoreItems(-1);
@@ -295,7 +287,7 @@ export default {
                     _this.userInfoData = res.data.user_data;
                     if(_this.position !='' && _this.tcode){  //跳推荐
                         //_this.$router.replace({path:'/'+_this.position});
-                      //  window.location.replace(homeUrl+'/#/'+_this.position+'?isLink=1&appid='+_this.appid);
+                        window.location.replace(homeUrl+'/#/'+_this.position+'?isLink=1&appid='+_this.appid);
                     };
                 }else{
                    // config.layerMsg(res.data.msg, 2);
@@ -511,13 +503,7 @@ export default {
             var get_url_appid = config.getHashVReq('appid');
             var cookie_appid = _this.pevrAppid;
             var login_appid = '';
-            var url = '';
-            var sq_url = '';
-             url = encodeURIComponent(_this.getRedirectUri+"?serviceType="+_this.serviceType+"&openId="+_this.urlOpenId+'&appid='+appid+"&state="+_this.position);
-            sq_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+_this.v8AppId+"&redirect_uri="+url+"&response_type=code&scope=snsapi_userinfo&state="+_this.position+"#wechat_redirect";
-            if(_this.serviceType == 1 && config.thirdParty().isWechat == true && _this.tcode == ''){
-                 window.location.replace(sq_url);
-            }
+            
             if(get_url_appid){
                 if(get_url_appid.indexOf('#/') == '-1'){
                     login_appid = get_url_appid;
@@ -527,17 +513,13 @@ export default {
                 if(cookie_appid){
                     //如果这次进来获取的url中的appid和保存在cookie中的appid不同，说明公众号不同，需要重新授权
                     if(cookie_appid != login_appid && _this.tcode == ''){
-                        url = encodeURIComponent(_this.getRedirectUri+"?serviceType="+_this.serviceType+"&openId="+_this.urlOpenId+'&appid='+login_appid+"&state="+_this.position);
-                        sq_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+_this.v8AppId+"&redirect_uri="+url+"&response_type=code&scope=snsapi_userinfo&state="+_this.position+"#wechat_redirect";
-                       // window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+login_appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
-                      
-                        window.location.replace(sq_url);
-                    }else{ 
+                        window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+login_appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
+                        //window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+login_appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
+                    }else{
                     }
                 }else{
                     if(config.thirdParty().isWechat == true && _this.tcode == ''){
-                        //window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9");
-                         window.location.replace(sq_url);
+                        window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+url+"&response_type=code&scope=snsapi_base,snsapi_userinfo&state="+_this.position+"&component_appid=wx00f2bf419bcd81c9")
                     }
                 }
             }
@@ -604,9 +586,8 @@ export default {
             var myName = _this.userInfoData.nick_name || 0;
             var gImg = authInfo.authorizer_info.head_img;
             var gName = authInfo.authorizer_info.nick_name;
-            var gStoreId = _this.storeId;
             var shareIcon = authInfo.logoUrl;
-            var rech = '&myImg='+myImg+'&myName='+myName+'&gImg='+gImg+'&gName='+gName+'&storeId='+gStoreId;
+            var rech = '&myImg='+myImg+'&myName='+myName+'&gImg='+gImg+'&gName='+gName;
             xhr.open('GET', shareUrlRequire, true);
             xhr.send(null);
             xhr.onreadystatechange = function(res){
@@ -646,47 +627,11 @@ export default {
                 }
             }
         },
-         //获取公众号类型
-        getAuthType(){
-            var _this = this;
-            var params = {
-               
-            };
-            _this.$axios.get(allgetLogin+"/generateV8AuthUrl",{params:params}).then((res) => {
-                if(res.data){
-                    _this.getRedirectUri = res.data.homepageUrl;
-                    _this.v8AppId = res.data.v8AppId;
-                    _this.login();
-                }else{
-                    config.layerMsg('出错了~', 2);
-                };
-                
-            }).catch(() => {
-                console.log('error');
-            });
-        },
-         //公众号g关联
-        getAuthLine(urlOpenId){
-            var _this = this;
-            
-            var params = {
-               'openId': _this.urlOpenId,
-               'appId': _this.appid,
-               'v8OpenId': urlOpenId,
-            };
-            _this.$axios.get(allgetLogin+"/unionOpenIdAndV8OpenId",{params:params}).then((res) => {
-                
-            }).catch(() => {
-                console.log('error');
-            });
-        },
         getCdata(){
             var _this = this;
             var t_p = config.getHashVReq('appid');
             var t_code = config.getHashVReq('code');
             var pevr_appid = config.getCookie('appid');
-            var serviceType = config.getHashVReq('serviceType');
-            var getUrlOpenId = config.getHashVReq('openId');
             if(pevr_appid){
                 try {
                     _this.pevrAppid = JSON.parse(pevr_appid);
@@ -724,10 +669,6 @@ export default {
                 };
                 _this.position = config.getHashVReq('state');
             };
-            if(serviceType && serviceType == 1){
-                _this.serviceType = serviceType;
-            };
-            _this.urlOpenId = getUrlOpenId;
         }
     },
     destroyed(){
@@ -736,8 +677,7 @@ export default {
     mounted(){
         var _this = this;
         _this.getCdata();
-        _this.getAuthType();
-        //_this.login();
+        _this.login();
         _this.$nextTick(() => {
              if(_this.position == '' || _this.tcode == ''){  //如果等于0则不跳
                  _this.getOpenId();

@@ -194,7 +194,8 @@ export default {
             var gImg = authInfo.authorizer_info.head_img;
             var gName = authInfo.authorizer_info.nick_name;
             var shareIcon = authInfo.logoUrl;
-            var rech = '&myImg='+myImg+'&myName='+myName+'&gImg='+gImg+'&gName='+gName;
+            var gStoreId = _this.storeId;
+            var rech = '&myImg='+myImg+'&myName='+myName+'&gImg='+gImg+'&gName='+gName+'&storeId='+gStoreId;
             xhr.open('GET', shareUrlRequire, true);
             xhr.send(null);
             xhr.onreadystatechange = function(res){

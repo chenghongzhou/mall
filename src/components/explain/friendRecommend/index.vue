@@ -40,7 +40,8 @@ export default {
             gImg:'',
             gName:'',
             codeImg:'',
-            openid:''
+            openid:'',
+            storeId:''
         }
     },
     methods:{
@@ -48,6 +49,7 @@ export default {
             var _this = this;
             var formData = {
                 "openId":_this.openid,//'oaWxEvzF-BVMebKc6vDC8q2P4x6Y',
+                "storeId":_this.storeId
             };
             _this.$axios.get(allgetLogin+"/queryShareQrCodeUrl",{params:formData}).then((res) => {
                 if(res.data){
@@ -66,6 +68,7 @@ export default {
             _this.gImg = config.getHashVReq('gImg');
             var gName = config.getHashVReq('gName');
             var openid = config.getHashVReq('openid');
+            _this.storeId = config.getHashVReq('storeId');
             if(gName){
                 if(gName.indexOf('#/') == '-1'){
                     _this.gName = gName;
