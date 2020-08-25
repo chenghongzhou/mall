@@ -26,7 +26,7 @@
                 每天最多推荐<span>{{day_max_invite}}</span>位。
             </div>
             <div class="btn" @click="mask = true">马上推荐</div>
-            <div class="record_box">
+            <div class="record_box" v-if="isError">
                 <img src="../../../../static/images/home/extension_tl.png" alt="" class="extension_tl">
                 <div class="record_total_box">
                     <div class="record_total_left">
@@ -72,7 +72,8 @@ export default {
             list:[],
             people:'0',
             i_num:'0',
-            page:999999
+            page:999999,
+            isError:false,
         }
     },
     methods:{
@@ -166,8 +167,12 @@ export default {
             _this.$axios.get(baseZH+"/GetAuthorizerInfoByStoreId/",{params:params}).then((res) => {
                 
                 if(res.data){
-                    var authInfo = res.data;
-                    _this.share(authInfo);
+                    if(res.data.code == 503){
+                        _this.isError = true;
+                    }else{
+                        var authInfo = res.data;
+                        _this.share(authInfo);
+                    }
                 }else{
                     config.layerMsg('出错了~', 2);
                 };
