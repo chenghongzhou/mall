@@ -21,7 +21,7 @@
         <div class="content" ref="main" style="height:100%">
             <div style="height:2.1rem"></div>
             <img src="../../../../static/images/home/extension_sc.png" alt="" class="extension_sc">
-            <div class="c_part">亲爱哒，<br />
+            <div class="c_part" v-if="isError">亲爱哒，<br />
                 感谢你的支持和陪伴，欢迎推荐新朋友加入我们。每成功推荐一位小伙伴可获得<span>{{give_score}}</span>积分。<br />
                 每天最多推荐<span>{{day_max_invite}}</span>位。
             </div>
